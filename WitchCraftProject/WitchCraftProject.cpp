@@ -1,6 +1,9 @@
 #include <iostream>
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 #define WINDOW_HEIGHT 480
 #define WINDOW_WIDTH  640
@@ -17,6 +20,21 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 }
+
+std::string ReadShaderFromFile(std::string fileName)
+{
+	std::ifstream fileStream;
+	std::stringstream result;
+	std::string resultAsString;
+
+	fileStream.open(fileName);
+
+	result << fileStream.rdbuf();
+
+	
+	fileStream.close();
+	return resultAsString;
+};
 
 int main(void)
 {
@@ -49,37 +67,47 @@ int main(void)
 	//HERE IS THE DRAWING DETAILS
 	float vertices[] =
 	{
-		-0.5,-0.5,0,
-		0.5,-0.5,0,
-		0.5,0.5,0,
+		//POSITIONS   //COLORS
+		-0.5,-0.5,0,  1,0,0,
+		0.5,-0.5,0,	  0,1,0,
+		0,0.5,0,      0,0,1,
 	};
-	unsigned int VBO = 0;
+	unsigned int indecies[] =
+	{
+		0,1,2,
+	};
+
+	unsigned int VAO;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	unsigned int EAO;
+	glGenBuffers(1, &EAO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EAO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indecies), &indecies, GL_STATIC_DRAW);
+
+	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1,3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*) (3* sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	
+	std::string vertex_shader_source =  ReadShaderFromFile("VertexShader.shader");
+	std::string fragment_shader_source = ReadShaderFromFile("FragmentShader.shader");
+
+	const char* vertex_shader_source_result = vertex_shader_source.c_str();
+	const char* fragment_shader_source_result = vertex_shader_source.c_str();
 
 
-	const char* vertex_shader_source = 
-		"#version 330 core\n"
-		"layout (location = 0) in vec3 vecPos;\n"
-		"void main()\n"
-		"{"
-		"gl_Position = vec4(vecPos.x,vecPos.y,vecPos.z,1.0);\n"
-		"}";
-
-	const char* fragment_shader_source =
-		"#version 330 core\n"
-		"out vec4 fragColor;\n"
-		"void main()\n"
-		"{"
-		"fragColor = vec4(1.0,0,1.0,1.0);"
-		"}";
-
-
-
+	std::cout << fragment_shader_source_result;
 	unsigned int vertex_shader;
 
 	vertex_shader =  glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex_shader, 1, &vertex_shader_source,NULL);
+	glShaderSource(vertex_shader, 1, &vertex_shader_source_result, NULL);
 	glCompileShader(vertex_shader);
 
 
@@ -94,17 +122,34 @@ int main(void)
 
 	unsigned int fragment_shader;
 	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment_shader, 1, &fragment_shader_source, NULL);
+	glShaderSource(fragment_shader, 1, &fragment_shader_source_result, NULL);
 	glCompileShader(fragment_shader);
 
-	int success2;
-	char infoLog2[512];
-	glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success2);
-	if (!success2)
+	glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+	if (!success)
 	{
-		glGetShaderInfoLog(fragment_shader, 512, NULL, infoLog2);
-		std::cout << "something wrong with your fragment shader" << infoLog2 << std::endl;
+		glGetShaderInfoLog(fragment_shader, 512, NULL, infoLog);
+		std::cout << "something wrong with your fragment shader" << infoLog << std::endl;
 	}
+
+	unsigned int shader_program;
+	shader_program = glCreateProgram();
+
+	glAttachShader(shader_program, vertex_shader);
+	glAttachShader(shader_program, fragment_shader);
+	glLinkProgram(shader_program);
+
+	glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(shader_program, 512, NULL, infoLog);
+		std::cout << "something wrong with the shader program" << infoLog << std::endl;
+	}
+
+	glUseProgram(shader_program);
+
+
+	glDeleteShader(vertex_shader);
+	glDeleteShader(fragment_shader);
 
 
 
@@ -113,13 +158,22 @@ int main(void)
 
 	/* Make the window's context current */
 
-	GLfloat number = 0;
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		number += 0.001;
-		glClearColor(0, sin(number), 0, 1.0);
+		glClearColor(0, 0, 0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glUseProgram(shader_program);
+
+		float glTime = glfwGetTime();
+		float uniformValue = glGetUniformLocation(shader_program, "colorTest");
+		glUniform4f(uniformValue, sin(glTime), 0, 1, 1);
+
+
+		glUseProgram(shader_program);
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 		processInput(window);
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

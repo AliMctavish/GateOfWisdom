@@ -49,9 +49,9 @@ int main(void)
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS
-		-0.5,-0.5,0,  1,0,0,
-		0.5,-0.5,0,	  0,1,0,
-		0,0.5,0,      0,0,1,
+		0,0.5,0,		1,0,0,
+		0.5,-0.5,0,		0,1,0,
+		-0.5,-0.5,0,    0,0,1,
 	};
 	unsigned int indecies[] =
 	{
@@ -76,12 +76,7 @@ int main(void)
 	glVertexAttribPointer(1,3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*) (3* sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	
-
 	Shader shader("VertexShader.shader", "FragmentShader.shader");
-
-
-
 
 
 	shader.UnBind();
@@ -91,6 +86,7 @@ int main(void)
 	/* Make the window's context current */
 
 	/* Loop until the user closes the window */
+	float num = 0;
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 1.0);
@@ -98,8 +94,9 @@ int main(void)
 
 		shader.Bind();
 
-		shader.setFloat("colorTest", 0);
-
+		int timer = glfwGetTime();
+		shader.set4Float("colorTest",1, sin(num += 0.001), 0, 1);
+		shader.setFloat("offset",sin(num+=0.0001));
 
 		shader.Bind();
 		glBindVertexArray(VAO);

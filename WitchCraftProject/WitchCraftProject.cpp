@@ -5,6 +5,9 @@
 #define WINDOW_WIDTH  640
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+float horizontal_directions= 0;
+float vertical_directions = 0;
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -15,6 +18,19 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		horizontal_directions-=0.001f;
+
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		horizontal_directions+=0.001f;
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		vertical_directions += 0.001f;
+
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		vertical_directions -= 0.001f;
+
 }
 
 int main(void)
@@ -86,7 +102,6 @@ int main(void)
 	/* Make the window's context current */
 
 	/* Loop until the user closes the window */
-	float num = 0;
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 1.0);
@@ -95,8 +110,9 @@ int main(void)
 		shader.Bind();
 
 		int timer = glfwGetTime();
-		shader.set4Float("colorTest",1, sin(num += 0.001), 0, 1);
-		shader.setFloat("offset",sin(num+=0.0001));
+		shader.set4Float("colorTest",1, 1, 0, 1);
+		shader.setFloat("Xoffset",horizontal_directions);
+		shader.setFloat("Yoffset",vertical_directions);
 
 		shader.Bind();
 		glBindVertexArray(VAO);

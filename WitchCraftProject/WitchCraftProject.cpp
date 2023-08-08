@@ -6,7 +6,7 @@
 #define WINDOW_WIDTH  640
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-float horizontal_directions= 0;
+float horizontal_directions = 0;
 float vertical_directions = 0;
 float resize = 0;
 
@@ -22,22 +22,22 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		horizontal_directions-=0.001f;
+		horizontal_directions -= 0.0001f;
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		horizontal_directions+=0.001f;
+		horizontal_directions += 0.0001f;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		vertical_directions += 0.001f;
+		vertical_directions += 0.0001f;
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		vertical_directions -= 0.001f;
+		vertical_directions -= 0.0001f;
 
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		resize += 0.001f;
+		resize += 0.0001f;
 
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		resize -= 0.001f;
+		resize -= 0.0001f;
 
 }
 
@@ -68,14 +68,11 @@ int main(void)
 		std::cout << "something went wrong with glad !" << std::endl;
 		return -1;
 	}
-	int width, height, nrChannels;
-	stbi_uc *data = stbi_load("half-life-nebula.png", &width, &height, &nrChannels, 0);
-
-
-	std::cout << &data;
+	
 
 	unsigned int texture;
 	glGenTextures(1, &texture);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -83,27 +80,56 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	int width, height, nrChannels;
+	stbi_uc* data = stbi_load("ds.jpg", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
 
 	stbi_image_free(data);
 
-	
+
+
+	unsigned int texture2;
+	glGenTextures(1, &texture2);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+
+
+	stbi_uc* data2 = stbi_load("face.png", &width, &height,&nrChannels,0);
+	if (data2)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "failed to load the image file" << std::endl;
+	}
+
+	stbi_image_free(data2);
+
 
 
 	//HERE IS THE DRAWING DETAILS
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS   //TEXTURE
-		-0.5,-0.5,0,   0,0,1,	 1.0f,1.0f,
-		 0.5,-0.5,0,   0,1,0,	 1.0f,0.0f,
-		-0.5, 0.5,0,   0,1,0,	 0.0f,0.0f,
-		 0.5, 0.5,0,   1,0,0,	 0.0f,1.0f,
+		-0.5,-0.5,0,   1,1,1,	 1.0f,1.0f,
+		-0.5, 0.5,0,   1,1,0,	 1.0f,0.0f,
+		 0.5, 0.5,0,   0,0,0,	 0.0f,0.0f,
+		 0.5,-0.5,0,   0,1,1,	 0.0f,1.0f,
 	};
 	unsigned int indecies[] =
 	{
 		0,1,2,
-		2,1,3
+		2,0,3
 	};
 
 	unsigned int VAO;
@@ -119,9 +145,9 @@ int main(void)
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, sizeof(float) *  8, (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1,3, GL_FLOAT, GL_FALSE, sizeof(float) *  8, (void*) (3* sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
 
@@ -132,6 +158,8 @@ int main(void)
 
 
 	shader.UnBind();
+	glUniform1i(glGetUniformLocation(shader.shader_program, "textureFrag"), 0); // set it manually
+	shader.setInt("textureFrag2", 1); // or with shader class
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -145,14 +173,14 @@ int main(void)
 
 		shader.Bind();
 
-		int timer = glfwGetTime();
-		shader.set4Float("colorTest",1, 1, 0, 1);
-		shader.setFloat("Xoffset",horizontal_directions);
-		shader.setFloat("Yoffset",vertical_directions);
-		shader.setFloat("Zoffset",resize);
+		shader.set4Float("colorTest", 1, 1, 0, 1);
+		shader.setFloat("Xoffset", horizontal_directions);
+		shader.setFloat("Yoffset", vertical_directions);
+		shader.setFloat("Zoffset", resize);
+		shader.setInt("textureFrag", 0); // or with shader class
+		shader.setInt("textureFrag2", 1); // or with shader class
 
-		shader.Bind();
-		glBindTexture(GL_TEXTURE_2D, texture);
+	
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		processInput(window);

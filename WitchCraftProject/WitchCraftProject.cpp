@@ -118,8 +118,6 @@ int main(void)
 
 	stbi_image_free(data2);
 
-
-
 	//HERE IS THE DRAWING DETAILS
 	float vertices[] =
 	{
@@ -152,7 +150,6 @@ int main(void)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
 
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);

@@ -5,12 +5,14 @@ layout (location = 2) in vec2 texCoord;
 uniform float Xoffset;
 uniform float Yoffset;
 uniform float Zoffset;
+
+uniform mat4 transform;
 out vec3 ourColor;
 out vec2 ourTexture;
 
 void main()
 {
-gl_Position = vec4(vecPos.x + Xoffset,vecPos.y +Yoffset , vecPos.z ,1 + Zoffset);
+gl_Position = transform * vec4(vecPos.x + Xoffset,vecPos.y +Yoffset , vecPos.z ,1 + Zoffset);
 ourColor = colorVal;
 ourTexture = texCoord;
 }

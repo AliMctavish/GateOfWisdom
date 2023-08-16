@@ -156,7 +156,6 @@ int main(void)
 
 	Shader shader("VertexShader.shader", "FragmentShader.shader");
 
-
 	shader.UnBind();
 	glUniform1i(glGetUniformLocation(shader.shader_program, "textureFrag"), 0); // set it manually
 	shader.setInt("textureFrag2", 1); // or with shader class
@@ -166,10 +165,19 @@ int main(void)
 	/* Make the window's context current */
 
 	/* Loop until the user closes the window */
+	float increase = 0;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glm::mat4 matrix = glm::mat4(1.0f);
+		matrix = glm::translate(matrix,glm::vec3(0.0,0.0,0.0));
+		matrix = glm::rotate(matrix, (float)glfwGetTime(), glm::vec3(1.0, 1.0, 0.0));
+
+		unsigned int transformLocation = glGetUniformLocation(shader.shader_program, "transform");
+		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
 
 		shader.Bind();
 
@@ -179,7 +187,6 @@ int main(void)
 		shader.setFloat("Zoffset", resize);
 		shader.setInt("textureFrag", 0); // or with shader class
 		shader.setInt("textureFrag2", 1); // or with shader class
-
 	
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

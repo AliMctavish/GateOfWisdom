@@ -13,6 +13,9 @@ float horizontal_directions = 0;
 float vertical_directions = 0;
 float resize = 0;
 bool isMoving = true;
+float increase = 0;
+float increase2 = 0;
+float fov = 45.f;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -42,6 +45,13 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		resize -= 0.0001f;
+
+
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+		fov += 0.001f;
+
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+		fov -= 0.001f;
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		isMoving = false;
@@ -91,7 +101,7 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int width, height, nrChannels;
-	stbi_uc* data = stbi_load("ds.jpg", &width, &height, &nrChannels, 0);
+	stbi_uc* data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -112,7 +122,7 @@ int main(void)
 	glBindTexture(GL_TEXTURE_2D, texture2);
 
 
-	stbi_uc* data2 = stbi_load("face.png", &width, &height, &nrChannels, 0);
+	stbi_uc* data2 = stbi_load(".png", &width, &height, &nrChannels, 0);
 	if (data2)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
@@ -140,6 +150,8 @@ int main(void)
 		 -0.5,-0.5,1,  0,1,1,	 0.0f,1.0f,	//7
 		 -0.5,0.5,1,   0,1,1,	 1.0f,1.0f,	//8
 		 0.5,0.5,1,    0,1,1,	 0.0f,1.0f,	//9
+		 -0.5,-0.5,1,  0,1,1,	 1.0f,0.0f,	//10
+		 0.5,-0.5,1,  0,1,1,	 0.0f,0.0f,	//11
 	};
 	unsigned int indecies[] =
 	{
@@ -153,8 +165,8 @@ int main(void)
 		8,2,9,
 		7,6,5,
 		5,7,4,
-		0,3,7,
-		7,4,3,
+		0,3,10,
+		10,3,11,
 	};
 
 	unsigned int VAO;
@@ -189,7 +201,23 @@ int main(void)
 	/* Make the window's context current */
 
 	/* Loop until the user closes the window */
-	float increase = 0;
+
+	glm::vec3 models[] =
+	{
+	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f,  3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  2.0f, -2.5f),
+	glm::vec3(1.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  1.0f, -1.5f),
+    glm::vec3(0.5f,  0.0f, -2.5f),
+	glm::vec3(1.5f,  -3.2f, -1.5f),
+	glm::vec3(-1.3f,  -3.0f, -4.5f)
+	};
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -198,23 +226,37 @@ int main(void)
 
 		shader.Bind();
 
-		glm::mat4 model = glm::mat4(1.0f);
 
 		if (isMoving)
 			increase += 0.01f;
 
-		model = glm::rotate(model, glm::radians(increase), glm::vec3(1.0f, 1.0f, 0.0f));
+
+		glBindVertexArray(VAO);
+
+
+
+		for (unsigned int i = 0; i < 13; i++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, models[i]);
+			model = glm::rotate(model, glm::radians(increase * i/100), models[i] * 2.f);
+
+			int modelLoc = glGetUniformLocation(shader.shader_program, "model");
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		}
+
+
 
 		glm::mat4 view;
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
 		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(fov), 640.0f / 480.0f, 0.1f, 100.0f);
 
 
 
-		int modelLoc = glGetUniformLocation(shader.shader_program, "model");
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		
 		int viewLoc = glGetUniformLocation(shader.shader_program, "view");
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		int projectionLoc = glGetUniformLocation(shader.shader_program, "projection");
@@ -227,8 +269,7 @@ int main(void)
 		shader.setInt("textureFrag", 0); // or with shader class
 		shader.setInt("textureFrag2", 1); // or with shader class
 
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
 		processInput(window);
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

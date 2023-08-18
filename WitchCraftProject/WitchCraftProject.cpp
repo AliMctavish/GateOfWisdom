@@ -12,6 +12,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 float horizontal_directions = 0;
 float vertical_directions = 0;
 float resize = 0;
+bool isMoving = true;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -42,6 +43,12 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		resize -= 0.0001f;
 
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		isMoving = false;
+	else
+		isMoving = true;
+
+
 }
 
 int main(void)
@@ -71,7 +78,7 @@ int main(void)
 		std::cout << "something went wrong with glad !" << std::endl;
 		return -1;
 	}
-	
+
 
 	unsigned int texture;
 	glGenTextures(1, &texture);
@@ -105,7 +112,7 @@ int main(void)
 	glBindTexture(GL_TEXTURE_2D, texture2);
 
 
-	stbi_uc* data2 = stbi_load("face.png", &width, &height,&nrChannels,0);
+	stbi_uc* data2 = stbi_load("face.png", &width, &height, &nrChannels, 0);
 	if (data2)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
@@ -117,20 +124,37 @@ int main(void)
 	}
 
 	stbi_image_free(data2);
+	glEnable(GL_DEPTH_TEST);
 
 	//HERE IS THE DRAWING DETAILS
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS   //TEXTURE
-		-0.5,-0.5,0,   1,1,1,	 1.0f,1.0f,
-		-0.5, 0.5,0,   1,1,0,	 1.0f,0.0f,
-		 0.5, 0.5,0,   0,0,0,	 0.0f,0.0f,
-		 0.5,-0.5,0,   0,1,1,	 0.0f,1.0f,
+		-0.5,-0.5,0,   1,1,1,	 1.0f,1.0f, //0
+		-0.5, 0.5,0,   1,1,0,	 1.0f,0.0f,	//1
+		 0.5, 0.5,0,   0,0,0,	 0.0f,0.0f,	//2
+		 0.5,-0.5,0,   0,1,1,	 0.0f,1.0f,	//3
+		 0.5,-0.5,1,   0,1,1,	 1.0f,1.0f,	//4
+		 0.5,0.5,1,    0,1,1,	 1.0f,0.0f,	//5
+		 -0.5,0.5,1,   0,1,1,	 0.0f,0.0f,	//6
+		 -0.5,-0.5,1,  0,1,1,	 0.0f,1.0f,	//7
+		 -0.5,0.5,1,   0,1,1,	 1.0f,1.0f,	//8
+		 0.5,0.5,1,    0,1,1,	 0.0f,1.0f,	//9
 	};
 	unsigned int indecies[] =
 	{
 		0,1,2,
-		2,0,3
+		2,0,3,
+		3,2,4,
+		4,2,5,
+		0,1,6,
+		0,6,7,
+		1,2,8,
+		8,2,9,
+		7,6,5,
+		5,7,4,
+		0,3,7,
+		7,4,3,
 	};
 
 	unsigned int VAO;
@@ -170,16 +194,31 @@ int main(void)
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		glm::mat4 matrix = glm::mat4(1.0f);
-		matrix = glm::translate(matrix,glm::vec3(0.0,0.0,0.0));
-		matrix = glm::rotate(matrix, (float)glfwGetTime(), glm::vec3(1.0, 1.0, 0.0));
-
-		unsigned int transformLocation = glGetUniformLocation(shader.shader_program, "transform");
-		glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(matrix));
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.Bind();
+
+		glm::mat4 model = glm::mat4(1.0f);
+
+		if (isMoving)
+			increase += 0.01f;
+
+		model = glm::rotate(model, glm::radians(increase), glm::vec3(1.0f, 1.0f, 0.0f));
+
+		glm::mat4 view;
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+		glm::mat4 projection;
+		projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f);
+
+
+
+		int modelLoc = glGetUniformLocation(shader.shader_program, "model");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		int viewLoc = glGetUniformLocation(shader.shader_program, "view");
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		int projectionLoc = glGetUniformLocation(shader.shader_program, "projection");
+		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		shader.set4Float("colorTest", 1, 1, 0, 1);
 		shader.setFloat("Xoffset", horizontal_directions);
@@ -187,9 +226,9 @@ int main(void)
 		shader.setFloat("Zoffset", resize);
 		shader.setInt("textureFrag", 0); // or with shader class
 		shader.setInt("textureFrag2", 1); // or with shader class
-	
+
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		processInput(window);
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

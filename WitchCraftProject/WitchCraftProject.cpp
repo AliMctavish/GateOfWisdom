@@ -3,10 +3,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
+#include <vector>
 #include "TextureLoader.h"
 
-#define WINDOW_HEIGHT 480
-#define WINDOW_WIDTH  640
+#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH  1200
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 float horizontal_directions = 0;
@@ -29,29 +30,29 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		horizontal_directions -= 0.0001f;
+		horizontal_directions -= 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		horizontal_directions += 0.0001f;
+		horizontal_directions += 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		vertical_directions += 0.0001f;
+		vertical_directions += 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		vertical_directions -= 0.0001f;
+		vertical_directions -= 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		resize += 0.0001f;
+		resize += 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		resize -= 0.0001f;
+		resize -= 0.01f;
 
 
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-		fov += 0.001f;
+		fov += 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		fov -= 0.001f;
+		fov -= 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		isMoving = false;
@@ -140,9 +141,9 @@ int main(void)
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS   //TEXTURE
-		-0.5,-0.5,0,   1,1,1,	 1.0f,1.0f, //0
-		-0.5, 0.5,0,   1,1,0,	 1.0f,0.0f,	//1
-		 0.5, 0.5,0,   0,0,0,	 0.0f,0.0f,	//2
+		-0.5,-0.5,0,   0,1,1,	 1.0f,1.0f, //0
+		-0.5, 0.5,0,   0,1,1,	 1.0f,0.0f,	//1
+		 0.5, 0.5,0,   0,1,1,	 0.0f,0.0f,	//2
 		 0.5,-0.5,0,   0,1,1,	 0.0f,1.0f,	//3
 		 0.5,-0.5,1,   0,1,1,	 1.0f,1.0f,	//4
 		 0.5,0.5,1,    0,1,1,	 1.0f,0.0f,	//5
@@ -202,6 +203,16 @@ int main(void)
 
 	/* Loop until the user closes the window */
 
+
+	std::vector<glm::vec3> cubes;
+
+	for (unsigned int i = 1; i < 20; i++)
+		for (unsigned int j = 1; j < 20; j++)
+			for (unsigned int k = 1; k < 20; k++)
+				cubes.push_back(glm::vec3(i ,j, k));
+
+
+
 	glm::vec3 models[] =
 	{
 	glm::vec3(0.0f,  0.0f,  0.0f),
@@ -212,9 +223,8 @@ int main(void)
 	glm::vec3(-1.7f,  3.0f, -7.5f),
 	glm::vec3(1.3f, -2.0f, -2.5f),
 	glm::vec3(1.5f,  2.0f, -2.5f),
-	glm::vec3(1.5f,  0.2f, -1.5f),
 	glm::vec3(-1.3f,  1.0f, -1.5f),
-    glm::vec3(0.5f,  0.0f, -2.5f),
+	glm::vec3(0.5f,  0.0f, -2.5f),
 	glm::vec3(1.5f,  -3.2f, -1.5f),
 	glm::vec3(-1.3f,  -3.0f, -4.5f)
 	};
@@ -233,13 +243,12 @@ int main(void)
 
 		glBindVertexArray(VAO);
 
+		
 
-
-		for (unsigned int i = 0; i < 13; i++)
+		for (unsigned int i = 0; i < cubes.size(); i++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, models[i]);
-			model = glm::rotate(model, glm::radians(increase * i/100), models[i] * 2.f);
+			model = glm::translate(model, cubes[i]);
 
 			int modelLoc = glGetUniformLocation(shader.shader_program, "model");
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -247,16 +256,18 @@ int main(void)
 			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		}
 
-
-
 		glm::mat4 view;
+		const float radius = 10.0f;
+		float camX = sin(glfwGetTime() * 0.01) * radius ;
+		float camZ = cos(glfwGetTime() * 0.01) * radius ;
+
 		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+
 		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(fov), 640.0f / 480.0f, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(fov), 1200.f/ 800.f, 0.1f, 100.0f);
 
 
-
-		
 		int viewLoc = glGetUniformLocation(shader.shader_program, "view");
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		int projectionLoc = glGetUniformLocation(shader.shader_program, "projection");
@@ -268,7 +279,6 @@ int main(void)
 		shader.setFloat("Zoffset", resize);
 		shader.setInt("textureFrag", 0); // or with shader class
 		shader.setInt("textureFrag2", 1); // or with shader class
-
 
 		processInput(window);
 		/* Swap front and back buffers */

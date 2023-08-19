@@ -16,8 +16,10 @@ float resize = 0;
 bool isMoving = true;
 float increase = 0;
 float increase2 = 0;
-float fov = 45.f;
-
+float fov = 0;
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -26,6 +28,22 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
+	const float cameraSpeed = 0.05f; // adjust accordingly
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cameraPos -= cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+		cameraPos += cameraUp * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+		cameraPos -= cameraUp * cameraSpeed;
+
+
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
@@ -141,18 +159,18 @@ int main(void)
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS   //TEXTURE
-		-0.5,-0.5,0,   0,1,1,	 1.0f,1.0f, //0
+		-0.5,-0.5,0,   1,1,1,	 1.0f,1.0f, //0
 		-0.5, 0.5,0,   0,1,1,	 1.0f,0.0f,	//1
-		 0.5, 0.5,0,   0,1,1,	 0.0f,0.0f,	//2
-		 0.5,-0.5,0,   0,1,1,	 0.0f,1.0f,	//3
-		 0.5,-0.5,1,   0,1,1,	 1.0f,1.0f,	//4
-		 0.5,0.5,1,    0,1,1,	 1.0f,0.0f,	//5
-		 -0.5,0.5,1,   0,1,1,	 0.0f,0.0f,	//6
+		 0.5, 0.5,0,   1,0,1,	 0.0f,0.0f,	//2
+		 0.5,-0.5,0,   1,1,0,	 0.0f,1.0f,	//3
+		 0.5,-0.5,1,   1,0,1,	 1.0f,1.0f,	//4
+		 0.5,0.5,1,    1,1,0,	 1.0f,0.0f,	//5
+		 -0.5,0.5,1,   1,0,1,	 0.0f,0.0f,	//6
 		 -0.5,-0.5,1,  0,1,1,	 0.0f,1.0f,	//7
-		 -0.5,0.5,1,   0,1,1,	 1.0f,1.0f,	//8
-		 0.5,0.5,1,    0,1,1,	 0.0f,1.0f,	//9
+		 -0.5,0.5,1,   1,1,0,	 1.0f,1.0f,	//8
+		 0.5,0.5,1,    1,1,1,	 0.0f,1.0f,	//9
 		 -0.5,-0.5,1,  0,1,1,	 1.0f,0.0f,	//10
-		 0.5,-0.5,1,  0,1,1,	 0.0f,0.0f,	//11
+		 0.5,-0.5,1,  1,1,0,	 0.0f,0.0f,	//11
 	};
 	unsigned int indecies[] =
 	{
@@ -209,7 +227,7 @@ int main(void)
 	for (unsigned int i = 1; i < 20; i++)
 		for (unsigned int j = 1; j < 20; j++)
 			for (unsigned int k = 1; k < 20; k++)
-				cubes.push_back(glm::vec3(i ,j, k));
+				cubes.push_back(glm::vec3(i + j / k * i ,j / i + j + k, k + j / i));
 
 
 
@@ -261,11 +279,11 @@ int main(void)
 		float camX = sin(glfwGetTime() * 0.01) * radius ;
 		float camZ = cos(glfwGetTime() * 0.01) * radius ;
 
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(1.0, 1.0, 1.0));
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -30.0f));
+		view = glm::lookAt(cameraPos,  cameraFront, cameraUp);
 
 		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(fov), 1200.f/ 800.f, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(45.0f), 1200.f/ 800.f, 0.1f, 100.0f);
 
 
 		int viewLoc = glGetUniformLocation(shader.shader_program, "view");
@@ -274,9 +292,9 @@ int main(void)
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 		shader.set4Float("colorTest", 1, 1, 0, 1);
-		shader.setFloat("Xoffset", horizontal_directions);
-		shader.setFloat("Yoffset", vertical_directions);
-		shader.setFloat("Zoffset", resize);
+		//shader.setFloat("Xoffset", horizontal_directions);
+		//shader.setFloat("Yoffset", vertical_directions);
+		//shader.setFloat("Zoffset", resize);
 		shader.setInt("textureFrag", 0); // or with shader class
 		shader.setInt("textureFrag2", 1); // or with shader class
 

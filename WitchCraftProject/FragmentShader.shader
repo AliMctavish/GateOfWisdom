@@ -10,5 +10,5 @@ uniform sampler2D textureFrag2;
 
 void main()
 {
-	color = mix( texture(textureFrag,ourTexture) *  vec4(ourColor,1), texture(textureFrag2, ourTexture) * vec4(ourColor, 1) ,0.2);
+	color = mix( texture(textureFrag,ourTexture), texture(textureFrag2, ourTexture) * vec4(ourColor, 1) ,0.2);
 }

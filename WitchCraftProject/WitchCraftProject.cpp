@@ -17,8 +17,8 @@ bool isMoving = true;
 float increase = 0;
 float increase2 = 0;
 float fov = 0;
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(3.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -29,6 +29,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 void processInput(GLFWwindow* window)
 {
 	const float cameraSpeed = 0.05f; // adjust accordingly
+	const float rotaionSpeed = 0.01f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos += cameraSpeed * cameraFront;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -42,6 +43,12 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		cameraPos -= cameraUp * cameraSpeed;
 
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		cameraFront -= glm::normalize(glm::cross(cameraFront, cameraUp)) * rotaionSpeed;
+
+
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		cameraFront += glm::normalize(glm::cross(cameraFront, cameraUp)) * rotaionSpeed;
 
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -59,11 +66,7 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		vertical_directions -= 0.01f;
 
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		resize += 0.01f;
 
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		resize -= 0.01f;
 
 
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
@@ -160,7 +163,7 @@ int main(void)
 	{
 		//POSITIONS   //COLORS   //TEXTURE
 		-0.5,-0.5,0,   1,1,1,	 1.0f,1.0f, //0
-		-0.5, 0.5,0,   0,1,1,	 1.0f,0.0f,	//1
+		-0.5, 0.5,0,   1,1,1,	 1.0f,0.0f,	//1
 		 0.5, 0.5,0,   1,0,1,	 0.0f,0.0f,	//2
 		 0.5,-0.5,0,   1,1,0,	 0.0f,1.0f,	//3
 		 0.5,-0.5,1,   1,0,1,	 1.0f,1.0f,	//4
@@ -224,29 +227,22 @@ int main(void)
 
 	std::vector<glm::vec3> cubes;
 
-	for (unsigned int i = 1; i < 20; i++)
-		for (unsigned int j = 1; j < 20; j++)
-			for (unsigned int k = 1; k < 20; k++)
-				cubes.push_back(glm::vec3(i + j / k * i ,j / i + j + k, k + j / i));
+	for (unsigned int i = 1; i < 5; i++)
+		for (unsigned int j = 1; j < 5; j++)
+			for (unsigned int k = 1; k < 5; k++)
+			{
+				int random_number = rand() % 10;
+				int negetive_random_number = rand() % 10 * -1;
+				cubes.push_back(glm::vec3(random_number + i, negetive_random_number, random_number + k));
+			}
 
 
 
 	glm::vec3 models[] =
 	{
-	glm::vec3(0.0f,  0.0f,  0.0f),
-	glm::vec3(2.0f,  5.0f, -15.0f),
-	glm::vec3(-1.5f, -2.2f, -2.5f),
-	glm::vec3(-3.8f, -2.0f, -12.3f),
-	glm::vec3(2.4f, -0.4f, -3.5f),
-	glm::vec3(-1.7f,  3.0f, -7.5f),
-	glm::vec3(1.3f, -2.0f, -2.5f),
-	glm::vec3(1.5f,  2.0f, -2.5f),
-	glm::vec3(-1.3f,  1.0f, -1.5f),
-	glm::vec3(0.5f,  0.0f, -2.5f),
-	glm::vec3(1.5f,  -3.2f, -1.5f),
-	glm::vec3(-1.3f,  -3.0f, -4.5f)
+	glm::vec3(6.5f, 2.0f, -1.5f),
+	glm::vec3(4.3f, -2.0f, -4.5f)
 	};
-
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 1.0);
@@ -255,18 +251,25 @@ int main(void)
 		shader.Bind();
 
 
-		if (isMoving)
-			increase += 0.01f;
 
+
+		if (isMoving)
+			increase += 0.001f;
+
+		increase2 += 0.001f;
 
 		glBindVertexArray(VAO);
 
-		
-
+		//models
 		for (unsigned int i = 0; i < cubes.size(); i++)
 		{
+
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubes[i]);
+			model = glm::rotate(model, glm::radians(increase) * cubes[i].x, glm::vec3(0, 1, 0));
+			model = glm::translate(model, cubes[i] );
+			model = glm::rotate(model, glm::radians(increase), glm::vec3(0, 1, 0));
+
+			shader.set4Float("distance_color", cubes[i].x* sin(increase2)/4 , cubes[i].y* sin(increase2)/4 , cubes[i].z * sin(increase2)/4 , 1);
 
 			int modelLoc = glGetUniformLocation(shader.shader_program, "model");
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -276,14 +279,14 @@ int main(void)
 
 		glm::mat4 view;
 		const float radius = 10.0f;
-		float camX = sin(glfwGetTime() * 0.01) * radius ;
-		float camZ = cos(glfwGetTime() * 0.01) * radius ;
+		float camX = sin(glfwGetTime() * 0.01) * radius;
+		float camZ = cos(glfwGetTime() * 0.01) * radius;
 
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -30.0f));
-		view = glm::lookAt(cameraPos,  cameraFront, cameraUp);
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
 
 		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(45.0f), 1200.f/ 800.f, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
 
 
 		int viewLoc = glGetUniformLocation(shader.shader_program, "view");

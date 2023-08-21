@@ -7,8 +7,10 @@ in vec2 ourTexture;
 uniform vec4 colorTest;
 uniform sampler2D textureFrag;
 uniform sampler2D textureFrag2;
+uniform vec4 distance_color;
 
 void main()
 {
-	color = mix( texture(textureFrag,ourTexture), texture(textureFrag2, ourTexture) * vec4(ourColor, 1) ,0.2);
+	color = mix(texture(textureFrag ,ourTexture), texture(textureFrag2, ourTexture) * vec4(ourColor, 1)  , 0.2);
+	//color = distance_color;
 }

@@ -18,7 +18,7 @@ float increase = 0;
 float increase2 = 0;
 float fov = 0;
 glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(3.0f, 0.0f, 1.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -28,8 +28,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
-	const float cameraSpeed = 0.05f; // adjust accordingly
-	const float rotaionSpeed = 0.01f; // adjust accordingly
+	const float cameraSpeed = 0.005f; // adjust accordingly
+	const float rotaionSpeed = 0.001f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos += cameraSpeed * cameraFront;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -43,9 +43,11 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		cameraPos -= cameraUp * cameraSpeed;
 
+	//if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+		//cameraFront += glm::normalize(glm::cross(cameraFront,cameraUp));
+
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		cameraFront -= glm::normalize(glm::cross(cameraFront, cameraUp)) * rotaionSpeed;
-
 
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		cameraFront += glm::normalize(glm::cross(cameraFront, cameraUp)) * rotaionSpeed;
@@ -123,7 +125,7 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int width, height, nrChannels;
-	stbi_uc* data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
+	stbi_uc* data = stbi_load("ds.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -250,9 +252,6 @@ int main(void)
 
 		shader.Bind();
 
-
-
-
 		if (isMoving)
 			increase += 0.001f;
 
@@ -267,7 +266,6 @@ int main(void)
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::rotate(model, glm::radians(increase) * cubes[i].x, glm::vec3(0, 1, 0));
 			model = glm::translate(model, cubes[i] );
-			model = glm::rotate(model, glm::radians(increase), glm::vec3(0, 1, 0));
 
 			shader.set4Float("distance_color", cubes[i].x* sin(increase2)/4 , cubes[i].y* sin(increase2)/4 , cubes[i].z * sin(increase2)/4 , 1);
 
@@ -287,7 +285,6 @@ int main(void)
 
 		glm::mat4 projection;
 		projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
-
 
 		int viewLoc = glGetUniformLocation(shader.shader_program, "view");
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));

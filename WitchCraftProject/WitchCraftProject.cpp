@@ -20,6 +20,12 @@ float fov = 0;
 glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::vec3 direction;
+
+float yaw = 1;
+float pitch = 1;
+
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -28,6 +34,16 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(direction);
+
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
 	const float cameraSpeed = 0.005f; // adjust accordingly
 	const float rotaionSpeed = 0.001f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -43,15 +59,17 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		cameraPos -= cameraUp * cameraSpeed;
 
-	//if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
-		//cameraFront += glm::normalize(glm::cross(cameraFront,cameraUp));
+	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+		pitch += 0.1;
+
+	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
+		pitch -= 0.1;
 
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		cameraFront -= glm::normalize(glm::cross(cameraFront, cameraUp)) * rotaionSpeed;
+		yaw -= 0.1f;
 
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		cameraFront += glm::normalize(glm::cross(cameraFront, cameraUp)) * rotaionSpeed;
-
+		yaw += 0.1f;
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -69,8 +87,6 @@ void processInput(GLFWwindow* window)
 		vertical_directions -= 0.01f;
 
 
-
-
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
 		fov += 0.01f;
 
@@ -81,7 +97,6 @@ void processInput(GLFWwindow* window)
 		isMoving = false;
 	else
 		isMoving = true;
-
 
 }
 
@@ -125,7 +140,7 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int width, height, nrChannels;
-	stbi_uc* data = stbi_load("ds.jpg", &width, &height, &nrChannels, 0);
+	stbi_uc* data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -210,7 +225,6 @@ int main(void)
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
@@ -265,9 +279,9 @@ int main(void)
 
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::rotate(model, glm::radians(increase) * cubes[i].x, glm::vec3(0, 1, 0));
-			model = glm::translate(model, cubes[i] );
+			model = glm::translate(model, cubes[i]);
 
-			shader.set4Float("distance_color", cubes[i].x* sin(increase2)/4 , cubes[i].y* sin(increase2)/4 , cubes[i].z * sin(increase2)/4 , 1);
+			shader.set4Float("distance_color", cubes[i].x * sin(increase2) / 4, cubes[i].y * sin(increase2) / 4, cubes[i].z * sin(increase2) / 4, 1);
 
 			int modelLoc = glGetUniformLocation(shader.shader_program, "model");
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));

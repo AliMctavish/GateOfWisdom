@@ -17,12 +17,14 @@ bool isMoving = true;
 float increase = 0;
 float increase2 = 0;
 float fov = 0;
+float lastX = 400, lastY = 300;
+bool firstMouse = false;
 glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 direction;
 
-float yaw = -90;
+float yaw = 1;
 float pitch = 1;
 
 
@@ -32,17 +34,41 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window)
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	direction.y = sin(glm::radians(pitch)) ;
-	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction);
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos;
+	lastX = xpos;
+	lastY = ypos;
+
+	float sensitivity = 0.1f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
 
 	if (pitch > 89.0f)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
 		pitch = -89.0f;
+
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(direction);
+}
+void processInput(GLFWwindow* window)
+{
 
 	const float cameraSpeed = 0.005f; // adjust accordingly
 	const float rotaionSpeed = 0.001f; // adjust accordingly
@@ -59,17 +85,6 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		cameraPos -= cameraUp * cameraSpeed;
 
-	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
-		pitch += 0.1;
-
-	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
-		pitch -= 0.1;
-
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		yaw -= 0.1f;
-
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		yaw += 0.1f;
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -119,6 +134,7 @@ int main(void)
 		glfwTerminate();
 		return -1;
 	}
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glfwMakeContextCurrent(window);
 
@@ -263,6 +279,8 @@ int main(void)
 	{
 		glClearColor(0, 0, 0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glfwSetCursorPosCallback(window, mouse_callback);
+
 
 		shader.Bind();
 

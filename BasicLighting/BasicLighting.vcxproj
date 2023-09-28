@@ -24,6 +24,7 @@
     <ProjectGuid>{38561046-3f2a-4adf-b4be-d8a31d4efcf2}</ProjectGuid>
     <RootNamespace>WitchCraftProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>BasicLighting</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -149,9 +150,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicLighting.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="WitchCraftProject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShader.shader" />

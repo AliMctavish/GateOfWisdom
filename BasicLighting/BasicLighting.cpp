@@ -156,7 +156,7 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int width, height, nrChannels;
-	stbi_uc* data = stbi_load("wall.jpg", &width, &height, &nrChannels, 0);
+	stbi_uc* data = stbi_load("Assests/wall.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -256,7 +256,6 @@ int main(void)
 
 	/* Loop until the user closes the window */
 
-
 	std::vector<glm::vec3> cubes;
 
 	for (unsigned int i = 1; i < 5; i++)
@@ -294,7 +293,6 @@ int main(void)
 		//models
 		for (unsigned int i = 0; i < cubes.size(); i++)
 		{
-
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::rotate(model, glm::radians(increase) * cubes[i].x, glm::vec3(0, 1, 0));
 			model = glm::translate(model, cubes[i]);

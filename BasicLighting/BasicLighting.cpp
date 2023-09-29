@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Libraries/include/imgui/imgui.h"
 #include "Shader.h"
 #include <vector>
 #include "TextureLoader.h"
@@ -23,7 +24,6 @@ glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 direction;
-
 float yaw = 1;
 float pitch = 1;
 
@@ -126,6 +126,10 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO(); 
+	(void)io;
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "the lagacy", NULL, NULL);
@@ -258,9 +262,9 @@ int main(void)
 
 	std::vector<glm::vec3> cubes;
 
-	for (unsigned int i = 1; i < 5; i++)
-		for (unsigned int j = 1; j < 5; j++)
-			for (unsigned int k = 1; k < 5; k++)
+	for (unsigned int i = 1; i < 2; i++)
+		for (unsigned int j = 1; j < 2; j++)
+			for (unsigned int k = 1; k < 2; k++)
 			{
 				int random_number = rand() % 10;
 				int negetive_random_number = rand() % 10 * -1;

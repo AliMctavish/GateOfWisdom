@@ -159,6 +159,7 @@
     <None Include="VertexShader.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controllers.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TextureLoader.h" />

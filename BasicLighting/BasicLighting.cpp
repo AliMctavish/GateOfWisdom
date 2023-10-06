@@ -1,122 +1,21 @@
 #include <iostream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "Libraries/include/imgui/imgui.h"
 #include "Shader.h"
 #include <vector>
 #include "TextureLoader.h"
-
+#include "Controllers.h"
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-float horizontal_directions = 0;
-float vertical_directions = 0;
-float resize = 0;
-bool isMoving = true;
-float increase = 0;
-float increase2 = 0;
-float fov = 0;
-float lastX = 400, lastY = 300;
-bool firstMouse = false;
-glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 direction;
-float yaw = 1;
-float pitch = 1;
-
-
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
 
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos;
-	lastX = xpos;
-	lastY = ypos;
-
-	float sensitivity = 0.1f;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	yaw += xoffset;
-	pitch += yoffset;
-
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-
-	glm::vec3 direction;
-	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	direction.y = sin(glm::radians(pitch));
-	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction);
-}
-void processInput(GLFWwindow* window)
-{
-
-	const float cameraSpeed = 0.005f; // adjust accordingly
-	const float rotaionSpeed = 0.001f; // adjust accordingly
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		cameraPos += cameraSpeed * cameraFront;
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		cameraPos -= cameraSpeed * cameraFront;
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
-		cameraPos += cameraUp * cameraSpeed;
-	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		cameraPos -= cameraUp * cameraSpeed;
-
-
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		horizontal_directions -= 0.01f;
-
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		horizontal_directions += 0.01f;
-
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		vertical_directions += 0.01f;
-
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		vertical_directions -= 0.01f;
-
-
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-		fov += 0.01f;
-
-	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		fov -= 0.01f;
-
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		isMoving = false;
-	else
-		isMoving = true;
-
-}
-
 int main(void)
 {
+	//CONFIGURE IMGUI....
 	GLFWwindow* window;
 
 	/* Initialize the library */
@@ -126,10 +25,7 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	ImGui::CreateContext();
 
-	ImGuiIO& io = ImGui::GetIO(); 
-	(void)io;
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "the lagacy", NULL, NULL);
@@ -139,7 +35,6 @@ int main(void)
 		return -1;
 	}
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
 	glfwMakeContextCurrent(window);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

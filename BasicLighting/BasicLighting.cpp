@@ -94,33 +94,15 @@ int main(void)
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS   //TEXTURE
-		-0.5,-0.5,0,   1,1,1,	 1.0f,1.0f, //0
-		-0.5, 0.5,0,   1,1,1,	 1.0f,0.0f,	//1
-		 0.5, 0.5,0,   1,0,1,	 0.0f,0.0f,	//2
-		 0.5,-0.5,0,   1,1,0,	 0.0f,1.0f,	//3
-		 0.5,-0.5,1,   1,0,1,	 1.0f,1.0f,	//4
-		 0.5,0.5,1,    1,1,0,	 1.0f,0.0f,	//5
-		 -0.5,0.5,1,   1,0,1,	 0.0f,0.0f,	//6
-		 -0.5,-0.5,1,  0,1,1,	 0.0f,1.0f,	//7
-		 -0.5,0.5,1,   1,1,0,	 1.0f,1.0f,	//8
-		 0.5,0.5,1,    1,1,1,	 0.0f,1.0f,	//9
-		 -0.5,-0.5,1,  0,1,1,	 1.0f,0.0f,	//10
-		 0.5,-0.5,1,  1,1,0,	 0.0f,0.0f,	//11
+		-4.5, 4.5,0,   1,1,1,	 4.0f,0.0f,	//0
+		 4.5, 4.5,0,   1,0,1,	 0.0f,0.0f,	//1
+		 -4.5,4.5,1,   1,1,0,	 4.0f,4.0f, //2
+		 4.5,4.5,1,    1,1,1,	 0.0f,4.0f,	//3
 	};
 	unsigned int indecies[] =
 	{
 		0,1,2,
-		2,0,3,
-		3,2,4,
-		4,2,5,
-		0,1,6,
-		0,6,7,
-		1,2,8,
-		8,2,9,
-		7,6,5,
-		5,7,4,
-		0,3,10,
-		10,3,11,
+		2,1,3,
 	};
 
 	unsigned int VAO;
@@ -193,8 +175,6 @@ int main(void)
 		for (unsigned int i = 0; i < cubes.size(); i++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::rotate(model, glm::radians(increase) * cubes[i].x, glm::vec3(0, 1, 0));
-			model = glm::translate(model, cubes[i]);
 
 			shader.set4Float("distance_color", cubes[i].x * sin(increase2) / 4, cubes[i].y * sin(increase2) / 4, cubes[i].z * sin(increase2) / 4, 1);
 

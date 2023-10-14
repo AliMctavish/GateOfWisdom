@@ -168,6 +168,9 @@
     <Image Include="..\..\..\..\Downloads\wall.jpg" />
     <Image Include="half-life-nebula.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="ToDo.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

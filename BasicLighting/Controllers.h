@@ -19,6 +19,7 @@ glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 direction;
+glm::vec3 cameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
 
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -52,6 +53,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	direction.y = sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	cameraFront = glm::normalize(direction);
+	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
 }
 void processInput(GLFWwindow* window)
 {
@@ -59,9 +61,9 @@ void processInput(GLFWwindow* window)
 	const float cameraSpeed = 0.005f; // adjust accordingly
 	const float rotaionSpeed = 0.001f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		cameraPos += cameraSpeed * cameraFront;
+		cameraPos -= glm::normalize(glm::cross(cameraRight,cameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		cameraPos -= cameraSpeed * cameraFront;
+		cameraPos += glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)

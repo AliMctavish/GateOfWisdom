@@ -1,0 +1,6 @@
+
+
+here is the todo for the project 
+------------------
+10/14//2023 10:13 pm
+1 - fix the texture mapping problem , the texutre looks not clear;

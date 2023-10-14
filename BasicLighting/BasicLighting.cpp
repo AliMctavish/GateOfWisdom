@@ -55,7 +55,7 @@ int main(void)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int width, height, nrChannels;
-	stbi_uc* data = stbi_load("Assests/wall.jpg", &width, &height, &nrChannels, 0);
+	stbi_uc* data = stbi_load("Assests/ground5.png", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -94,10 +94,10 @@ int main(void)
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS   //TEXTURE
-		-4.5, 4.5,0,   1,1,1,	 4.0f,0.0f,	//0
-		 4.5, 4.5,0,   1,0,1,	 0.0f,0.0f,	//1
-		 -4.5,4.5,1,   1,1,0,	 4.0f,4.0f, //2
-		 4.5,4.5,1,    1,1,1,	 0.0f,4.0f,	//3
+		-1,1,0,   1,1,1,	 1.0f,0.0f,	//0
+		 1,1,0,   1,0,1,	 0.0f,1.0f,	//1
+		 -1,1,1,  1,1,0,	 0.0f,0.0f, //2
+		 1,1,1,   1,1,1,	 0.0f,1.0f,	//3
 	};
 	unsigned int indecies[] =
 	{
@@ -189,7 +189,7 @@ int main(void)
 		float camX = sin(glfwGetTime() * 0.01) * radius;
 		float camZ = cos(glfwGetTime() * 0.01) * radius;
 
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::translate(view, glm::vec3(0.0f, -8.0f, 20.0f));
 		view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
 
 		glm::mat4 projection;

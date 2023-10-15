@@ -3,17 +3,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
+//MOUSE CONTROLLERS
 bool firstMouse = false;
 float lastX = 400, lastY = 300;
 float yaw = 1;
 float pitch = 1;
+//CAMERA STUFF IN HERE
 float horizontal_directions = 0;
 float vertical_directions = 0;
 float resize = 0;
 bool isMoving = true;
-float increase = 0;
-float increase2 = 0;
 float fov = 0;
 glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
@@ -57,7 +56,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 void processInput(GLFWwindow* window)
 {
-
 	const float cameraSpeed = 0.005f; // adjust accordingly
 	const float rotaionSpeed = 0.001f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -90,10 +88,10 @@ void processInput(GLFWwindow* window)
 		vertical_directions -= 0.01f;
 
 
+	//CAMERA FIELD OF VIEW 
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
 		fov += 0.01f;
-
-	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+	else if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		fov -= 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)

@@ -5,6 +5,7 @@
 #include "Controllers.h"
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
+#define Model_Default_Position glm::vec3(3,1,5)
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -137,52 +138,24 @@ int main(void)
 
 	/* Loop until the user closes the window */
 
-	std::vector<glm::vec3> cubes;
-
-	for (unsigned int i = 1; i < 2; i++)
-		for (unsigned int j = 1; j < 2; j++)
-			for (unsigned int k = 1; k < 2; k++)
-			{
-				int random_number = rand() % 10;
-				int negetive_random_number = rand() % 10 * -1;
-				cubes.push_back(glm::vec3(random_number + i, negetive_random_number, random_number + k));
-			}
-
-
-
-	glm::vec3 models[] =
-	{
-	glm::vec3(6.5f, 2.0f, -1.5f),
-	glm::vec3(4.3f, -2.0f, -4.5f)
-	};
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwSetCursorPosCallback(window, mouse_callback);
 
-
 		shader.Bind();
-
-		if (isMoving)
-			increase += 0.001f;
-
-		increase2 += 0.001f;
 
 		glBindVertexArray(VAO);
 
-		//models
-		for (unsigned int i = 0; i < cubes.size(); i++)
-		{
-			glm::mat4 model = glm::mat4(1.0f);
+		//CREATING AN DRAWALBE OBJECT	
+		glm::mat4 model = glm::mat4(1.0f);
 
-			shader.set4Float("distance_color", cubes[i].x * sin(increase2) / 4, cubes[i].y * sin(increase2) / 4, cubes[i].z * sin(increase2) / 4, 1);
+		model = glm::translate(model,Model_Default_Position);
+		int modelLoc = glGetUniformLocation(shader.shader_program, "model");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
-			int modelLoc = glGetUniformLocation(shader.shader_program, "model");
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-		}
 
 		glm::mat4 view;
 		const float radius = 10.0f;
@@ -199,13 +172,6 @@ int main(void)
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		int projectionLoc = glGetUniformLocation(shader.shader_program, "projection");
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-		shader.set4Float("colorTest", 1, 1, 0, 1);
-		//shader.setFloat("Xoffset", horizontal_directions);
-		//shader.setFloat("Yoffset", vertical_directions);
-		//shader.setFloat("Zoffset", resize);
-		shader.setInt("textureFrag", 0); // or with shader class
-		shader.setInt("textureFrag2", 1); // or with shader class
 
 		processInput(window);
 		/* Swap front and back buffers */

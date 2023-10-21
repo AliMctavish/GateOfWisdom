@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include <vector>
 #include "Controllers.h"
+#include "VertexArray.h"
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
 #define Model_Default_Position glm::vec3(3,1,5)
@@ -46,20 +47,20 @@ int main(void)
 
 
 	Texture texture;
-	texture.SetTexture("Assests/ground5.png");
+	texture.SetTexture("Assests/ds.jpg");
 
 
-	
+
 	glEnable(GL_DEPTH_TEST);
 
 	//HERE IS THE DRAWING DETAILS
 	float vertices[] =
 	{
 		//POSITIONS   //COLORS   //TEXTURE
-		-1,1,0,   1,1,1,	 1.0f,0.0f,	//0
-		 1,1,0,   1,0,1,	 0.0f,1.0f,	//1
-		 -1,1,1,  1,1,0,	 0.0f,0.0f, //2
-		 1,1,1,   1,1,1,	 0.0f,1.0f,	//3
+		-0.5,0.5,0,   1,0,1,	 0.0f,0.0f,	//0
+		 0.5,0.5,0,   1,0,1,	 1.0f,1.0f,	//1
+		 -0.5,0.5,0.5,  1,1,0,	 0.0f,0.0f, //2
+		 0.5,0.5,0.5,   1,1,1,	 1.0f,1.0f,	//3
 	};
 	unsigned int indecies[] =
 	{
@@ -67,9 +68,9 @@ int main(void)
 		2,1,3,
 	};
 
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+
+	VertexArray vertexArray;
+
 
 	unsigned int EAO;
 	glGenBuffers(1, &EAO);
@@ -92,7 +93,7 @@ int main(void)
 
 
 
-	shader.UnBind(); 
+	shader.UnBind();
 	glUniform1i(glGetUniformLocation(shader.shader_program, "textureFrag"), 0); // set it manually
 	shader.setInt("textureFrag2", 1); // or with shader class
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -104,18 +105,16 @@ int main(void)
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(0, 0, 0, 1.0);
+		glClearColor(0, 0, 0, 5);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwSetCursorPosCallback(window, mouse_callback);
 
 		shader.Bind();
+		vertexArray.Bind();
 
-		glBindVertexArray(VAO);
-
-		//CREATING AN DRAWALBE OBJECT	
+		//CREATING A DRAWALBE OBJECT	
 		glm::mat4 model = glm::mat4(1.0f);
-
-		model = glm::translate(model,Model_Default_Position);
+		model = glm::translate(model, Model_Default_Position);
 		int modelLoc = glGetUniformLocation(shader.shader_program, "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);

@@ -1,7 +1,6 @@
 #include "Shader.h"
 
 
-
 Shader::Shader(std::string vertexFileName, std::string fragmentFileName)
 {
     std::string vertex_source   = ReadShaderFromFile(vertexFileName);

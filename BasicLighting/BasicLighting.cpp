@@ -40,7 +40,7 @@ int main(void)
 		glfwTerminate();
 		return -1;
 	}
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwMakeContextCurrent(window);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -111,24 +111,30 @@ int main(void)
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window,true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 5);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glfwSetCursorPosCallback(window, mouse_callback);
+		//glfwSetCursorPosCallback(window, mouse_callback);
+
+		shader.Bind();
+		vertexArray.Bind();
+
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		shader.Bind();
-		vertexArray.Bind();
-
 		ImGui::Begin("hello world from imgui :D");
 		ImGui::Text("this is a text inside opengl");
+		ImGui::End();
 
+		ImGui::Render();
+		ImGui::EndFrame();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		
 		//CREATING A DRAWALBE OBJECT	
 		glm::mat4 model = glm::mat4(1.0f);
@@ -138,12 +144,6 @@ int main(void)
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		//CREATING A DRAWALBE OBJECT	
-
-
-
-
-
-
 
 
 
@@ -170,6 +170,10 @@ int main(void)
 		/* Poll for and process events */
 		glfwPollEvents();
 	}
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 	glfwTerminate();
 	return 0;

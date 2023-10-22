@@ -56,6 +56,14 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 void processInput(GLFWwindow* window)
 {
+
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(direction);
+	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
+
 	const float cameraSpeed = 0.005f; // adjust accordingly
 	const float rotaionSpeed = 0.001f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -76,16 +84,16 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		horizontal_directions -= 0.01f;
+		yaw -= 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		horizontal_directions += 0.01f;
+		yaw += 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		vertical_directions += 0.01f;
+		pitch += 0.01f;
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		vertical_directions -= 0.01f;
+		pitch -= 0.01f;
 
 
 	//CAMERA FIELD OF VIEW 

@@ -38,6 +38,8 @@ void Texture::UnBind()
 
 void Texture::SetTexture(const char* textureFile)
 {
+	stbi_set_flip_vertically_on_load(true);
+
 	int width, height, nrChannels;
 	stbi_uc* data = stbi_load(textureFile, &width, &height, &nrChannels, 0);
 	if (data)
@@ -49,6 +51,7 @@ void Texture::SetTexture(const char* textureFile)
 	{
 		std::cout << "Failed to load texture" << std::endl;
 	}
+
 
 	stbi_image_free(data);
 }

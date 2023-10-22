@@ -114,6 +114,8 @@ int main(void)
 	ImGui_ImplGlfw_InitForOpenGL(window,true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
+	int num = 1;
+	float resize = 1;
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 5);
@@ -123,6 +125,15 @@ int main(void)
 		shader.Bind();
 		vertexArray.Bind();
 
+		//CREATING A DRAWALBE OBJECT	
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(num,num,num));
+		model = glm::rotate(model,glm::radians(90.0f), Model_To_Ground);
+		model = glm::scale(model, glm::vec3(resize));
+		int modelLoc = glGetUniformLocation(shader.shader_program, "model");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+		//CREATING A DRAWALBE OBJECT	
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -130,20 +141,22 @@ int main(void)
 
 		ImGui::Begin("hello world from imgui :D");
 		ImGui::Text("this is a text inside opengl");
+		if (ImGui::Button("Up", ImVec2(50, 50)))
+			num++;
+		if (ImGui::Button("Down", ImVec2(50, 50)))
+			num--;
+		if (ImGui::Button("Resize +", ImVec2(150, 50)))
+			resize++;
+		if (ImGui::Button("Resize -", ImVec2(150, 50)))
+			resize--;
+
+
 		ImGui::End();
 
 		ImGui::Render();
 		ImGui::EndFrame();
+
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		
-		//CREATING A DRAWALBE OBJECT	
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, Model_Default_Position);
-		model = glm::rotate(model,glm::radians(90.0f), Model_To_Ground);
-		int modelLoc = glGetUniformLocation(shader.shader_program, "model");
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-		//CREATING A DRAWALBE OBJECT	
 
 
 

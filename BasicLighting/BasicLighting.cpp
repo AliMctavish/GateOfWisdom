@@ -129,8 +129,6 @@ int main(void)
 	Shader shader("VertexShader.shader", "FragmentShader.shader");
 	shader.UnBind();
 
-	glUniform1i(glGetUniformLocation(shader.shader_program, "textureFrag"), 0); // set it manually
-	shader.setInt("textureFrag2", 1); // or with shader class
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 

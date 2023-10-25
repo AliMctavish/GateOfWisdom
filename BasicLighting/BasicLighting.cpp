@@ -7,6 +7,7 @@
 #include <vector>
 #include "Controllers.h"
 #include "VertexArray.h"
+#include "Cube.h"
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
 #define Model_Default_Position glm::vec3(3,1,5)
@@ -143,7 +144,13 @@ int main(void)
 	ImGui_ImplGlfw_InitForOpenGL(window,true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
-	int num = 1;
+
+	Cube cube(shader.shader_program);
+	cube.SetLocation(glm::vec3(2, 2, 2));
+	
+
+	//testing 
+	int num = 3;
 	float resize = 1;
 	float rotate = 1;
 	while (!glfwWindowShouldClose(window))
@@ -154,17 +161,9 @@ int main(void)
 
 		shader.Bind();
 		vertexArray.Bind();
+		
 
-		//CREATING A DRAWALBE OBJECT	
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(num,num,num));
-		model = glm::rotate(model,glm::radians(rotate), Model_To_Ground);
-		model = glm::scale(model, glm::vec3(resize));
-		int modelLoc = glGetUniformLocation(shader.shader_program, "model");
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glDrawArrays(GL_TRIANGLES,0,36);
-		//CREATING A DRAWALBE OBJECT	
-
+		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -189,6 +188,7 @@ int main(void)
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+		cube.Draw();
 
 
 		//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE

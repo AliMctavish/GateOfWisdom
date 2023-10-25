@@ -58,48 +58,48 @@ int main(void)
 
 	//HERE IS THE DRAWING DETAILS
    // positions          // colors           // texture coords
-	 float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	float vertices[] = {
+	   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	   -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	   -0.5f,  0.5f,  8.5f,  1.0f, 0.0f,
+	   -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	   -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	   -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	   -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 	//unsigned int indecies[] =
 	//{
@@ -141,18 +141,29 @@ int main(void)
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(window,true);
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
 
 	Cube cube(shader.shader_program);
-	cube.SetLocation(glm::vec3(2, 2, 2));
-	
+	Cube cube2(shader.shader_program);
+	//cube.SetLocation(glm::vec3(2, 2, 2));
+
 
 	//testing 
 	int num = 3;
 	float resize = 1;
 	float rotate = 1;
+	int by2 = 1;
+	int by3 = 1;
+	int by4 = 1;
+	std::vector<Cube> cubes;
+	for (int i = 0; i < 20; i++)
+	{
+		Cube cube(shader.shader_program);
+		cubes.push_back(cube);
+	}
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 5);
@@ -161,26 +172,42 @@ int main(void)
 
 		shader.Bind();
 		vertexArray.Bind();
-		
 
-		
+
+		for (int i = 0; i < 20; i++)
+			cubes[i].Draw();
+
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
 		ImGui::Begin("hello world from imgui :D");
 		ImGui::Text("this is a text inside opengl");
+		if (ImGui::Button("Change by 2", ImVec2(200, 20)))
+			by2++;
+		if (ImGui::Button("Change by 3", ImVec2(200, 20)))
+			by3++;
+		if (ImGui::Button("Change by 4", ImVec2(200, 20)))
+			by4++;
+
+
+
 		if (ImGui::Button("Up", ImVec2(50, 50)))
-			num++;
+			for (int i = 0; i < 20; i++)
+				cubes[i].SetLocation(i/by2, i/by3, i/by4);
+			
 		if (ImGui::Button("Down", ImVec2(50, 50)))
-			num--;
+			for (int i = 0; i < 20; i++)
+				cubes[i].SetLocation(-i/by2, -i/by3, -i/by4);
+
 		if (ImGui::Button("Resize +", ImVec2(150, 50)))
 			resize++;
 		if (ImGui::Button("Resize -", ImVec2(150, 50)))
 			resize--;
 
-			ImGui::SliderFloat("Rotate", &rotate, 0.f, 360.f, "%.3f", 0);
-			ImGui::SliderFloat("MySlider", &resize, 0.f, 2.f, "%.1f", 0);
+		ImGui::SliderFloat("Rotate", &rotate, 0.f, 360.f, "%.3f", 0);
+		ImGui::SliderFloat("MySlider", &resize, 0.f, 2.f, "%.1f", 0);
 		ImGui::End();
 
 		ImGui::Render();
@@ -188,7 +215,6 @@ int main(void)
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		cube.Draw();
 
 
 		//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE

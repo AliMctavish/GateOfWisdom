@@ -15,7 +15,7 @@ public :
 	~Cube();
 	void Update();
 	void Draw();
-	void SetLocation(glm::vec3 location);
+	void SetLocation(int x , int y , int z);
 
 	void Resize();
 	void Init();

@@ -27,10 +27,10 @@ Cube::~Cube()
 {
 }
 
-void Cube::SetLocation(glm::vec3 location)
+void Cube::SetLocation(int x , int y , int z)
 {
-	m_Location = location;
-	m_Model = glm::translate(m_Model, location);
+	m_Location = glm::vec3(x,y,z);
+	m_Model = glm::translate(m_Model,m_Location);
 }
 
 

@@ -7,8 +7,9 @@ VertexArray::VertexArray()
 	Bind();
 }
 
-void VertexArray::InIt()
+VertexArray::~VertexArray()
 {
+	UnBind();
 }
 
 void VertexArray::Bind()
@@ -18,4 +19,5 @@ void VertexArray::Bind()
 
 void VertexArray::UnBind()
 {
+	glBindVertexArray(0);
 }

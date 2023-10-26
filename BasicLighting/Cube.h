@@ -11,14 +11,11 @@ private :
 	unsigned int m_Program;
 	glm::vec3 m_Location;
 public : 
-	Cube(unsigned int program);
+	Cube();
 	~Cube();
-	void Update();
+	void SetProgram(unsigned int program);
 	void Draw();
-	void SetLocation(int x , int y , int z);
-
-	void Resize();
+	void Rotate(float angle);
+	void SetLocation(glm::vec3 location);
 	void Init();
-
-
 };

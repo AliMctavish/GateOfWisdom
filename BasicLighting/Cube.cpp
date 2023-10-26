@@ -1,19 +1,21 @@
 #include "Cube.h"
 
-Cube::Cube(unsigned int program)
+Cube::Cube()
 {
-	m_Program = program;
 	Init();
 }
 
+void Cube::SetProgram(unsigned int program)
+{
+	m_Program = program;
+}
 
 void Cube::Init()
 {
 	m_Model = glm::mat4(1.0f);
+	m_Program = 0;
+	m_Location = glm::vec3(0, 0, 0);
 }
-
-
-
 
 void Cube::Draw()
 {
@@ -22,25 +24,22 @@ void Cube::Draw()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
+void Cube::SetLocation(glm::vec3 location)
+{
+	m_Model = glm::mat4(1.0f);
+	m_Location = location;
+	m_Model = glm::translate(m_Model, location);
+}
+
+void Cube::Rotate(float angle)
+{
+	m_Model = glm::rotate(m_Model,angle, glm::vec3(0, 1, 0));
+}
+
 
 Cube::~Cube()
 {
-}
-
-void Cube::SetLocation(int x , int y , int z)
-{
-	m_Location = glm::vec3(x,y,z);
-	m_Model = glm::translate(m_Model,m_Location);
-}
-
-
-void Cube::Update()
-{
 
 }
 
-void Cube::Resize()
-{
-
-}
 

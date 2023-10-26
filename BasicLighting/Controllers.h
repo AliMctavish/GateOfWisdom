@@ -63,8 +63,8 @@ void processInput(GLFWwindow* window)
 	cameraFront = glm::normalize(direction);
 	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
 
-	const float cameraSpeed = 0.005f; // adjust accordingly
-	const float rotaionSpeed = 0.001f; // adjust accordingly
+	const float cameraSpeed = 0.05f; // adjust accordingly
+	const float rotaionSpeed = 0.01f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos -= glm::normalize(glm::cross(cameraRight,cameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -83,16 +83,16 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		yaw -= 0.01f;
+		yaw -= 1;
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		yaw += 0.01f;
+		yaw += 1;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		pitch += 0.01f;
+		pitch += 1;
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		pitch -= 0.01f;
+		pitch -= 1;
 
 
 	//CAMERA FIELD OF VIEW 

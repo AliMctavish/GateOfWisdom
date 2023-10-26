@@ -15,11 +15,13 @@ private :
 	unsigned int vertex_id;
 	unsigned int fragment_id;
 public :
-	Shader(std::string vertexFileName , std::string fragmentFileName);
+	Shader();
 	~Shader();
+	void SetShaders(std::string vertexFileName, std::string fragmentFileName);
 	std::string ReadShaderFromFile(std::string fileName);
 	unsigned int shader_program;
 	unsigned int CompileShader(std::string& sourceFile , ShaderType type);
+
 	void Bind();
 	void UnBind();
 

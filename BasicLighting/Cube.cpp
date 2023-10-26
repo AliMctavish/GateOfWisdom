@@ -1,8 +1,12 @@
 #include "Cube.h"
 
-Cube::Cube(unsigned int program)
+Cube::Cube()
 {
 	Init();
+}
+
+void Cube::SetProgram(unsigned int program)
+{
 	m_Program = program;
 }
 

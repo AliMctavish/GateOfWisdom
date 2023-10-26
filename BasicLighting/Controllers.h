@@ -56,7 +56,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 void processInput(GLFWwindow* window)
 {
-
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	direction.y = sin(glm::radians(pitch));

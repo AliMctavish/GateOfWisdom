@@ -2,6 +2,7 @@
 
 VertexBuffer::VertexBuffer()
 {
+	m_VertexBuffer = 0;
 	Bind();
 }
 

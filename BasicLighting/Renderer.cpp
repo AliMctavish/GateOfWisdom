@@ -1,19 +1,106 @@
 #include "Renderer.h"
+#include "Controllers.h"
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
 void Renderer::Init()
 {
-	window = nullptr;
+	_window = nullptr;
 }
 
-Renderer::Renderer()
+Renderer::Renderer(GLFWwindow* window)
 {
 	Init();
+	_window = window;
 }
 
-void Renderer::StartRenderer()
+void Renderer::Initialize()
 {
+	Texture texture;	
+	texture.SetTexture("Assests/ds.jpg");
+
+	glEnable(GL_DEPTH_TEST);
+
+	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
+	shader.UnBind();
+
+	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
+	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	/* Make the window's context current */
+
+	/* Loop until the user closes the window */
+
+	cube.SetProgram(shader.shader_program);
+
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(_window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
 }
 
-void Renderer::UpdateRenderer()
+void Renderer::Update()
 {
+	glClearColor(0, 0, 0, 5);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	shader.Bind();
+	vertexArray.Bind();
+
+	cube.SetLocation(glm::vec3(2, 2, 2));
+	cube.Draw();
+
+	glm::mat4 m_Model = glm::mat4(1.0f);
+	m_Model = glm::translate(m_Model, glm::vec3(2,2,2));
+	int modelLoc = glGetUniformLocation(shader.shader_program, "model");
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(m_Model));
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::Begin("hello world from imgui :D");
+	ImGui::Text("this is a text inside opengl");
+
+	ImGui::End();
+
+	ImGui::Render();
+	ImGui::EndFrame();
+
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	//glfwSetCursorPosCallback(window, mouse_callback);
+
+
+	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
+	glm::mat4 view;
+	const float radius = 10.0f;
+	float camX = sin(glfwGetTime() * 0.01) * radius;
+	float camZ = cos(glfwGetTime() * 0.01) * radius;
+
+	view = glm::translate(view, glm::vec3(0.0f, -8.0f, 20.0f));
+	view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
+
+	glm::mat4 projection;
+	projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
+
+	int viewLoc = glGetUniformLocation(shader.shader_program, "view");
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+	int projectionLoc = glGetUniformLocation(shader.shader_program, "projection");
+	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+	processInput(_window);
+	/* Swap front and back buffers */
+	glfwSwapBuffers(_window);
+	/* Poll for and process events */
+	glfwPollEvents();
 }

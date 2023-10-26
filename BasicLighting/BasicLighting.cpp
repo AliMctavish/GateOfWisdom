@@ -55,6 +55,7 @@ int main(void)
 
 	VertexArray vertexArray;
 	VertexBuffer vertexBuffer;
+
 	Shader shader("VertexShader.shader", "FragmentShader.shader");
 	shader.UnBind();
 

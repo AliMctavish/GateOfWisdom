@@ -8,7 +8,7 @@ private :
 	unsigned int m_VertexArray;
 public :
 	VertexArray();
-	void InIt();
+	~VertexArray();
 	void Bind();
 	void UnBind();
 };

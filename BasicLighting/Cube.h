@@ -13,12 +13,8 @@ private :
 public : 
 	Cube(unsigned int program);
 	~Cube();
-	void Update();
 	void Draw();
+	void Rotate(float angle);
 	void SetLocation(glm::vec3 location);
-
-	void Resize();
 	void Init();
-
-
 };

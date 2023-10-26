@@ -1,17 +1,15 @@
 #include "Libraries/imgui/imgui.h"
 #include "Libraries/imgui/imgui_impl_glfw.h"
 #include "Libraries/imgui/imgui_impl_opengl3.h"
-
 #include <iostream>
 #include "Texture.h"
 #include <vector>
 #include "Controllers.h"
 #include "VertexArray.h"
 #include "Cube.h"
+#include "VertexBuffer.h"
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
-#define Model_Default_Position glm::vec3(3,1,5)
-#define Model_To_Ground glm::vec3(0,1,0)
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -55,78 +53,8 @@ int main(void)
 
 	glEnable(GL_DEPTH_TEST);
 
-
-	//HERE IS THE DRAWING DETAILS
-   // positions          // colors           // texture coords
-	 float vertices[] = {
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
-	};
-	//unsigned int indecies[] =
-	//{
-	//	0,1,2,
-	//	2,0,3,
-	//};
-
 	VertexArray vertexArray;
-
-
-	//unsigned int EAO;
-	//glGenBuffers(1, &EAO);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EAO);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indecies), &indecies, GL_STATIC_DRAW);
-
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
-	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	// texture coord attribute
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-
+	VertexBuffer vertexBuffer;
 	Shader shader("VertexShader.shader", "FragmentShader.shader");
 	shader.UnBind();
 
@@ -146,13 +74,8 @@ int main(void)
 
 
 	Cube cube(shader.shader_program);
-	cube.SetLocation(glm::vec3(2, 2, 2));
 	
 
-	//testing 
-	int num = 3;
-	float resize = 1;
-	float rotate = 1;
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0, 0, 0, 5);
@@ -161,8 +84,9 @@ int main(void)
 
 		shader.Bind();
 		vertexArray.Bind();
-		
 
+		cube.SetLocation(glm::vec3(2, 2, 2));
+		cube.Draw();
 		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -170,17 +94,7 @@ int main(void)
 
 		ImGui::Begin("hello world from imgui :D");
 		ImGui::Text("this is a text inside opengl");
-		if (ImGui::Button("Up", ImVec2(50, 50)))
-			num++;
-		if (ImGui::Button("Down", ImVec2(50, 50)))
-			num--;
-		if (ImGui::Button("Resize +", ImVec2(150, 50)))
-			resize++;
-		if (ImGui::Button("Resize -", ImVec2(150, 50)))
-			resize--;
 
-			ImGui::SliderFloat("Rotate", &rotate, 0.f, 360.f, "%.3f", 0);
-			ImGui::SliderFloat("MySlider", &resize, 0.f, 2.f, "%.1f", 0);
 		ImGui::End();
 
 		ImGui::Render();
@@ -188,7 +102,6 @@ int main(void)
 
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		cube.Draw();
 
 
 		//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE

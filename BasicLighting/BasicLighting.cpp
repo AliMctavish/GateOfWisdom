@@ -40,10 +40,6 @@ int main(void)
 		renderer.Update();
 	}
 
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
-
 	glfwTerminate();
 	return 0;
 }

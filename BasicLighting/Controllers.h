@@ -11,7 +11,7 @@ float pitch = 1;
 //CAMERA STUFF IN HERE
 float horizontal_directions = 0;
 float vertical_directions = 0;
-float resize = 0;
+float resize = 2;
 bool isMoving = true;
 float fov = 0;
 glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);

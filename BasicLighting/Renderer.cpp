@@ -21,13 +21,20 @@ Renderer::Renderer(GLFWwindow* window)
 
 void Renderer::Initialize()
 {
+	texture.SetTexture("Assests/ds.jpg",1);
+	texture2.SetTexture("Assests/wall.jpg",0);
 
-	Texture texture;	
-	texture.SetTexture("Assests/ds.jpg");
+
+
+
 
 	glEnable(GL_DEPTH_TEST);
 
 	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
+
+	shader.setInt("textureFrag", 0);
+	shader.setInt("textureFrag2", 1);
+
 	shader.UnBind();
 
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
@@ -35,24 +42,42 @@ void Renderer::Initialize()
 
 
 	cube.SetProgram(shader.shader_program);
+	cube.SetName("Brick");
+
+	cube2.SetProgram(shader.shader_program);
+	cube2.SetName("Another brick");
 
 	_gui.Init();
 }
 
+float bgColor[] = {1,1,1};
 void Renderer::Update()
 {
-	glClearColor(0, 0, 0, 5);
+	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	texture.Bind();
+	texture2.Bind();
 
 	shader.Bind();
 	vertexArray.Bind();
 
-	cube.SetLocation(glm::vec3(2, 2, 2));
+	cube.SetLocation(glm::vec3(cube.xCoord, cube.yCoord, cube.zCoord));
+	cube.Resize(glm::vec3(cube.size, cube.size, cube.size));
+	cube.RotateX(cube.rotateX);
+	cube.RotateY(cube.rotateY);
+	cube.RotateZ(cube.rotateZ);
 	cube.Draw();
+
+	cube2.SetLocation(glm::vec3(cube2.xCoord, cube2.yCoord, cube2.zCoord));
+	cube2.Resize(glm::vec3(cube2.size, cube2.size, cube2.size));
+	cube2.RotateX(cube2.rotateX);
+	cube2.RotateY(cube2.rotateY);
+	cube2.RotateZ(cube2.rotateZ);
+	cube2.Draw();
 
 
 	//glfwSetCursorPosCallback(window, mouse_callback);
-
 	Debugger();
 
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
@@ -84,10 +109,59 @@ void Renderer::Update()
 void Renderer::Debugger()
 {
 	_gui.StartFrames();
-	_gui.Begin("the universe is expanding");
+
+	_gui.Begin("Object Coordinates");
+	ImGui::Text(cube.GetName());
+	if (ImGui::Button("xCoord right", ImVec2(150, 20)))
+		cube.xCoord++;
+	if (ImGui::Button("xCoord left", ImVec2(150, 20)))
+		cube.yCoord--;
+	if (ImGui::Button("zCoord forward", ImVec2(150, 20)))
+		cube.zCoord++;
+	if (ImGui::Button("zCoord backward", ImVec2(150, 20)))
+		cube.zCoord--;
+	if (ImGui::Button("yCoord up", ImVec2(150, 20)))
+		cube.yCoord++;
+	if (ImGui::Button("yCoord down", ImVec2(150, 20)))
+		cube.yCoord--;
 	_gui.End();
 
-	_gui.Begin("no its not ! ");
+	_gui.Begin("Object Orientation");
+	ImGui::SliderFloat("Rsize object", &cube.size, 0, 10, "%.3f", 0);
+	ImGui::SliderFloat("Rotate on x Axis", &cube.rotateX, 0, 10, "%.3f", 0);
+	ImGui::SliderFloat("Rotate on y Axis", &cube.rotateY, 0, 10, "%.3f", 0);
+	ImGui::SliderFloat("Rotate on z Axis", &cube.rotateZ, 0, 10, "%.3f", 0);
+	_gui.End();
+
+	_gui.Begin("Object Coordinates2");
+
+	ImGui::Text(cube2.GetName());
+	if (ImGui::Button("2xCoord right", ImVec2(150, 20)))
+		cube2.xCoord++;
+	if (ImGui::Button("2xCoord left", ImVec2(150, 20)))
+		cube2.yCoord--;
+	if (ImGui::Button("2zCoord forward", ImVec2(150, 20)))
+		cube2.zCoord++;
+	if (ImGui::Button("2zCoord backward", ImVec2(150, 20)))
+		cube2.zCoord--;
+	if (ImGui::Button("2yCoord up", ImVec2(150, 20)))
+		cube2.yCoord++;
+	if (ImGui::Button("2yCoord down", ImVec2(150, 20)))
+		cube2.yCoord--;
+	_gui.End();
+
+	_gui.Begin("Object Orientation2");
+	ImGui::SliderFloat("2Rsize object", &cube2.size, 0, 10, "%.3f", 1);
+	ImGui::SliderFloat("2Rotate on x Axis", &cube2.rotateX, 0, 10, "%.3f", 1);
+	ImGui::SliderFloat("2Rotate on y Axis", &cube2.rotateY, 0, 10, "%.3f", 1);
+	ImGui::SliderFloat("2Rotate on z Axis", &cube2.rotateZ, 0, 10, "%.3f", 1);
+
+	_gui.End();
+
+	_gui.Begin("World Settings");
+
+	ImGui::ColorEdit3("BackgroundColor", bgColor, 0);
+
 	_gui.End();
 
 	_gui.EndFrames();

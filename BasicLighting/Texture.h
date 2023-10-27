@@ -4,12 +4,12 @@
 static int textureIndex;
 class Texture {
 private:
-	unsigned int m_Texture;
 	void Init();
+public:
+	unsigned int m_Texture;
 	void Bind();
 	void UnBind();
-public:
 	Texture();
 	~Texture();
-	void SetTexture(const char* textureFile);
+	void SetTexture(const char* textureFile, int num);
 };

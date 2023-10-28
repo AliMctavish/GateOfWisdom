@@ -21,17 +21,9 @@ Renderer::Renderer(GLFWwindow* window)
 
 void Renderer::Initialize()
 {
-	texture.SetTexture("Assests/ds.jpg",1);
-	texture2.SetTexture("Assests/face.png",0);
-
+	_textureManager.Initialize(shader);
+	
 	glEnable(GL_DEPTH_TEST);
-
-	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
-
-	shader.setInt("textureFrag", 0);
-	shader.setInt("textureFrag2", 1);
-
-	shader.UnBind();
 
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -51,9 +43,7 @@ void Renderer::Update()
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	texture.Bind();
-	texture2.Bind();
-
+	_textureManager.Update();
 
 	shader.Bind();
 	vertexArray.Bind();

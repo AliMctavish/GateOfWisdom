@@ -4,8 +4,7 @@
 
 Texture::Texture()
 {
-	Bind();
-	Init();
+	glGenTextures(1, &m_Texture);
 }
 
 Texture::~Texture()
@@ -25,7 +24,6 @@ void Texture::Init()
 
 void Texture::Bind()
 {
-	glGenTextures(1, &m_Texture);
 	glActiveTexture(GL_TEXTURE0 + textureIndex);
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
 }
@@ -37,6 +35,8 @@ void Texture::UnBind()
 
 void Texture::SetTexture(const char* textureFile, int num)
 {
+	Bind();
+	Init();
 	stbi_set_flip_vertically_on_load(true);
 
 	int width, height, nrChannels;

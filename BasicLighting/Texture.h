@@ -5,8 +5,8 @@ static int textureIndex;
 class Texture {
 private:
 	void Init();
-public:
 	unsigned int m_Texture;
+public:
 	void Bind();
 	void UnBind();
 	Texture();

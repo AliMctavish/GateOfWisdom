@@ -14,9 +14,9 @@ class Renderer {
 private:
 	GLFWwindow* _window;
 	GuiDebugger _gui;
+	Shader shader;
 	Texture texture;
 	Texture texture2;
-	Shader shader;
 	Cube cube;
 	Cube cube2;
 	VertexArray vertexArray;

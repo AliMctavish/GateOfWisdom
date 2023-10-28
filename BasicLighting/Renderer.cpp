@@ -22,11 +22,7 @@ Renderer::Renderer(GLFWwindow* window)
 void Renderer::Initialize()
 {
 	texture.SetTexture("Assests/ds.jpg",1);
-	texture2.SetTexture("Assests/wall.jpg",0);
-
-
-
-
+	texture2.SetTexture("Assests/face.png",0);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -39,7 +35,6 @@ void Renderer::Initialize()
 
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
 
 	cube.SetProgram(shader.shader_program);
 	cube.SetName("Brick");
@@ -58,6 +53,7 @@ void Renderer::Update()
 
 	texture.Bind();
 	texture2.Bind();
+
 
 	shader.Bind();
 	vertexArray.Bind();

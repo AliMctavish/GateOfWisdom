@@ -6,4 +6,5 @@ here is the todo for the project
 1 - fix the texture mapping problem , the texutre looks not clear : Done;
 2 - making a renderer class ! : Done;
 3 - making imgui class : Done;
-4 - Research;
+4 - fixed a problem with loading texture and it was becuase the opengl operation is not fully completed
+5 - Research;

@@ -14,7 +14,7 @@ enum RotateSide {
 class Cube {
 private : 
 	glm::mat4 m_Model;
-	unsigned int m_Program;
+	uint32_t m_Program;
 	glm::vec3 m_Location;
 	const char* _name;
 public : 
@@ -26,7 +26,7 @@ public :
 	~Cube();
 	void SetName(const char* name);
 	const char* GetName() { return _name; }
-	void SetProgram(unsigned int program);
+	void SetProgram(uint32_t program);
 	void Draw();
 	void RotateX(float angle);
 	void RotateY(float angle);

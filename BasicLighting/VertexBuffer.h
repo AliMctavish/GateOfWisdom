@@ -4,7 +4,7 @@
 
 class VertexBuffer {
 private : 
-	unsigned int m_VertexBuffer;
+	uint32_t m_VertexBuffer;
 public : 
 	VertexBuffer();
 	~VertexBuffer();

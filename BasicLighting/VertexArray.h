@@ -5,7 +5,7 @@ static int VertexIndex;
 
 class VertexArray {
 private : 
-	unsigned int m_VertexArray;
+	uint32_t m_VertexArray;
 public :
 	VertexArray();
 	~VertexArray();

@@ -7,7 +7,7 @@ Cube::Cube()
 	Init();
 }
 
-void Cube::SetProgram(unsigned int program)
+void Cube::SetProgram(uint32_t program)
 {
 	m_Program = program;
 }

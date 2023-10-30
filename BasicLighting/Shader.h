@@ -12,15 +12,15 @@ enum struct ShaderType {
 
 class Shader {
 private :
-	unsigned int vertex_id;
-	unsigned int fragment_id;
+	uint32_t vertex_id;
+	uint32_t fragment_id;
 public :
 	Shader();
 	~Shader();
 	void SetShaders(std::string vertexFileName, std::string fragmentFileName);
 	std::string ReadShaderFromFile(std::string fileName);
-	unsigned int shader_program;
-	unsigned int CompileShader(std::string& sourceFile , ShaderType type);
+	uint32_t shader_program;
+	uint32_t CompileShader(std::string& sourceFile , ShaderType type);
 
 	void Bind();
 	void UnBind();

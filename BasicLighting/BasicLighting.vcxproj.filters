@@ -72,10 +72,10 @@
     <ClCompile Include="GuiDebugger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.h">
+    <ClCompile Include="ShaderManager.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
+    <ClCompile Include="ShaderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -84,6 +84,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="FragmentShader.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="LightFragmentShader.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="LightVertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

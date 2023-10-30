@@ -5,7 +5,7 @@
 #include "Cube.h"
 #include "VertexBuffer.h"
 #include "GuiDebugger.h"
-#include "TextureManager.h"
+#include "ShaderManager.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -14,8 +14,9 @@ class Renderer {
 private:
 	GLFWwindow* _window;
 	GuiDebugger _gui;
-	TextureManager _textureManager;
+	ShaderManager _shaderManager;
 	Shader shader;
+	Shader lightShader;
 	Cube cube;
 	Cube cube2;
 	VertexArray vertexArray;

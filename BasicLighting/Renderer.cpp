@@ -7,6 +7,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+
 void Renderer::Init()
 {
 	_window = nullptr;
@@ -21,8 +26,13 @@ Renderer::Renderer(GLFWwindow* window)
 
 void Renderer::Initialize()
 {
-	_textureManager.Initialize(shader);
+	_shaderManager.Initialize(shader);
 	
+	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
+
+	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
+
+
 	glEnable(GL_DEPTH_TEST);
 
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
@@ -31,7 +41,7 @@ void Renderer::Initialize()
 	cube.SetProgram(shader.shader_program);
 	cube.SetName("Brick");
 
-	cube2.SetProgram(shader.shader_program);
+	cube2.SetProgram(lightShader.shader_program);
 	cube2.SetName("Another brick");
 
 	_gui.Init();
@@ -43,9 +53,12 @@ void Renderer::Update()
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	_textureManager.Update();
+	float currentFrame = static_cast<float>(glfwGetTime());
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
 
 	shader.Bind();
+	lightShader.Bind();
 	vertexArray.Bind();
 
 	cube.SetLocation(glm::vec3(cube.xCoord, cube.yCoord, cube.zCoord));

@@ -33,7 +33,7 @@ void Renderer::Initialize()
 	vertexBuffer.Bind();
 
 	vertexArray2.Bind();
-	vertexBuffer.SetAttributes();
+	vertexBuffer2.Bind();
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -80,7 +80,6 @@ void Renderer::Update()
 	cube.RotateX(cube.rotateX);
 	cube.RotateY(cube.rotateY);
 	cube.RotateZ(cube.rotateZ);
-
 	shader.SetMat4("view", view);
 	shader.SetMat4("projection", projection);
 	shader.SetMat4("model",cube.GetModel());
@@ -98,10 +97,9 @@ void Renderer::Update()
 	lightShader.SetMat4("view", view);
 	lightShader.SetMat4("projection", projection);
 	lightShader.SetMat4("model", cube2.GetModel());
-	cube2.SetColor("customColor");
+	cube2.SetColor("objectColor");
 	vertexArray2.Bind();
 	cube2.Draw();
-
 
 
 	//glfwSetCursorPosCallback(window, mouse_callback);

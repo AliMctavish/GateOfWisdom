@@ -14,7 +14,7 @@ private :
 	uint32_t m_VertexBuffer;
 	VertexType m_Type;
 public : 
-	VertexBuffer();
+	VertexBuffer(VertexType type);
 	~VertexBuffer();
 
 	uint32_t inline GetBuffer() { return m_VertexBuffer; }

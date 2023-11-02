@@ -19,7 +19,8 @@ private:
 	Cube cube2;
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
-	VertexBuffer vertexBuffer;
+	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);
+	VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Cube_Type);
 public:
 	Renderer(GLFWwindow* window);
 	void Init();

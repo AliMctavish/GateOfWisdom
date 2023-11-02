@@ -4,11 +4,11 @@ out vec4 color;
 in  vec3 ourColor;
 in vec2 ourTexture;
 
-uniform vec3 customColor;
+vec3 lightColor;
 uniform vec3 objectColor;
-uniform vec4 distance_color;
 
 void main()
 {
-	color = vec4(customColor, 1);
+	lightColor = vec3(1, 1, 0);
+	color = vec4(objectColor * lightColor, 1);
 }

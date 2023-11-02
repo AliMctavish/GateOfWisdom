@@ -78,21 +78,26 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		cameraPos -= cameraUp * cameraSpeed;
 
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		yaw -= 1;
+		yaw -= 0.1;
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		yaw += 1;
+		yaw += 0.1;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		pitch += 1;
+		pitch += 0.1;
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		pitch -= 1;
+		pitch -= 0.1;
 
 
 	//CAMERA FIELD OF VIEW 

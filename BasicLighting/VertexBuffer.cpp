@@ -1,8 +1,8 @@
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer()
+VertexBuffer::VertexBuffer(VertexType type)
 {
-	m_Type = VertexType::Pyramid_Type;
+	m_Type = type;
 	m_VertexBuffer = 0;
 }
 

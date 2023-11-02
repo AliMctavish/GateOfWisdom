@@ -97,7 +97,6 @@ void Renderer::Update()
 	lightShader.SetMat4("projection", projection);
 	lightShader.SetMat4("model", cube2.GetModel());
 	cube2.SetColor("customColor");
-	cube2.SetColor("objectColor");s
 	vertexArray2.Bind();
 	cube2.Draw();
 

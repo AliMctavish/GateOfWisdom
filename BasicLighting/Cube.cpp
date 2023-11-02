@@ -28,11 +28,14 @@ void Cube::Init()
 	m_Program = 0;
 	m_Location = glm::vec3(xCoord,yCoord,zCoord);
 }
+void Cube::SetColor(const char* name)
+{
+	int colorLoc = glGetUniformLocation(m_Program, name);
+	glUniform3f(colorLoc,Color[0], Color[1], Color[2]);
+}
 
 void Cube::Draw()
 {
-	int modelLoc = glGetUniformLocation(m_Program, "model");
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(m_Model));
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 

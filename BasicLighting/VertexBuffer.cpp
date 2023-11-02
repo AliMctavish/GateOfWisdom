@@ -2,8 +2,7 @@
 
 VertexBuffer::VertexBuffer()
 {
-	m_VertexBuffer = 0;
-	Bind();
+
 }
 
 VertexBuffer::~VertexBuffer()
@@ -25,6 +24,12 @@ void VertexBuffer::Bind()
 	glEnableVertexAttribArray(0);
 	// texture coord attribute
 	delete[] vertices;
+}
+
+void VertexBuffer::SetAttributes()
+{
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 }
 
 float* VertexBuffer::BufferData()

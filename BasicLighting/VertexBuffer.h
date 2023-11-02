@@ -8,7 +8,9 @@ private :
 public : 
 	VertexBuffer();
 	~VertexBuffer();
+	uint32_t inline GetBuffer() { return m_VertexBuffer; }
 	void Bind();
+	void SetAttributes();
 	float* BufferData();
 	void UnBind();
 };

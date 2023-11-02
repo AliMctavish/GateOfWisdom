@@ -2,9 +2,7 @@
 
 VertexArray::VertexArray()
 {
-	VertexIndex += 1;
-	glGenVertexArrays(VertexIndex, &m_VertexArray);
-	Bind();
+	glGenVertexArrays(1, &m_VertexArray);
 }
 
 VertexArray::~VertexArray()

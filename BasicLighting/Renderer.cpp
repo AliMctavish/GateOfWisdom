@@ -26,12 +26,13 @@ Renderer::Renderer(GLFWwindow* window)
 
 void Renderer::Initialize()
 {
-	_shaderManager.Initialize(shader);
-	
 	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
-
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
+	vertexArray.Bind();
+	vertexBuffer.Bind();
 
+	vertexArray2.Bind();
+	vertexBuffer.SetAttributes();
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -44,6 +45,8 @@ void Renderer::Initialize()
 	cube2.SetProgram(lightShader.shader_program);
 	cube2.SetName("Another brick");
 
+	shader.UnBind();
+	lightShader.UnBind();
 	_gui.Init();
 }
 
@@ -57,29 +60,6 @@ void Renderer::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	shader.Bind();
-	lightShader.Bind();
-	vertexArray.Bind();
-
-	cube.SetLocation(glm::vec3(cube.xCoord, cube.yCoord, cube.zCoord));
-	cube.Resize(glm::vec3(cube.size, cube.size, cube.size));
-	cube.RotateX(cube.rotateX);
-	cube.RotateY(cube.rotateY);
-	cube.RotateZ(cube.rotateZ);
-	cube.Draw();
-
-	cube2.SetLocation(glm::vec3(cube2.xCoord, cube2.yCoord, cube2.zCoord));
-	cube2.Resize(glm::vec3(cube2.size, cube2.size, cube2.size));
-	cube2.RotateX(cube2.rotateX);
-	cube2.RotateY(cube2.rotateY);
-	cube2.RotateZ(cube2.rotateZ);
-	cube2.Draw();
-
-
-	//glfwSetCursorPosCallback(window, mouse_callback);
-	Debugger();
-
-	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
 	glm::mat4 view;
 	const float radius = 10.0f;
 	float camX = sin(glfwGetTime() * 0.01) * radius;
@@ -91,11 +71,52 @@ void Renderer::Update()
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
 
-	int viewLoc = glGetUniformLocation(shader.shader_program, "view");
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	int projectionLoc = glGetUniformLocation(shader.shader_program, "projection");
-	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+	shader.Bind();
+	
+	cube.SetLocation(glm::vec3(cube.xCoord, cube.yCoord, cube.zCoord));
+	cube.Resize(glm::vec3(cube.size, cube.size, cube.size));
+	cube.RotateX(cube.rotateX);
+	cube.RotateY(cube.rotateY);
+	cube.RotateZ(cube.rotateZ);
+
+	shader.SetMat4("view", view);
+	shader.SetMat4("projection", projection);
+	shader.SetMat4("model",cube.GetModel());
+	cube.SetColor("customColor");
+	vertexArray.Bind();
+	cube.Draw();
+
+
+	lightShader.Bind();
+	cube2.SetLocation(glm::vec3(cube2.xCoord, cube2.yCoord, cube2.zCoord));
+	cube2.Resize(glm::vec3(cube2.size, cube2.size, cube2.size));
+	cube2.RotateX(cube2.rotateX);
+	cube2.RotateY(cube2.rotateY);
+	cube2.RotateZ(cube2.rotateZ);
+	lightShader.SetMat4("view", view);
+	lightShader.SetMat4("projection", projection);
+	lightShader.SetMat4("model", cube2.GetModel());
+	cube2.SetColor("customColor");
+	cube2.SetColor("objectColor");s
+	vertexArray2.Bind();
+	cube2.Draw();
+
+
+
+	//glfwSetCursorPosCallback(window, mouse_callback);
+	Debugger();
+
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
+
+
+	
+
+
+	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
+
+	
+
+
 
 
 	processInput(_window);
@@ -123,6 +144,7 @@ void Renderer::Debugger()
 		cube.yCoord++;
 	if (ImGui::Button("yCoord down", ImVec2(150, 20)))
 		cube.yCoord--;
+	ImGui::ColorEdit3("Object1 Color", cube.Color, 0);
 	_gui.End();
 
 	_gui.Begin("Object Orientation");
@@ -147,6 +169,8 @@ void Renderer::Debugger()
 		cube2.yCoord++;
 	if (ImGui::Button("2yCoord down", ImVec2(150, 20)))
 		cube2.yCoord--;
+
+	ImGui::ColorEdit3("Object2 Color", cube2.Color, 0);
 	_gui.End();
 
 	_gui.Begin("Object Orientation2");

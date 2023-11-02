@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include "glm/glm.hpp"
 
 enum struct ShaderType {
 	vertex_shader = 0, fragment_shader = 1
@@ -40,5 +41,13 @@ public :
 	void set4Float(const std::string& name, float v1,float v2, float v3 , float v4) const
 	{
 		glUniform4f(glGetUniformLocation(shader_program, name.c_str()),v1,v2,v3,v4);
+	}
+	void Set3Float(const std::string& name, float& v1, float& v2, float& v3)
+	{
+		glUniform3f(glGetUniformLocation(shader_program, name.c_str()), v1, v2, v3);
+	}
+	void SetMat4(const std::string& name,const glm::mat4 &value) const
+	{
+		glUniformMatrix4fv(glGetUniformLocation(shader_program, name.c_str()), 1, GL_FALSE,&value[0][0]);
 	}
 };

@@ -28,6 +28,7 @@ void Renderer::Initialize()
 {
 	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
+
 	vertexArray.Bind();
 	vertexBuffer.Bind();
 
@@ -60,19 +61,20 @@ void Renderer::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
+
+	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
 	glm::mat4 view;
 	const float radius = 10.0f;
 	float camX = sin(glfwGetTime() * 0.01) * radius;
 	float camZ = cos(glfwGetTime() * 0.01) * radius;
-
 	view = glm::translate(view, glm::vec3(0.0f, -8.0f, 20.0f));
 	view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
-
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
+	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
+
 
 	shader.Bind();
-	
 	cube.SetLocation(glm::vec3(cube.xCoord, cube.yCoord, cube.zCoord));
 	cube.Resize(glm::vec3(cube.size, cube.size, cube.size));
 	cube.RotateX(cube.rotateX);
@@ -104,19 +106,6 @@ void Renderer::Update()
 
 	//glfwSetCursorPosCallback(window, mouse_callback);
 	Debugger();
-
-	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
-
-
-	
-
-
-	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
-
-	
-
-
-
 
 	processInput(_window);
 	/* Swap front and back buffers */

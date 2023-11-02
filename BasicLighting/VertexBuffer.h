@@ -1,16 +1,24 @@
 #pragma once
 #include "Shader.h"
-#define Cube_Data_Size 180
+#include "RawVertexData.h"
+
+
+enum VertexType {
+	Cube_Type = 0,
+	Surface_Type = 1,
+	Pyramid_Type = 2
+};
 
 class VertexBuffer {
 private : 
 	uint32_t m_VertexBuffer;
+	VertexType m_Type;
 public : 
 	VertexBuffer();
 	~VertexBuffer();
+
 	uint32_t inline GetBuffer() { return m_VertexBuffer; }
 	void Bind();
 	void SetAttributes();
-	float* BufferData();
 	void UnBind();
 };

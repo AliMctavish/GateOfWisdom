@@ -2,7 +2,8 @@
 
 VertexBuffer::VertexBuffer()
 {
-
+	m_Type = VertexType::Pyramid_Type;
+	m_VertexBuffer = 0;
 }
 
 VertexBuffer::~VertexBuffer()
@@ -12,7 +13,15 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::Bind()
 {
-	float* vertices = BufferData();
+	float* vertices = nullptr;
+	RawVertexData rawData;
+
+	if (m_Type == VertexType::Cube_Type)
+		vertices = rawData.CubeData();
+	else if (m_Type == VertexType::Pyramid_Type)
+		vertices = rawData.PyramidData();
+
+
 	float vert[Cube_Data_Size];
 	for (int i = 0; i < Cube_Data_Size; i++)
 		vert[i] = vertices[i];
@@ -30,55 +39,6 @@ void VertexBuffer::SetAttributes()
 {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-}
-
-float* VertexBuffer::BufferData()
-{
-	float* vertices = new float[Cube_Data_Size] {
-		-0.5f, -0.5f, -0.5f, 
-		 0.5f, -0.5f, -0.5f, 
-		 0.5f,  0.5f, -0.5f, 
-		 0.5f,  0.5f, -0.5f, 
-		-0.5f,  0.5f, -0.5f, 
-		-0.5f, -0.5f, -0.5f, 
-
-		-0.5f, -0.5f,  0.5f, 
-		 0.5f, -0.5f,  0.5f, 
-		 0.5f,  0.5f,  0.5f, 
-		 0.5f,  0.5f,  0.5f, 
-		-0.5f,  0.5f,  0.5f, 
-		-0.5f, -0.5f,  0.5f, 
-
-		-0.5f,  0.5f,  0.5f, 
-		-0.5f,  0.5f, -0.5f, 
-		-0.5f, -0.5f, -0.5f, 
-		-0.5f, -0.5f, -0.5f, 
-		-0.5f, -0.5f,  0.5f, 
-		-0.5f,  0.5f,  0.5f, 
-
-		 0.5f,  0.5f,  0.5f, 
-		 0.5f,  0.5f, -0.5f, 
-		 0.5f, -0.5f, -0.5f, 
-		 0.5f, -0.5f, -0.5f, 
-		 0.5f, -0.5f,  0.5f, 
-		 0.5f,  0.5f,  0.5f, 
-
-		-0.5f, -0.5f, -0.5f, 
-		 0.5f, -0.5f, -0.5f, 
-		 0.5f, -0.5f,  0.5f, 
-		 0.5f, -0.5f,  0.5f, 
-		-0.5f, -0.5f,  0.5f, 
-		-0.5f, -0.5f, -0.5f, 
-
-		-0.5f,  0.5f, -0.5f, 
-		 0.5f,  0.5f, -0.5f, 
-		 0.5f,  0.5f,  0.5f, 
-		 0.5f,  0.5f,  0.5f, 
-		-0.5f,  0.5f,  0.5f, 
-		-0.5f,  0.5f, -0.5f, 
-	};
-
-	return vertices;
 }
 
 void VertexBuffer::UnBind()

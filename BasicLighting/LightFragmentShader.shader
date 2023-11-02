@@ -10,5 +10,5 @@ uniform vec4 distance_color;
 
 void main()
 {
-	color = vec4(customColor * objectColor, 1);
+	color = vec4(customColor, 1);
 }

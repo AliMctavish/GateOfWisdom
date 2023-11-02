@@ -12,6 +12,8 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 
+glm::vec3 lightPos = glm::vec3(1, 3, 2);
+
 void Renderer::Init()
 {
 	_window = nullptr;
@@ -31,6 +33,7 @@ void Renderer::Initialize()
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
+	vertexBuffer.SetCubeWithNormalsAttributes();
 
 	vertexArray2.Bind();
 	vertexBuffer2.Bind();
@@ -82,6 +85,8 @@ void Renderer::Update()
 	cube.RotateZ(cube.rotateZ);
 	shader.SetMat4("view", view);
 	shader.SetMat4("projection", projection);
+	shader.setVec3("lightPos", lightPos);
+	shader.setVec3("viewPos", cameraPos);
 	shader.SetMat4("model",cube.GetModel());
 	cube.SetColor("customColor");
 	vertexArray.Bind();
@@ -89,7 +94,7 @@ void Renderer::Update()
 
 
 	lightShader.Bind();
-	cube2.SetLocation(glm::vec3(cube2.xCoord, cube2.yCoord, cube2.zCoord));
+	cube2.SetLocation(lightPos);
 	cube2.Resize(glm::vec3(cube2.size, cube2.size, cube2.size));
 	cube2.RotateX(cube2.rotateX);
 	cube2.RotateY(cube2.rotateY);
@@ -144,17 +149,17 @@ void Renderer::Debugger()
 
 	ImGui::Text(cube2.GetName());
 	if (ImGui::Button("2xCoord right", ImVec2(150, 20)))
-		cube2.xCoord++;
+		lightPos.x++;
 	if (ImGui::Button("2xCoord left", ImVec2(150, 20)))
-		cube2.yCoord--;
+		lightPos.x--;
 	if (ImGui::Button("2zCoord forward", ImVec2(150, 20)))
-		cube2.zCoord++;
+		lightPos.y++;
 	if (ImGui::Button("2zCoord backward", ImVec2(150, 20)))
-		cube2.zCoord--;
+		lightPos.y--;
 	if (ImGui::Button("2yCoord up", ImVec2(150, 20)))
-		cube2.yCoord++;
+		lightPos.z++;
 	if (ImGui::Button("2yCoord down", ImVec2(150, 20)))
-		cube2.yCoord--;
+		lightPos.z--;
 
 	ImGui::ColorEdit3("Object2 Color", cube2.Color, 0);
 	_gui.End();

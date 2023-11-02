@@ -34,6 +34,14 @@ public :
 	{
 		glUniform1i(glGetUniformLocation(shader_program, name.c_str()), value);
 	}
+	void setVec3(const std::string& name, const glm::vec3& value) const
+	{
+		glUniform3fv(glGetUniformLocation(shader_program, name.c_str()), 1, &value[0]);
+	}
+	void setVec3f(const std::string& name, float v1, float v2, float v3)
+	{
+		glUniform3f(glGetUniformLocation(shader_program, name.c_str()), v1, v2, v3);
+	}
 	void setFloat(const std::string& name, float value) const
 	{
 		glUniform1f(glGetUniformLocation(shader_program, name.c_str()), value);

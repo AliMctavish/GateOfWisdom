@@ -17,29 +17,37 @@ void VertexBuffer::Bind()
 	RawVertexData rawData;
 
 	if (m_Type == VertexType::Cube_Type)
-		vertices = rawData.CubeData();
+		vertices = rawData.CubeWithNormalsData();
 	else if (m_Type == VertexType::Pyramid_Type)
 		vertices = rawData.PyramidData();
 
 
-	float vert[Cube_Data_Size];
-	for (int i = 0; i < Cube_Data_Size; i++)
+	float vert[Cube_With_Normals_Data];
+	for (int i = 0; i < Cube_With_Normals_Data; i++)
 		vert[i] = vertices[i];
 
 	glGenBuffers(1, &m_VertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// texture coord attribute
 	delete[] vertices;
 }
 
-void VertexBuffer::SetAttributes()
+void VertexBuffer::SetCubeAttributes()
 {
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 }
+
+void VertexBuffer::SetCubeWithNormalsAttributes()
+{
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+}	
 
 void VertexBuffer::UnBind()
 {

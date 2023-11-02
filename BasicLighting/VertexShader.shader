@@ -1,16 +1,18 @@
 #version 330 core
-layout (location = 0) in vec3 vecPos;
-layout (location = 1) in vec2 texCoord;
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec3 aNormal;
+
+out vec3 FragPos;
+out vec3 Normal;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-out vec3 ourColor;
-out vec2 ourTexture;
-
 void main()
 {
-gl_Position =  projection * view * model * vec4(vecPos.x,vecPos.y, vecPos.z ,1);
-//ourTexture = vec2(texCoord.x,texCoord.y);
+    FragPos = vec3(model * vec4(aPos, 1.0));
+    Normal = mat3(transpose(inverse(model))) * aNormal;
+
+    gl_Position = projection * view * vec4(FragPos, 1.0);
 }

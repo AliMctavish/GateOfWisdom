@@ -18,7 +18,7 @@ private :
 	const char* _name;
 public : 
 	float Color[3] = {0,0,0};
-	int xCoord, yCoord, zCoord;
+	float xCoord, yCoord, zCoord;
 	float angle , size;
 	float rotateX,rotateY,rotateZ;
 

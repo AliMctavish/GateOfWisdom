@@ -17,6 +17,8 @@ private:
 	Shader lightShader;
 	Cube cube;
 	Cube cube2;
+	Cube cube3;
+	Cube cube4;
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);

@@ -39,7 +39,7 @@ void Cube::Draw()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-void Cube::SetLocation(glm::vec3 location)
+void Cube::Position(glm::vec3 location)
 {
 	m_Model = glm::mat4(1.0f);
 	m_Location = location;

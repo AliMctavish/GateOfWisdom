@@ -6,10 +6,10 @@ in vec3 FragPos;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
+uniform vec3 objectColor;
 
 void main()
 {
-    vec3 objectColor = vec3(1.0f, 0.5f, 0.31f);
     vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
     // ambient
     float ambientStrength = 0.1;

@@ -49,12 +49,15 @@ void Renderer::Initialize()
 	cube2.SetProgram(lightShader.shader_program);
 	cube2.SetName("Another brick");
 
+	cube3.SetProgram(shader.shader_program);
+	cube3.SetName("something !");
+
 	shader.UnBind();
 	lightShader.UnBind();
 	_gui.Init();
 }
 
-float bgColor[] = {1,1,1};
+float bgColor[] = {0,0,0};
 void Renderer::Update()
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
@@ -78,7 +81,7 @@ void Renderer::Update()
 
 
 	shader.Bind();
-	cube.SetLocation(glm::vec3(cube.xCoord, cube.yCoord, cube.zCoord));
+	cube.Position(glm::vec3(cube.xCoord, cube.yCoord, cube.zCoord));
 	cube.Resize(glm::vec3(cube.size, cube.size, cube.size));
 	cube.RotateX(cube.rotateX);
 	cube.RotateY(cube.rotateY);
@@ -88,14 +91,14 @@ void Renderer::Update()
 	shader.setVec3("lightPos", lightPos);
 	shader.setVec3("viewPos", cameraPos);
 	shader.SetMat4("model",cube.GetModel());
-	cube.SetColor("customColor");
+	cube.SetColor("objectColor");
 	vertexArray.Bind();
 	cube.Draw();
 
 
 	lightShader.Bind();
-	cube2.SetLocation(lightPos);
-	cube2.Resize(glm::vec3(cube2.size, cube2.size, cube2.size));
+	cube2.Position(lightPos);
+	cube2.Resize(glm::vec3(1,1,1));
 	cube2.RotateX(cube2.rotateX);
 	cube2.RotateY(cube2.rotateY);
 	cube2.RotateZ(cube2.rotateZ);
@@ -107,7 +110,7 @@ void Renderer::Update()
 	cube2.Draw();
 
 
-	//glfwSetCursorPosCallback(window, mouse_callback);
+	//glfwSetCursorPosCallback(_window, mouse_callback);
 	Debugger();
 
 	processInput(_window);
@@ -136,6 +139,11 @@ void Renderer::Debugger()
 	if (ImGui::Button("yCoord down", ImVec2(150, 20)))
 		cube.yCoord--;
 	ImGui::ColorEdit3("Object1 Color", cube.Color, 0);
+
+	ImGui::SliderFloat("Move2 On X", &cube.xCoord, -50, 50, "%.3f", 0);
+	ImGui::SliderFloat("Move2 On Y", &cube.yCoord, -50, 50, "%.3f", 0);
+	ImGui::SliderFloat("Move2 On Z", &cube.zCoord, -50, 50, "%.3f", 0);
+
 	_gui.End();
 
 	_gui.Begin("Object Orientation");
@@ -162,6 +170,11 @@ void Renderer::Debugger()
 		lightPos.z--;
 
 	ImGui::ColorEdit3("Object2 Color", cube2.Color, 0);
+
+	ImGui::SliderFloat("Move On X", &lightPos.x, -50, 50, "%.3f", 0);
+	ImGui::SliderFloat("Move On Y", &lightPos.y, -50, 50, "%.3f", 0);
+	ImGui::SliderFloat("Move On Z", &lightPos.z, -50, 50, "%.3f", 0);
+
 	_gui.End();
 
 	_gui.Begin("Object Orientation2");

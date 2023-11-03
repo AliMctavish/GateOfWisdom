@@ -33,7 +33,7 @@ public :
 	void RotateY(float angle);
 	void RotateZ(float angle);
 	void SetColor(const char* name);
-	void SetLocation(glm::vec3 location);
+	void Position(glm::vec3 location);
 	void Resize(glm::vec3 size);
 	void Init();
 };

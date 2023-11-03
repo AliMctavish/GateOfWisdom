@@ -19,14 +19,10 @@ void Cube::SetName(const char* name)
 
 void Cube::Init()
 {
-	xCoord = 0;
-	yCoord = 0;
-	zCoord = 0;
 	angle = 0;
-	size = 5;
+	Size = glm::vec3(2, 2, 2);
 	m_Model = glm::mat4(1.0f);
 	m_Program = 0;
-	m_Location = glm::vec3(xCoord,yCoord,zCoord);
 }
 void Cube::SetColor(const char* name)
 {
@@ -39,11 +35,20 @@ void Cube::Draw()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-void Cube::Position(glm::vec3 location)
+
+void Cube::Update()
 {
 	m_Model = glm::mat4(1.0f);
-	m_Location = location;
-	m_Model = glm::translate(m_Model, location);
+	m_Model = glm::translate(m_Model, Position);
+	Resize(Size);
+}
+
+void Cube::SinMove()
+{
+	m_Model = glm::mat4(1.0f);
+	Position.y = glm::sin(sineValue)/2;
+	m_Model = glm::translate(m_Model, Position);
+	sineValue+=0.01;
 }
 
 void Cube::RotateX(float angle)
@@ -59,7 +64,7 @@ void Cube::RotateZ(float angle)
 	m_Model = glm::rotate(m_Model,angle, glm::vec3(0,0,1));
 }
 
-void Cube::Resize(glm::vec3 size)
+void Cube::Resize(glm::vec3& size)
 {
 	m_Model = glm::scale(m_Model, size);
 }

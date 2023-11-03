@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "GuiDebugger.h"
 #include "Shader.h"
 #include "VertexArray.h"
@@ -16,7 +17,7 @@ private:
 	Shader shader;
 	Shader lightShader;
 	Cube cube;
-	Cube cube2;
+	Cube lightSource;
 	Cube cube3;
 	Cube cube4;
 	VertexArray vertexArray;

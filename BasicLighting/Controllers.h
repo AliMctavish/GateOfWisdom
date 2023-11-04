@@ -88,16 +88,16 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		yaw -= 0.1;
+		yaw -= 0.5;
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		yaw += 0.1;
+		yaw += 0.5;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		pitch += 0.1;
+		pitch += 0.5;
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		pitch -= 0.1;
+		pitch -= 0.5;
 
 
 	//CAMERA FIELD OF VIEW 

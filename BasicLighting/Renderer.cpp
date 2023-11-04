@@ -120,37 +120,22 @@ void Renderer::Debugger()
 {
 	_gui.StartFrames();
 
-
+	//why the variables not chagnging in here?
 	_gui.Begin("Objects Coordinates");
-	for (Cube cube : cubes)
+	for (int i = 0 ; i < cubes.size(); i++)
 	{
-		ImGui::Text("ocube.GetName()")
-		if (ImGui::Button("xCoord right" + cube.GetName(), ImVec2(150, 20)))
-			cube.Position.x++;
-		if (ImGui::Button("xCoord left" + cube.GetName(), ImVec2(150, 20)))
-			cube.Position.x--;
-		if (ImGui::Button("zCoord forward" + cube.GetName(), ImVec2(150, 20)))
-			cube.Position.y++;
-		if (ImGui::Button("zCoord backward" + cube.GetName(), ImVec2(150, 20)))
-			cube.Position.y--;
-		if (ImGui::Button("yCoord up" + cube.GetName(), ImVec2(150, 20)))
-			cube.Position.z++;
-		if (ImGui::Button("yCoord down" + cube.GetName(), ImVec2(150, 20)))
-			cube.Position.z--;
-		ImGui::ColorEdit3("Object1 Color" + cube.GetName(), cube.Color, 0);
-		ImGui::SliderFloat("Move2 On X" + cube.GetName(), &cube.Position.x, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Y" + cube.GetName(), &cube.Position.y, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Z" + cube.GetName(), &cube.Position.z, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Rsizex object" + cube.GetName(), &cube.Size.x, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rsizey object" + cube.GetName(), &cube.Size.y, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rsizez object" + cube.GetName(), &cube.Size.z, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on x Axis" + cube.GetName(), &cube.rotateX, 0, 10, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on y Axis" + cube.GetName(), &cube.rotateY, 0, 10, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on z Axis", &lightSource.Position.x, 0, 10, "%.3f", 0);
+		ImGui::Text(cubes[i].GetName().c_str());
+		ImGui::ColorEdit3(cubes[i].GetName().c_str(), cubes[i].Color, 0);
+		ImGui::SliderFloat("Move2 On X" + i, &cubes[i].Position.x, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Y" + i, & cubes[i].Position.y, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Z" + i, &cubes[i].Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Rsizex object" + i, &cubes[i].Size.x, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizey object" + i, &cubes[i].Size.y, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizez object" + i, &cubes[i].Size.z, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rotate on x Axis" + i, &cubes[i].rotateX, 0, 10, "%.3f", 0);
+		ImGui::SliderFloat("Rotate on z Axis" + i, &cubes[i].rotateZ, 0, 10, "%.3f", 0);
 	}
 	_gui.End();
-
-
 
 
 
@@ -191,7 +176,7 @@ void Renderer::Debugger()
 	{
 		Cube cube;
 		cube.SetProgram(shader.shader_program);
-		cube.SetName("test");
+		cube.SetName("test" + std::to_string(cubes.size()));
 		cubes.push_back(cube);
 	}
 

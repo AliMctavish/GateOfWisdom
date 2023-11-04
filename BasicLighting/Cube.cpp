@@ -18,10 +18,12 @@ void Cube::SetName(std::string name)
 
 void Cube::Init()
 {
+	cubeId = CUBEID;
 	angle = 0;
 	Size = glm::vec3(2, 2, 2);
 	m_Model = glm::mat4(1.0f);
 	m_Program = 0;
+	CUBEID++;
 }
 void Cube::SetColor(const char* name)
 {

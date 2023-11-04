@@ -126,14 +126,16 @@ void Renderer::Debugger()
 	{
 		ImGui::Text(cubes[i].GetName().c_str());
 		ImGui::ColorEdit3(cubes[i].GetName().c_str(), cubes[i].Color, 0);
-		ImGui::SliderFloat("Move2 On X" + i, &cubes[i].Position.x, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Y" + i, & cubes[i].Position.y, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Z" + i, &cubes[i].Position.z, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Rsizex object" + i, &cubes[i].Size.x, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rsizey object" + i, &cubes[i].Size.y, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rsizez object" + i, &cubes[i].Size.z, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on x Axis" + i, &cubes[i].rotateX, 0, 10, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on z Axis" + i, &cubes[i].rotateZ, 0, 10, "%.3f", 0);
+		ImGui::PushID(cubes[i].cubeId);
+		ImGui::SliderFloat("Move2 On X" , &cubes[i].Position.x, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Y" , & cubes[i].Position.y, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Z" , &cubes[i].Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Rsizex object" , &cubes[i].Size.x, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizey object" , &cubes[i].Size.y, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizez object" , &cubes[i].Size.z, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rotate on x Axis" , &cubes[i].rotateX, 0, 10, "%.3f", 0);
+		ImGui::SliderFloat("Rotate on z Axis" , &cubes[i].rotateZ, 0, 10, "%.3f", 0);
+		ImGui::PopID();
 	}
 	_gui.End();
 

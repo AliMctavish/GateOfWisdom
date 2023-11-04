@@ -11,6 +11,8 @@ enum RotateSide {
 	zAxis = 2,
 };
 
+static int CUBEID;
+
 class Cube {
 private : 
 	glm::mat4 m_Model;
@@ -19,6 +21,7 @@ private :
 	std::string _name;
 	double sineValue = 50;
 public : 
+	int cubeId;
 	float Color[3] = {0,0,0};
 	glm::vec3 Position;
 	glm::vec3 Size;

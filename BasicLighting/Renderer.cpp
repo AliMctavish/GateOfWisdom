@@ -50,6 +50,15 @@ void Renderer::Initialize()
 	lightSource.SetName("light");
 
 
+	//debugging
+	Cube cube;
+	cube.SetProgram(shader.shader_program);
+	cube.Size = glm::vec3(60, 5, 60);
+	cube.Color[0] = 0.8;
+	cube.Color[1] = 0.6;
+	cube.Color[2] = 0;
+	cube.SetName("test" + std::to_string(cubes.size()));
+	cubes.push_back(cube);
 
 	shader.UnBind();
 	lightShader.UnBind();
@@ -94,10 +103,8 @@ void Renderer::Update()
 	}
 
 
-
 	lightShader.Bind();
 	lightSource.Update();
-	lightSource.SinMove();
 	lightShader.SetMat4("view", view);
 	lightShader.SetMat4("projection", projection);
 	lightShader.SetMat4("model", lightSource.GetModel());
@@ -139,23 +146,7 @@ void Renderer::Debugger()
 	}
 	_gui.End();
 
-
-
 	_gui.Begin("Object Coordinates2");
-
-	ImGui::Text("lightSource");
-	if (ImGui::Button("2xCoord right", ImVec2(150, 20)))
-		lightSource.Position.x++;
-	if (ImGui::Button("2xCoord left", ImVec2(150, 20)))
-		lightSource.Position.x--;
-	if (ImGui::Button("2zCoord forward", ImVec2(150, 20)))
-		lightSource.Position.y++;
-	if (ImGui::Button("2zCoord backward", ImVec2(150, 20)))
-		lightSource.Position.y--;
-	if (ImGui::Button("2yCoord up", ImVec2(150, 20)))
-		lightSource.Position.z++;
-	if (ImGui::Button("2yCoord down", ImVec2(150, 20)))
-		lightSource.Position.x--;
 
 	ImGui::ColorEdit3("Object2 Color", lightSource.Color, 0);
 

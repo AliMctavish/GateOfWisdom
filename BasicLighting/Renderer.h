@@ -16,10 +16,7 @@ private:
 	GuiDebugger _gui;
 	Shader shader;
 	Shader lightShader;
-	Cube cube;
 	Cube lightSource;
-	Cube cube3;
-	Cube cube4;
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);

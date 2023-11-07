@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="BasicLighting.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GuiDebugger.cpp" />
     <ClCompile Include="Libraries\imgui\imgui.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="RawVertexData.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />

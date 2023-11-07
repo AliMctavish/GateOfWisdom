@@ -66,14 +66,24 @@ void Renderer::Initialize()
 }
 
 float bgColor[] = { 0,0,0 };
+std::string frames;
+double lastTime = glfwGetTime();
+int nbFrames = 0;
 void Renderer::Update()
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	float currentFrame = static_cast<float>(glfwGetTime());
-	deltaTime = currentFrame - lastFrame;
-	lastFrame = currentFrame;
+	double currentTime = glfwGetTime();
+	nbFrames++;
+	if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
+		// printf and reset timer
+	frames = std::to_string(10000.0 / double(nbFrames));
+		nbFrames = 0;
+		lastTime += 1.0;
+	}
+
+
 
 
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
@@ -165,6 +175,9 @@ void Renderer::Debugger()
 	_gui.End();
 
 	_gui.Begin("World Settings");
+	
+	ImGui::Text(frames.c_str());
+
 	if (ImGui::Button("Create Cube", ImVec2(121, 20)))
 	{
 		Cube cube;

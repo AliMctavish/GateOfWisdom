@@ -1,6 +1,4 @@
-#include <iostream>
-#include <vector>
-#include "Renderer.h"
+#include "Game.h"
 
 int main(void)
 {
@@ -31,14 +29,9 @@ int main(void)
 		std::cout << "something went wrong with glad !" << std::endl;
 		return -1;
 	}
-	Renderer renderer(window);
 
-	renderer.Initialize();
-
-	while (!glfwWindowShouldClose(window))
-	{
-		renderer.Update();
-	}
+	Game game(window);
+	game.Start();
 
 	glfwTerminate();
 	return 0;

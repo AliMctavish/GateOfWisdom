@@ -67,7 +67,7 @@ void Renderer::Initialize()
 
 float bgColor[] = { 0,0,0 };
 std::string frames;
-double lastTime = glfwGetTime();
+double lastTime = 0;
 int nbFrames = 0;
 void Renderer::Update()
 {
@@ -78,9 +78,9 @@ void Renderer::Update()
 	nbFrames++;
 	if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
 		// printf and reset timer
-	frames = std::to_string(10000.0 / double(nbFrames));
+		frames = " FPS : " + std::to_string(100000.0 / double(nbFrames));
 		nbFrames = 0;
-		lastTime += 1.0;
+		lastTime = currentTime;
 	}
 
 
@@ -139,19 +139,19 @@ void Renderer::Debugger()
 
 	//why the variables not chagnging in here?
 	_gui.Begin("Objects Coordinates");
-	for (int i = 0 ; i < cubes.size(); i++)
+	for (int i = 0; i < cubes.size(); i++)
 	{
 		ImGui::Text(cubes[i].GetName().c_str());
 		ImGui::ColorEdit3(cubes[i].GetName().c_str(), cubes[i].Color, 0);
 		ImGui::PushID(cubes[i].cubeId);
-		ImGui::SliderFloat("Move2 On X" , &cubes[i].Position.x, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Y" , & cubes[i].Position.y, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Z" , &cubes[i].Position.z, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Rsizex object" , &cubes[i].Size.x, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rsizey object" , &cubes[i].Size.y, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rsizez object" , &cubes[i].Size.z, 0, 100, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on x Axis" , &cubes[i].rotateX, 0, 10, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on z Axis" , &cubes[i].rotateZ, 0, 10, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On X", &cubes[i].Position.x, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Y", &cubes[i].Position.y, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Z", &cubes[i].Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Rsizex object", &cubes[i].Size.x, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizey object", &cubes[i].Size.y, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizez object", &cubes[i].Size.z, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rotate on x Axis", &cubes[i].rotateX, 0, 10, "%.3f", 0);
+		ImGui::SliderFloat("Rotate on z Axis", &cubes[i].rotateZ, 0, 10, "%.3f", 0);
 		ImGui::PopID();
 	}
 	_gui.End();
@@ -175,7 +175,7 @@ void Renderer::Debugger()
 	_gui.End();
 
 	_gui.Begin("World Settings");
-	
+
 	ImGui::Text(frames.c_str());
 
 	if (ImGui::Button("Create Cube", ImVec2(121, 20)))

@@ -20,6 +20,8 @@ void Cube::Init()
 {
 	cubeId = CUBEID;
 	angle = 0;
+	rotateX = 0;
+	rotateY = 0;
 	Size = glm::vec3(2, 2, 2);
 	m_Model = glm::mat4(1.0f);
 	m_Program = 0;
@@ -41,7 +43,8 @@ void Cube::Update()
 {
 	m_Model = glm::mat4(1.0f);
 	m_Model = glm::translate(m_Model, Position);
-	Rotate();
+	Rotate(rotateX);
+	RotateOnY(rotateY);
 	Resize(Size);
 }
 
@@ -55,9 +58,14 @@ void Cube::SinMove()
 	sineValue+=0.01;
 }
 
-void Cube::Rotate()
+void Cube::Rotate(float angle)
 {
 	m_Model = glm::rotate(m_Model,rotateX,glm::vec3(1,0,0));
+}
+
+void Cube::RotateOnY(float angle)
+{
+	m_Model = glm::rotate(m_Model, rotateY, glm::vec3(0, 1, 0));
 }
 
 void Cube::Resize(glm::vec3& size)

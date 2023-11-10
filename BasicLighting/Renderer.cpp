@@ -47,6 +47,7 @@ void Renderer::Initialize()
 
 
 	lightSource.SetProgram(lightShader.shader_program);
+	lightSource.Position = glm::vec3(50, 10, 20);
 	lightSource.SetName("light");
 
 
@@ -54,6 +55,8 @@ void Renderer::Initialize()
 	Cube cube;
 	cube.SetProgram(shader.shader_program);
 	cube.Size = glm::vec3(60, 5, 60);
+	cube.Position = glm::vec3(50, -10, 20);
+	cube.RotateOnY(90);
 	cube.Color[0] = 0.8;
 	cube.Color[1] = 0.6;
 	cube.Color[2] = 0;
@@ -151,7 +154,7 @@ void Renderer::Debugger()
 		ImGui::SliderFloat("Rsizey object", &cubes[i].Size.y, 0, 100, "%.3f", 0);
 		ImGui::SliderFloat("Rsizez object", &cubes[i].Size.z, 0, 100, "%.3f", 0);
 		ImGui::SliderFloat("Rotate on x Axis", &cubes[i].rotateX, 0, 10, "%.3f", 0);
-		ImGui::SliderFloat("Rotate on z Axis", &cubes[i].rotateZ, 0, 10, "%.3f", 0);
+		ImGui::SliderFloat("Rotate on z Axis", &cubes[i].rotateY, 0, 10, "%.3f", 0);
 		ImGui::PopID();
 	}
 	_gui.End();

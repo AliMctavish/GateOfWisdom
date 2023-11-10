@@ -37,7 +37,8 @@ public :
 	void SetProgram(uint32_t program);
 	void Update();
 	void Draw();
-	void Rotate();
+	void Rotate(float angle);
+	void RotateOnY(float angle);
 	void SetColor(const char* name);
 	void Resize(glm::vec3& size);
 	void Init();

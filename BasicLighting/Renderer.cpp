@@ -1,5 +1,4 @@
 #include "Renderer.h"
-#include "Controllers.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -71,13 +70,15 @@ void Renderer::Initialize()
 float bgColor[] = { 0,0,0 };
 std::string frames;
 double lastTime = 0;
+double currentTime = glfwGetTime();
 int nbFrames = 0;
+
 void Renderer::Update()
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	double currentTime = glfwGetTime();
+	currentTime = glfwGetTime();
 	nbFrames++;
 	if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
 		// printf and reset timer
@@ -86,16 +87,13 @@ void Renderer::Update()
 		lastTime = currentTime;
 	}
 
-
-
-
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
 	glm::mat4 view;
 	const float radius = 10.0f;
 	float camX = sin(glfwGetTime() * 0.01) * radius;
 	float camZ = cos(glfwGetTime() * 0.01) * radius;
 	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
-	view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
+	view = glm::lookAt(controllers.cameraPos, controllers.cameraFront + controllers.cameraPos, controllers.cameraUp);
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
@@ -105,7 +103,7 @@ void Renderer::Update()
 	shader.SetMat4("projection", projection);
 	vertexArray.Bind();
 	shader.setVec3("lightPos", lightSource.Position);
-	shader.setVec3("viewPos", cameraPos);
+	shader.setVec3("viewPos", controllers.cameraPos);
 
 	for (Cube cube : cubes)
 	{
@@ -129,7 +127,7 @@ void Renderer::Update()
 	//glfwSetCursorPosCallback(_window, mouse_callback);
 	Debugger();
 
-	processInput(_window);
+	controllers.processInput(_window, currentTime);
 	/* Swap front and back buffers */
 	glfwSwapBuffers(_window);
 	/* Poll for and process events */

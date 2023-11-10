@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BasicLighting.cpp" />
+    <ClCompile Include="Contollers.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad.c" />

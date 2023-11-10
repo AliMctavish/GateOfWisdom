@@ -6,6 +6,7 @@
 #include "Cube.h"
 #include "VertexBuffer.h"
 #include "GuiDebugger.h"
+#include "Controllers.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -21,6 +22,7 @@ private:
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);
 	VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Cube_Type);
+	Controllers controllers;
 public:
 	Renderer(GLFWwindow* window);
 	void Init();

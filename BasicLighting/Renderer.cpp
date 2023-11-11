@@ -119,10 +119,15 @@ void Renderer::Update()
 	lightShader.SetMat4("view", view);
 	lightShader.SetMat4("projection", projection);
 	lightShader.SetMat4("model", lightSource.GetModel());
+
 	lightSource.SetColor("objectColor");
+	lightShader.setVec3("material.Ambiant",glm::vec3(1.0f, 0.5f, 0.31f));
+	lightShader.setVec3("material.Diffuse",glm::vec3(1.0f, 0.5f, 0.31f));
+	lightShader.setVec3("material.Specular",glm::vec3(0.5f, 0.5f, 0.5f));
+	lightShader.setFloat("material.Shininess", 32.0f);
+	
 	vertexArray2.Bind();
 	lightSource.Draw();
-
 
 	//glfwSetCursorPosCallback(_window, mouse_callback);
 	Debugger();

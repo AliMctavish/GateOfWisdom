@@ -1,4 +1,6 @@
 #include "Renderer.h"
+#include "Controllers.h"
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -7,12 +9,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-
-
-glm::vec3 lightPos = glm::vec3(1, 3, 2);
-glm::vec3 lightSize = glm::vec3(1, 1, 1);
 std::vector<Cube> cubes;
 
 void Renderer::Init()
@@ -93,7 +89,7 @@ void Renderer::Update()
 	float camX = sin(glfwGetTime() * 0.01) * radius;
 	float camZ = cos(glfwGetTime() * 0.01) * radius;
 	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
-	view = glm::lookAt(controllers.cameraPos, controllers.cameraFront + controllers.cameraPos, controllers.cameraUp);
+	view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
@@ -103,8 +99,8 @@ void Renderer::Update()
 	shader.SetMat4("projection", projection);
 	vertexArray.Bind();
 	shader.setVec3("lightPos", lightSource.Position);
-	shader.setVec3("viewPos", controllers.cameraPos);
-	
+	shader.setVec3("viewPos", cameraPos);
+
 	shader.setVec3("light.ambiant", glm::vec3(0.3f));
 	shader.setVec3("light.diffuse", glm::vec3(0.8f));
 	shader.setVec3("light.specular", glm::vec3(0.3f));
@@ -130,14 +126,20 @@ void Renderer::Update()
 
 	lightSource.SetColor("objectColor");
 
-	
+
 	vertexArray2.Bind();
 	lightSource.Draw();
 
-	//glfwSetCursorPosCallback(_window, mouse_callback);
-	Debugger();
+	if (gameStarted == false)
+		Debugger();
+	else
+	{
+		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetCursorPosCallback(_window, mouse_callback);
+	}
 
-	controllers.processInput(_window, currentTime);
+
+	processInput(_window, currentTime);
 	/* Swap front and back buffers */
 	glfwSwapBuffers(_window);
 	/* Poll for and process events */
@@ -194,13 +196,16 @@ void Renderer::Debugger()
 
 	ImGui::Text(frames.c_str());
 
-	if (ImGui::Button("Create Cube", ImVec2(121, 20)))
+	if (ImGui::Button("Create Cube", Button_Size))
 	{
 		Cube cube;
 		cube.SetProgram(shader.shader_program);
 		cube.SetName("test" + std::to_string(cubes.size()));
 		cubes.push_back(cube);
 	}
+
+	if (ImGui::Button("Start Game", Button_Size))
+		gameStarted = true;
 
 	ImGui::ColorEdit3("BackgroundColor", bgColor, 0);
 

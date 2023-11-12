@@ -6,13 +6,14 @@
 #include "Cube.h"
 #include "VertexBuffer.h"
 #include "GuiDebugger.h"
-#include "Controllers.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
+#define Button_Size ImVec2(121,20)
 
 class Renderer {
 private:
+	bool gameStarted = false;
 	GLFWwindow* _window;
 	GuiDebugger _gui;
 	Shader shader;
@@ -22,7 +23,7 @@ private:
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);
 	VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Cube_Type);
-	Controllers controllers;
+	//Controllers controllers;
 public:
 	Renderer(GLFWwindow* window);
 	void Init();

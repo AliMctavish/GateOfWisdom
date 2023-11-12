@@ -5,11 +5,21 @@
 #include "GuiDebugger.h"
 #include "Shader.h"
 
+#define Material_Default_Value glm::vec3(0.5f,0.5f,0.5f)
+
 enum RotateSide {
 	xAxis = 0,
 	yAxis = 1,
 	zAxis = 2,
 };
+
+struct Material {
+	glm::vec3 Ambiant = Material_Default_Value;
+	glm::vec3 Diffuse = Material_Default_Value;
+	glm::vec3 Specular = Material_Default_Value;
+	float shininess = 32;
+};
+
 
 static int CUBEID;
 
@@ -21,6 +31,7 @@ private :
 	std::string _name;
 	double sineValue = 50;
 public : 
+	Material material;
 	int cubeId;
 	float Color[3] = {0,0,0};
 	glm::vec3 Position;

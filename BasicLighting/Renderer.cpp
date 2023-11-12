@@ -104,10 +104,18 @@ void Renderer::Update()
 	vertexArray.Bind();
 	shader.setVec3("lightPos", lightSource.Position);
 	shader.setVec3("viewPos", controllers.cameraPos);
+	
+	shader.setVec3("light.ambiant", glm::vec3(0.3f));
+	shader.setVec3("light.diffuse", glm::vec3(0.8f));
+	shader.setVec3("light.specular", glm::vec3(0.3f));
 
 	for (Cube cube : cubes)
 	{
 		cube.Update();
+		shader.setVec3("material.Ambiant", cube.material.Ambiant);
+		shader.setVec3("material.Diffuse", cube.material.Diffuse);
+		shader.setVec3("material.Specular", cube.material.Specular);
+		shader.setFloat("material.Shininess", cube.material.shininess);
 		shader.SetMat4("model", cube.GetModel());
 		cube.SetColor("objectColor");
 		cube.Draw();
@@ -121,10 +129,7 @@ void Renderer::Update()
 	lightShader.SetMat4("model", lightSource.GetModel());
 
 	lightSource.SetColor("objectColor");
-	lightShader.setVec3("material.Ambiant",glm::vec3(1.0f, 0.5f, 0.31f));
-	lightShader.setVec3("material.Diffuse",glm::vec3(1.0f, 0.5f, 0.31f));
-	lightShader.setVec3("material.Specular",glm::vec3(0.5f, 0.5f, 0.5f));
-	lightShader.setFloat("material.Shininess", 32.0f);
+
 	
 	vertexArray2.Bind();
 	lightSource.Draw();
@@ -148,7 +153,6 @@ void Renderer::Debugger()
 	for (int i = 0; i < cubes.size(); i++)
 	{
 		ImGui::Text(cubes[i].GetName().c_str());
-		ImGui::ColorEdit3(cubes[i].GetName().c_str(), cubes[i].Color, 0);
 		ImGui::PushID(cubes[i].cubeId);
 		ImGui::SliderFloat("Move2 On X", &cubes[i].Position.x, -50, 50, "%.3f", 0);
 		ImGui::SliderFloat("Move2 On Y", &cubes[i].Position.y, -50, 50, "%.3f", 0);
@@ -158,6 +162,12 @@ void Renderer::Debugger()
 		ImGui::SliderFloat("Rsizez object", &cubes[i].Size.z, 0, 100, "%.3f", 0);
 		ImGui::SliderFloat("Rotate on x Axis", &cubes[i].rotateX, 0, 10, "%.3f", 0);
 		ImGui::SliderFloat("Rotate on z Axis", &cubes[i].rotateY, 0, 10, "%.3f", 0);
+		ImGui::Text("Object Material");
+		ImGui::ColorEdit3(cubes[i].GetName().c_str(), cubes[i].Color, 0);
+		ImGui::SliderFloat2("Ambiant", &cubes[i].material.Ambiant[0], 0, 10, "%.3f", 0);
+		ImGui::SliderFloat2("Diffuse", &cubes[i].material.Diffuse[0], 0, 10, "%.3f", 0);
+		ImGui::SliderFloat2("Specular", &cubes[i].material.Specular[0], 0, 10, "%.3f", 0);
+		ImGui::SliderFloat("Shininess", &cubes[i].material.shininess, 0, 100, "%.3f", 0);
 		ImGui::PopID();
 	}
 	_gui.End();
@@ -172,7 +182,7 @@ void Renderer::Debugger()
 
 	_gui.End();
 
-	_gui.Begin("Object Orientation2");
+	_gui.Begin("Light Source");
 	ImGui::SliderFloat("2Rsize object", &lightSource.Size.x, 0, 10, "%.3f", 1);
 	ImGui::SliderFloat("2Rotate on x Axis", &lightSource.rotateX, 0, 10, "%.3f", 1);
 	ImGui::SliderFloat("2Rotate on y Axis", &lightSource.rotateY, 0, 10, "%.3f", 1);

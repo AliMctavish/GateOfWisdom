@@ -9,4 +9,7 @@ here is the todo for the project
 4 - fixed a problem with loading texture and it was becuase the opengl operation is not fully completed
 5 - Research;
 
-6 - make the glm vec3 as reffrence to fix the glm::vec3 call
+6 - make the glm vec3 as reffrence to fix the glm::vec3 call done;
+
+
+7 - 

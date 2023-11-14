@@ -24,6 +24,7 @@ void Cube::Init()
 	rotateY = 0;
 	Size = glm::vec3(2, 2, 2);
 	m_Model = glm::mat4(1.0f);
+	Position = glm::vec3(50, 0, 20);
 	m_Program = 0;
 	CUBEID++;
 }

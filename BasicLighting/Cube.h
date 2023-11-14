@@ -33,7 +33,7 @@ private :
 public : 
 	Material material;
 	int cubeId;
-	float Color[3] = {0,0,0};
+	float Color[3] = {1,1,1};
 	glm::vec3 Position;
 	glm::vec3 Size;
 	float angle;

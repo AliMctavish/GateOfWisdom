@@ -21,5 +21,6 @@ public :
 	void Bind();
 	void SetCubeAttributes();
 	void SetCubeWithNormalsAttributes();
+	void SetCubeWithNormalsAndTexturesAttributes();
 	void UnBind();
 };

@@ -22,8 +22,8 @@ void VertexBuffer::Bind()
 		vertices = rawData.PyramidData();
 
 
-	float vert[Cube_With_Normals_Data];
-	for (int i = 0; i < Cube_With_Normals_Data; i++)
+	float vert[Cube_With_Normals_And_Texture_Data];
+	for (int i = 0; i < Cube_With_Normals_And_Texture_Data; i++)
 		vert[i] = vertices[i];
 
 	glGenBuffers(1, &m_VertexBuffer);
@@ -48,6 +48,16 @@ void VertexBuffer::SetCubeWithNormalsAttributes()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 }	
+
+void VertexBuffer::SetCubeWithNormalsAndTexturesAttributes()
+{
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+}
 
 void VertexBuffer::UnBind()
 {

@@ -30,7 +30,9 @@ void Renderer::Initialize()
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
-	vertexBuffer.SetCubeWithNormalsAttributes();
+	vertexBuffer.SetCubeWithNormalsAndTexturesAttributes();
+	//vertexBuffer.SetCubeWithNormalsAttributes();
+	//TODO: fix the buffer its not working well when you add textures
 
 	vertexArray2.Bind();
 	vertexBuffer2.Bind();

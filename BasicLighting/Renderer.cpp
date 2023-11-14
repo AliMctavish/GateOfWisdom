@@ -45,7 +45,6 @@ void Renderer::Initialize()
 	lightSource.Position = glm::vec3(50, 10, 20);
 	lightSource.SetName("light");
 
-
 	//debugging
 	Cube cube;
 	cube.SetProgram(shader.shader_program);

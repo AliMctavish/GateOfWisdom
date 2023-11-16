@@ -30,12 +30,16 @@ void Renderer::Initialize()
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
+	texture.SetTexture("Assests/wall.jpg", 1);
 	vertexBuffer.SetCubeWithNormalsAndTexturesAttributes();
-	//vertexBuffer.SetCubeWithNormalsAttributes();
+
+	
+	//vertexBuffer.SetCubeWithNormalsAttributs();
 	//TODO: fix the buffer its not working well when you add textures
 
 	vertexArray2.Bind();
 	vertexBuffer2.Bind();
+	vertexBuffer2.SetCubeAttributes();
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -58,7 +62,6 @@ void Renderer::Initialize()
 	cube.Color[2] = 0;
 	cube.SetName("test" + std::to_string(cubes.size()));
 	cubes.push_back(cube);
-
 	shader.UnBind();
 	lightShader.UnBind();
 	_gui.Init();
@@ -114,6 +117,8 @@ void Renderer::Update()
 		shader.setVec3("material.Specular", cube.material.Specular);
 		shader.setFloat("material.Shininess", cube.material.shininess);
 		shader.SetMat4("model", cube.GetModel());
+		shader.setInt("TextureTest", 0);
+		texture.Bind();
 		cube.SetColor("objectColor");
 		cube.Draw();
 	}

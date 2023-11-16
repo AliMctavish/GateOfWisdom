@@ -6,6 +6,7 @@
 #include "Cube.h"
 #include "VertexBuffer.h"
 #include "GuiDebugger.h"
+#include "Texture.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -18,6 +19,7 @@ private:
 	GuiDebugger _gui;
 	Shader shader;
 	Shader lightShader;
+	Texture texture;
 	Cube lightSource;
 	VertexArray vertexArray;
 	VertexArray vertexArray2;

@@ -9,7 +9,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-std::vector<Cube> cubes;
 
 void Renderer::Init()
 {
@@ -30,10 +29,11 @@ void Renderer::Initialize()
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
-	texture.SetTexture("Assests/wall.jpg", 1);
+	texture.SetTexture("Assests/Box.png", 0);
+	texture2.SetTexture("Assests/bounds.png", 0);
 	vertexBuffer.SetCubeWithNormalsAndTexturesAttributes();
 
-	
+
 	//vertexBuffer.SetCubeWithNormalsAttributs();
 	//TODO: fix the buffer its not working well when you add textures
 
@@ -62,9 +62,12 @@ void Renderer::Initialize()
 	cube.Color[2] = 0;
 	cube.SetName("test" + std::to_string(cubes.size()));
 	cubes.push_back(cube);
-	shader.UnBind();
 	lightShader.UnBind();
 	_gui.Init();
+
+	shader.Bind();
+	shader.setInt("material.Diffuse", 0);
+	shader.setInt("material.Specular", 1);
 }
 
 float bgColor[] = { 0,0,0 };
@@ -72,6 +75,8 @@ std::string frames;
 double lastTime = 0;
 double currentTime = glfwGetTime();
 int nbFrames = 0;
+
+
 
 void Renderer::Update()
 {
@@ -107,18 +112,20 @@ void Renderer::Update()
 
 	shader.setVec3("light.ambiant", glm::vec3(0.3f));
 	shader.setVec3("light.diffuse", glm::vec3(0.8f));
-	shader.setVec3("light.specular", glm::vec3(0.3f));
+	shader.setVec3("light.specular", glm::vec3(0.6f));
+	texture.Bind();
+	texture2.Bind();
+
 
 	for (Cube cube : cubes)
 	{
 		cube.Update();
-		shader.setVec3("material.Ambiant", cube.material.Ambiant);
-		shader.setVec3("material.Diffuse", cube.material.Diffuse);
-		shader.setVec3("material.Specular", cube.material.Specular);
+		shader.setVec3("light.ambiant", cube.material.Ambiant);
+		shader.setVec3("light.diffuse", cube.material.Diffuse);
+		shader.setVec3("light.specular", cube.material.Specular);
 		shader.setFloat("material.Shininess", cube.material.shininess);
 		shader.SetMat4("model", cube.GetModel());
-		shader.setInt("TextureTest", 0);
-		texture.Bind();
+		//should we bind textures in loop ? 
 		cube.SetColor("objectColor");
 		cube.Draw();
 	}
@@ -132,7 +139,6 @@ void Renderer::Update()
 
 	lightSource.SetColor("objectColor");
 
-
 	vertexArray2.Bind();
 	lightSource.Draw();
 
@@ -143,7 +149,6 @@ void Renderer::Update()
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		glfwSetCursorPosCallback(_window, mouse_callback);
 	}
-
 
 	processInput(_window, currentTime);
 	/* Swap front and back buffers */

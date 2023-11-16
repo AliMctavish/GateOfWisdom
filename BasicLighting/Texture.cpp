@@ -4,6 +4,7 @@
 
 Texture::Texture()
 {
+	m_TextureIndex = 0;
 	glGenTextures(1, &m_Texture);
 }
 
@@ -19,12 +20,13 @@ void Texture::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	textureIndex++;
+	m_TextureIndex = textureCounter;
+	textureCounter++;
 }
 
 void Texture::Bind()
 {
-	glActiveTexture(GL_TEXTURE0 + textureIndex);
+	glActiveTexture(GL_TEXTURE0 + m_TextureIndex);
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
 }
 

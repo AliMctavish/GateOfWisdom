@@ -12,8 +12,8 @@ uniform sampler2D TextureTest;
 
 struct Material {
 	vec3 Ambiant;
-	vec3 Diffuse;
-	vec3 Specular;
+	sampler2D Diffuse;
+	sampler2D Specular;
 	float Shininess;
 };
 
@@ -25,36 +25,32 @@ struct LightSource
 	vec3 specular;
 };
 
+vec3 Texture(sampler2D passedTexture)
+{
+	return texture(passedTexture, MyTexture).rgb;
+};
+
 uniform Material material; 
 uniform LightSource light;
-
-
-void test()
-{
-
-};
 
 void main()
 {
 	vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
-
-	vec3 ambiant = light.ambiant * material.Ambiant ;
-	
+	 
 	// ambient
-	//float ambientStrength = 0.2;
-	vec3 ambient = lightColor  * ambiant * texture(TextureTest, MyTexture).rgb;
+	vec3 ambient = light.ambiant * Texture(material.Diffuse) *  lightColor ;
 	// diffuse 
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - FragPos);
 	float diff = max(dot(norm, lightDir), 0);
-	vec3 diffuse = light.diffuse * (diff * material.Diffuse) * lightColor * texture(TextureTest, MyTexture).rgb;
+	vec3 diffuse = light.diffuse * (diff * Texture(material.Diffuse)) * lightColor ;
 	
 	// specular
 	float specularStrength = 0.3;
 	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 reflectDir = reflect(-lightDir, norm);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0),material.Shininess);
-	vec3 specular = light.specular * (spec * material.Specular) * objectColor * texture(TextureTest, MyTexture).rgb;
+	vec3 specular = light.specular * (spec * Texture(material.Specular)) * objectColor;
 
 	vec3 result = (ambient + diffuse + specular) * objectColor;
 

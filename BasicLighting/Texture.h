@@ -1,10 +1,11 @@
 #pragma once
 #include "Shader.h"
 
-static int textureIndex;
+static int textureCounter;
 class Texture {
 private:
 	void Init();
+	uint32_t m_TextureIndex;
 	uint32_t m_Texture;
 public:
 	void Bind();

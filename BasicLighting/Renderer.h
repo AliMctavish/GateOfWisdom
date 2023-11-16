@@ -20,7 +20,9 @@ private:
 	Shader shader;
 	Shader lightShader;
 	Texture texture;
+	Texture texture2;
 	Cube lightSource;
+	std::vector<Cube> cubes;
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);

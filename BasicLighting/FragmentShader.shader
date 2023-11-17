@@ -52,10 +52,13 @@ void main()
 	float specularStrength = 0.3;
 	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 reflectDir = reflect(-lightDir, norm);
+	vec3 reflectDir2 = reflect(-lightDir2, norm);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0),material.Shininess);
+	float spec2 = pow(max(dot(viewDir, reflectDir2), 0.0),material.Shininess);
 	vec3 specular = light.specular * (spec) * objectColor;
+	vec3 specular2 = light.specular * (spec2) * objectColor;
 
-	vec3 result = (ambient + diffuse + diffuse2 + specular) * objectColor;
+	vec3 result = (ambient + diffuse + diffuse2 + specular + specular2) * objectColor;
 
 	FragColor = vec4(result, 1.0);
 }

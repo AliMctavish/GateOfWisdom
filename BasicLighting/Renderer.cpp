@@ -29,10 +29,9 @@ void Renderer::Initialize()
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
-	texture.SetTexture("Assests/Box.png", 0);
+	texture.SetTexture("Assests/grd.jpg", 1);
 	texture2.SetTexture("Assests/bounds.png", 0);
 	vertexBuffer.SetCubeWithNormalsAndTexturesAttributes();
-
 
 	//vertexBuffer.SetCubeWithNormalsAttributs();
 	//TODO: fix the buffer its not working well when you add textures
@@ -47,9 +46,11 @@ void Renderer::Initialize()
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
+	Cube lightSource;
 	lightSource.SetProgram(lightShader.shader_program);
 	lightSource.Position = glm::vec3(50, 10, 20);
 	lightSource.SetName("light");
+	lights.push_back(lightSource);
 
 	//debugging
 	Cube cube;
@@ -57,9 +58,6 @@ void Renderer::Initialize()
 	cube.Size = glm::vec3(60, 5, 60);
 	cube.Position = glm::vec3(50, -10, 20);
 	cube.RotateOnY(90);
-	cube.Color[0] = 0.8;
-	cube.Color[1] = 0.6;
-	cube.Color[2] = 0;
 	cube.SetName("test" + std::to_string(cubes.size()));
 	cubes.push_back(cube);
 	lightShader.UnBind();
@@ -75,8 +73,6 @@ std::string frames;
 double lastTime = 0;
 double currentTime = glfwGetTime();
 int nbFrames = 0;
-
-
 
 void Renderer::Update()
 {
@@ -107,40 +103,66 @@ void Renderer::Update()
 	shader.SetMat4("view", view);
 	shader.SetMat4("projection", projection);
 	vertexArray.Bind();
-	shader.setVec3("lightPos", lightSource.Position);
 	shader.setVec3("viewPos", cameraPos);
-
-	shader.setVec3("light.ambiant", glm::vec3(0.3f));
-	shader.setVec3("light.diffuse", glm::vec3(0.8f));
-	shader.setVec3("light.specular", glm::vec3(0.6f));
+	//should we bind textures in loop ? 
 	texture.Bind();
 	texture2.Bind();
 
 
+	glm::vec3 list[10];
+
+	//too many for loops for testing perposses idk how to write perpoesrpes
+	for (int i = 0; i < lights.size(); i++)
+	{
+	}
+	if (lights.size() < 1)
+	{
+		shader.setVec3("lightPos[0]", lights[0].Position);
+		shader.setVec3("lightPos[1]", lights[1].Position);
+		shader.setVec3("lightPos[2]", lights[2].Position);
+	}
+
+
 	for (Cube cube : cubes)
 	{
+
 		cube.Update();
 		shader.setVec3("light.ambiant", cube.material.Ambiant);
 		shader.setVec3("light.diffuse", cube.material.Diffuse);
 		shader.setVec3("light.specular", cube.material.Specular);
 		shader.setFloat("material.Shininess", cube.material.shininess);
 		shader.SetMat4("model", cube.GetModel());
-		//should we bind textures in loop ? 
 		cube.SetColor("objectColor");
 		cube.Draw();
+
+		//todo make colliders 
+		// also we should make the jumping crushing 
+		// also doing the camera for the player 
+		// annddd too much other stuff ! !! !
+		if (gameStarted == true)
+		{
+			if (cameraPos.y < cube.Position.y + 5)
+				cameraPos.y;
+			else
+				cameraPos.y -= 0.1f;
+		}
 	}
 
 
 	lightShader.Bind();
-	lightSource.Update();
+
 	lightShader.SetMat4("view", view);
 	lightShader.SetMat4("projection", projection);
-	lightShader.SetMat4("model", lightSource.GetModel());
 
-	lightSource.SetColor("objectColor");
+	for (Cube lightSource : lights)
+	{
+		lightSource.Update();
+		lightShader.SetMat4("model", lightSource.GetModel());
+		lightSource.SetColor("objectColor");
+		lightSource.Draw();
+	}
 
 	vertexArray2.Bind();
-	lightSource.Draw();
 
 	if (gameStarted == false)
 		Debugger();
@@ -163,6 +185,9 @@ void Renderer::Debugger()
 
 	//why the variables not chagnging in here?
 	_gui.Begin("Objects Coordinates");
+
+
+
 	for (int i = 0; i < cubes.size(); i++)
 	{
 		ImGui::Text(cubes[i].GetName().c_str());
@@ -183,24 +208,28 @@ void Renderer::Debugger()
 		ImGui::SliderFloat("Shininess", &cubes[i].material.shininess, 0, 100, "%.3f", 0);
 		ImGui::PopID();
 	}
+
 	_gui.End();
 
 	_gui.Begin("Object Coordinates2");
 
-	ImGui::ColorEdit3("Object2 Color", lightSource.Color, 0);
+	for (int i = 0; i < lights.size(); i++)
+	{
+		ImGui::Text(lights[i].GetName().c_str());
+		ImGui::PushID(lights[i].cubeId);
+		ImGui::ColorEdit3("Object2 Color", lights[i].Color, 0);
 
-	ImGui::SliderFloat("Move On X", &lightSource.Position.x, -50, 50, "%.3f", 0);
-	ImGui::SliderFloat("Move On Y", &lightSource.Position.y, -50, 50, "%.3f", 0);
-	ImGui::SliderFloat("Move On Z", &lightSource.Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move On X", &lights[i].Position.x, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move On Y", &lights[i].Position.y, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move On Z", &lights[i].Position.z, -50, 50, "%.3f", 0);
 
-	_gui.End();
+		ImGui::SliderFloat("2Rsize object", &lights[i].Size.x, 0, 10, "%.3f", 1);
+		ImGui::SliderFloat("2Rotate on x Axis", &lights[i].rotateX, 0, 10, "%.3f", 1);
+		ImGui::SliderFloat("2Rotate on y Axis", &lights[i].rotateY, 0, 10, "%.3f", 1);
+		ImGui::SliderFloat("2Rotate on z Axis", &lights[i].rotateZ, 0, 10, "%.3f", 1);
+		ImGui::PopID();
 
-	_gui.Begin("Light Source");
-	ImGui::SliderFloat("2Rsize object", &lightSource.Size.x, 0, 10, "%.3f", 1);
-	ImGui::SliderFloat("2Rotate on x Axis", &lightSource.rotateX, 0, 10, "%.3f", 1);
-	ImGui::SliderFloat("2Rotate on y Axis", &lightSource.rotateY, 0, 10, "%.3f", 1);
-	ImGui::SliderFloat("2Rotate on z Axis", &lightSource.rotateZ, 0, 10, "%.3f", 1);
-
+	}
 	_gui.End();
 
 	_gui.Begin("World Settings");
@@ -213,6 +242,14 @@ void Renderer::Debugger()
 		cube.SetProgram(shader.shader_program);
 		cube.SetName("test" + std::to_string(cubes.size()));
 		cubes.push_back(cube);
+	}
+
+	if (ImGui::Button("Create Light", Button_Size))
+	{
+		Cube cube;
+		cube.SetProgram(lightShader.shader_program);
+		cube.SetName("test" + std::to_string(cubes.size()));
+		lights.push_back(cube);
 	}
 
 	if (ImGui::Button("Start Game", Button_Size))

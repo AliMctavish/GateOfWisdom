@@ -21,7 +21,7 @@ private:
 	Shader lightShader;
 	Texture texture;
 	Texture texture2;
-	Cube lightSource;
+	std::vector<Cube> lights;
 	std::vector<Cube> cubes;
 	VertexArray vertexArray;
 	VertexArray vertexArray2;

@@ -21,7 +21,7 @@ struct Material {
 };
 
 
-static int CUBEID;
+static uint32_t CUBEID;
 
 class Cube {
 private : 
@@ -33,7 +33,7 @@ private :
 public : 
 	Material material;
 	int cubeId;
-	float Color[3] = {1,1,1};
+	float Color[3] = {0.5,0.5,0.5};
 	glm::vec3 Position;
 	glm::vec3 Size;
 	float angle;

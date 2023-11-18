@@ -64,7 +64,10 @@ void Renderer::Initialize()
 	_gui.Init();
 
 	shader.Bind();
+	// is this a texture ? :| 
+	//texture for diffuse mapping
 	shader.setInt("material.Diffuse", 0);
+	//texture for specular effect
 	shader.setInt("material.Specular", 1);
 }
 
@@ -111,20 +114,12 @@ void Renderer::Update()
 
 	//too many for loops for testing perposses idk how to write perpoesrpes
 	for (int i = 0; i < lights.size(); i++)
-	{
-	}
-	if (lights.size() == 4)
-	{
-		shader.setVec3("lightPos[0]", lights[0].Position);
-		shader.setVec3("lightPos[1]", lights[1].Position);
-		shader.setVec3("lightPos[2]", lights[2].Position);
-		shader.setVec3("lightPos[3]", lights[3].Position);
-	}
+		shader.setVec3("lightPos[" + std::to_string(i) + ']', lights[i].Position);
 
+	shader.setInt("LightCount", lights.size());
 
 	for (Cube cube : cubes)
 	{
-
 		cube.Update();
 		shader.setVec3("light.ambiant", cube.material.Ambiant);
 		shader.setVec3("light.diffuse", cube.material.Diffuse);

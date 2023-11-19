@@ -148,12 +148,13 @@ void Renderer::Update()
 	lightShader.SetMat4("view", view);
 	lightShader.SetMat4("projection", projection);
 
-	for (Cube lightSource : lights)
+	for (int i = 0; i < lights.size(); i++)
 	{
-		lightSource.Update();
-		lightShader.SetMat4("model", lightSource.GetModel());
-		lightSource.SetColor("objectColor");
-		lightSource.Draw();
+		lights[i].Update();
+		//lights[i].SinMove();
+		lightShader.SetMat4("model", lights[i].GetModel());
+		lights[i].SetColor("objectColor");
+		lights[i].Draw();
 	}
 
 	vertexArray2.Bind();
@@ -214,7 +215,7 @@ void Renderer::Debugger()
 		ImGui::ColorEdit3("Object2 Color", lights[i].Color, 0);
 
 		ImGui::SliderFloat("Move On X", &lights[i].Position.x, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move On Y", &lights[i].Position.y, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move On Y", &lights[i].Position.y, -100, 100, "%.3f", 0);
 		ImGui::SliderFloat("Move On Z", &lights[i].Position.z, -50, 50, "%.3f", 0);
 
 		ImGui::SliderFloat("2Rsize object", &lights[i].Size.x, 0, 10, "%.3f", 1);

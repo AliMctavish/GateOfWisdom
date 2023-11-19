@@ -39,8 +39,19 @@ vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
 {
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - FragPos);
+	//vec3 distance = lightPos - FragPos;
+
+	float distance = length(lightPos - FragPos);
+
+	float attenuation = 1.0f / ((distance * distance) * 0.008) * ((distance * 0.15f) );
+
 	float diff = max(dot(norm, lightDir), 0);
-	vec3 diffuse = light.diffuse * (diff * Texture(material.Diffuse)) * lightColor;
+	vec3 diffuse = light.diffuse * (diff * Texture(material.Diffuse)) * lightColor ;
+
+
+
+
+
 
 	// specular
 	float specularStrength = 0.3;
@@ -49,7 +60,7 @@ vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
 	vec3 specular = light.specular * (spec)*objectColor;
 
-	return (diffuse + specular) * objectColor;
+	return (diffuse + specular ) * objectColor * attenuation;
 }
 
 void main()

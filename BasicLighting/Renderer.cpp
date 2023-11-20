@@ -129,7 +129,7 @@ void Renderer::Update()
 		shader.setVec3("light.specular", cube.material.Specular);
 		shader.setFloat("material.Shininess", cube.material.shininess);
 		shader.SetMat4("model", cube.GetModel());
-		cube.SetColor("objectColor");
+		cube.UseColor("objectColor");
 		cube.Draw();
 
 		//todo make colliders 
@@ -156,7 +156,7 @@ void Renderer::Update()
 		lights[i].Update();
 		//lights[i].SinMove();
 		lightShader.SetMat4("model", lights[i].GetModel());
-		lights[i].SetColor("objectColor");
+		lights[i].UseColor("objectColor");
 		lights[i].Draw();
 	}
 
@@ -257,10 +257,17 @@ void Renderer::Debugger()
 	if (ImGui::Button("Save Map", Button_Size))
 	{
 		std::ofstream newStream("Data.txt");
+		newStream << "#Light_Coordinates" << std::endl;
 		for (Cube light : lights)
 		{
-			newStream << "lights coordinates : " << std::endl;
-			newStream << light.Position.x << " " << light.Position.y << " " << light.Position.z << std::endl;
+			newStream << light.Position.x << " " <<
+				light.Position.y << " " <<
+				light.Position.z << " " <<
+				light.Color[0] << " " <<
+				light.Color[1] << " " <<
+				light.Color[2] << std::endl;
+
+
 			std::cout << "saving data" << std::endl;
 		}
 		newStream.close();
@@ -270,23 +277,32 @@ void Renderer::Debugger()
 	{
 		std::ifstream newStream("Data.txt");
 		std::string line;
+		bool isColors = false;
 
 		while (std::getline(newStream, line))
 		{
+			if (line.find("#Light_Coordinates") != std::string::npos)
+				continue;
+
 			std::stringstream subStream(line);
 			std::string subString;
 			std::vector<std::string> stringList;
 
 			while (std::getline(subStream, subString, ' '))
 			{
-				std::cout << "Loading data into project" << std::endl;
-				std::cout << subString << std::endl;
+				//std::cout << "Loading data into project" << std::endl;
+				//std::cout << subString << std::endl;
 				stringList.push_back(subString);
 			}
 
 			Cube cube;
 			cube.SetProgram(lightShader.shader_program);
+
 			cube.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
+			cube.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
+
+
+			//cube.SetObjectColor();
 			cube.SetName("test" + std::to_string(cubes.size()));
 			lights.push_back(cube);
 		}

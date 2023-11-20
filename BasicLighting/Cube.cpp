@@ -28,11 +28,19 @@ void Cube::Init()
 	m_Program = 0;
 	CUBEID++;
 }
-void Cube::SetColor(const char* name)
+void Cube::UseColor(const char* name)
 {
 	int colorLoc = glGetUniformLocation(m_Program, name);
 	glUniform3f(colorLoc,Color[0], Color[1], Color[2]);
 }
+
+void Cube::SetObjectColor(float x, float y, float z)
+{
+	Color[0] = x;
+	Color[1] = y;
+	Color[2] = z;
+}
+
 
 void Cube::Draw()
 {

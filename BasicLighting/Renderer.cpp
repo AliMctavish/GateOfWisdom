@@ -114,7 +114,10 @@ void Renderer::Update()
 
 	//too many for loops for testing perposses idk how to write perpoesrpes
 	for (int i = 0; i < lights.size(); i++)
+	{
 		shader.setVec3("lightPos[" + std::to_string(i) + ']', lights[i].Position);
+		shader.setVec3("lightColor[" + std::to_string(i) + ']', glm::vec3(lights[i].Color[0], lights[i].Color[1], lights[i].Color[2]));
+	}
 
 	shader.setInt("LightCount", lights.size());
 
@@ -250,9 +253,52 @@ void Renderer::Debugger()
 	if (ImGui::Button("Start Game", Button_Size))
 		gameStarted = true;
 
+
+	if (ImGui::Button("Save Map", Button_Size))
+	{
+		std::ofstream newStream("Data.txt");
+		for (Cube light : lights)
+		{
+			newStream << "lights coordinates : " << std::endl;
+			newStream << light.Position.x << " " << light.Position.y << " " << light.Position.z << std::endl;
+			std::cout << "saving data" << std::endl;
+		}
+		newStream.close();
+	}
+
+	if (ImGui::Button("Load Map", Button_Size))
+	{
+		std::ifstream newStream("Data.txt");
+		std::string line;
+
+		while (std::getline(newStream, line))
+		{
+			std::stringstream subStream(line);
+			std::string subString;
+			std::vector<std::string> stringList;
+
+			while (std::getline(subStream, subString, ' '))
+			{
+				std::cout << "Loading data into project" << std::endl;
+				std::cout << subString << std::endl;
+				stringList.push_back(subString);
+			}
+
+			Cube cube;
+			cube.SetProgram(lightShader.shader_program);
+			cube.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
+			cube.SetName("test" + std::to_string(cubes.size()));
+			lights.push_back(cube);
+		}
+
+		newStream.close();
+	}
+
+
 	ImGui::ColorEdit3("BackgroundColor", bgColor, 0);
 
 	_gui.End();
 
 	_gui.EndFrames();
 }
+

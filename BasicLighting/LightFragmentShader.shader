@@ -3,10 +3,9 @@
 out vec4 color;
 in vec4 ourColor;
 
-vec3 lightColor;
 uniform vec3 objectColor;
 
 void main()
 {
-	color = vec4(1);
+	color = vec4(objectColor , 1);
 }

@@ -28,6 +28,7 @@ private:
 	std::vector<Light> lights;
 	std::vector<Cube> cubes;
 	//std::vector<BaseObject> objects;
+	//TODO make vectors in unique pointers to make project faster!
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);

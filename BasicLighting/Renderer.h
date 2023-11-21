@@ -7,6 +7,8 @@
 #include "VertexBuffer.h"
 #include "GuiDebugger.h"
 #include "Texture.h"
+#include "FileManager.h"
+#include "Light.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -21,12 +23,16 @@ private:
 	Shader lightShader;
 	Texture texture;
 	Texture texture2;
-	std::vector<Cube> lights;
+	//TODO make texture part of cube object 
+	//TODO make list of textures
+	std::vector<Light> lights;
 	std::vector<Cube> cubes;
+	//std::vector<BaseObject> objects;
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);
 	VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Cube_Type);
+	FileManager fileManager;
 	//Controllers controllers;
 public:
 	Renderer(GLFWwindow* window);

@@ -46,7 +46,7 @@ void Renderer::Initialize()
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
-	Cube lightSource;
+	Light lightSource;
 	lightSource.SetProgram(lightShader.shader_program);
 	lightSource.Position = glm::vec3(50, 10, 20);
 	lightSource.SetName("light");
@@ -230,6 +230,19 @@ void Renderer::Debugger()
 	}
 	_gui.End();
 
+	_gui.Begin("Scene Settings");
+
+	if (ImGui::Button("Show WireFrame"))
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	if (ImGui::Button("Hide WireFrame"))
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+	_gui.End();
+
 	_gui.Begin("World Settings");
 
 	ImGui::Text(frames.c_str());
@@ -244,10 +257,10 @@ void Renderer::Debugger()
 
 	if (ImGui::Button("Create Light", Button_Size))
 	{
-		Cube cube;
-		cube.SetProgram(lightShader.shader_program);
-		cube.SetName("test" + std::to_string(cubes.size()));
-		lights.push_back(cube);
+		Light light;
+		light.SetProgram(lightShader.shader_program);
+		light.SetName("test" + std::to_string(cubes.size()));
+		lights.push_back(light);
 	}
 
 	if (ImGui::Button("Start Game", Button_Size))
@@ -256,58 +269,12 @@ void Renderer::Debugger()
 
 	if (ImGui::Button("Save Map", Button_Size))
 	{
-		std::ofstream newStream("Data.txt");
-		newStream << "#Light_Coordinates" << std::endl;
-		for (Cube light : lights)
-		{
-			newStream << light.Position.x << " " <<
-				light.Position.y << " " <<
-				light.Position.z << " " <<
-				light.Color[0] << " " <<
-				light.Color[1] << " " <<
-				light.Color[2] << std::endl;
-
-
-			std::cout << "saving data" << std::endl;
-		}
-		newStream.close();
+		FileManager::SaveFile(lights,cubes);
 	}
 
 	if (ImGui::Button("Load Map", Button_Size))
 	{
-		std::ifstream newStream("Data.txt");
-		std::string line;
-		bool isColors = false;
-
-		while (std::getline(newStream, line))
-		{
-			if (line.find("#Light_Coordinates") != std::string::npos)
-				continue;
-
-			std::stringstream subStream(line);
-			std::string subString;
-			std::vector<std::string> stringList;
-
-			while (std::getline(subStream, subString, ' '))
-			{
-				//std::cout << "Loading data into project" << std::endl;
-				//std::cout << subString << std::endl;
-				stringList.push_back(subString);
-			}
-
-			Cube cube;
-			cube.SetProgram(lightShader.shader_program);
-
-			cube.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
-			cube.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
-
-
-			//cube.SetObjectColor();
-			cube.SetName("test" + std::to_string(cubes.size()));
-			lights.push_back(cube);
-		}
-
-		newStream.close();
+		FileManager::LoadFile(lights,cubes,lightShader,shader);
 	}
 
 

@@ -1,50 +1,19 @@
 #pragma once
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "BaseObject.h"
 #include "GuiDebugger.h"
-#include "Shader.h"
-
-#define Material_Default_Value glm::vec3(0.5f,0.5f,0.5f)
-
-enum RotateSide {
-	xAxis = 0,
-	yAxis = 1,
-	zAxis = 2,
-};
-
-struct Material {
-	glm::vec3 Ambiant = glm::vec3(0.005f, 0.005f, 0.005f);
-	glm::vec3 Diffuse = Material_Default_Value;
-	glm::vec3 Specular = Material_Default_Value;
-	float shininess = 32;
-};
 
 
-static uint32_t CUBEID;
 
-class Cube {
-private : 
-	glm::mat4 m_Model;
-	uint32_t m_Program;
-	glm::vec3 m_Location;
-	std::string _name;
-	double sineValue = 50;
+
+class Cube : public BaseObject{
 public : 
 	Material material;
 	int cubeId;
-	float Color[3] = {0.5,0.5,0.5};
-	glm::vec3 Position;
 	glm::vec3 Size;
 	float angle;
 	float rotateX,rotateY,rotateZ;
 	Cube();
 	~Cube();
-	void SinMove();
-	void SetName(std::string name);
-	void SetProgram(uint32_t program);
-	void UseColor(const char* name);
-	void SetObjectColor(float x, float y , float z);
 	std::string GetName() { return _name; }
 	glm::mat4 inline GetModel() { return m_Model; }
 	void Update();

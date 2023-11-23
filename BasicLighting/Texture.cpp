@@ -21,18 +21,22 @@ void Texture::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	m_TextureIndex = textureCounter;
+	//m_uniformTexture = "texture" + std::to_string(m_TextureIndex);
 	textureCounter++;
 }
 
 void Texture::Bind()
 {
+	//commented the part were you can send two texture uniforms in one shader
+	//glUniform1i(glGetUniformLocation(m_Program, m_uniformTexture.c_str()), m_TextureIndex);
 	glActiveTexture(GL_TEXTURE0 + m_TextureIndex);
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
 }
 
 void Texture::UnBind()
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//it was texture unbinding problem ! 
+	//glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture::SetTexture(const char* textureFile, int num)

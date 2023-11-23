@@ -23,6 +23,10 @@ void Cube::Draw()
 	BaseObject::Draw();
 }
 
+void Cube::SetShaderData()
+{
+}
+
 
 void Cube::Update()
 {

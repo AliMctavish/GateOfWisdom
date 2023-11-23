@@ -2,7 +2,7 @@
 
 void Light::Init()
 {
-	cubeId = CUBEID;
+	objectId = CUBEID;
 	angle = 0;
 	rotateX = 0;
 	rotateY = 0;

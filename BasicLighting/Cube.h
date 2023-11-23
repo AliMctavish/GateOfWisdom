@@ -1,13 +1,11 @@
 #pragma once
 #include "BaseObject.h"
-#include "GuiDebugger.h"
-
-
-
+#include "Texture.h"
 
 class Cube : public BaseObject{
 public : 
 	Material material;
+	Texture texture;
 	int cubeId;
 	glm::vec3 Size;
 	float angle;

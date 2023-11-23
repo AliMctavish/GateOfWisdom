@@ -89,7 +89,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		{
 			Cube cube;
 			cube.SetProgram(cubeShader.shader_program);
-
+			cube.texture.SetTexture("Assests/grd1.jpg", 1);
 			cube.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
 			cube.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
 			cube.Size.x = std::stof(stringList[6]);

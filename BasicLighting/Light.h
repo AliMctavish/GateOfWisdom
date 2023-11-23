@@ -1,8 +1,7 @@
 #pragma once
-#pragma once
-#include "Cube.h"
+#include "BaseObject.h"
 
-class Light :public Cube{
+class Light :public BaseObject{
 public:
 	Material material;
 	int objectId;

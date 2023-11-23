@@ -5,9 +5,9 @@ static int textureCounter;
 class Texture {
 private:
 	void Init();
-	uint32_t m_TextureIndex;
 	uint32_t m_Texture;
 public:
+	uint32_t m_TextureIndex;
 	void Bind();
 	void UnBind();
 	Texture();

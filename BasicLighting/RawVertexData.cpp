@@ -62,7 +62,7 @@ float* RawVertexData::CubeData()
 
 float* RawVertexData::CubeWithNormalsData()
 {
-	float textureSize = 7.0f;
+	float textureSize = 1.0f;
 	float* vertices = new float[Cube_With_Normals_And_Texture_Data]{
 	//COORDINATES VEC3    //NORAMALS VEC3    //TEXUTRE VEC2
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f,

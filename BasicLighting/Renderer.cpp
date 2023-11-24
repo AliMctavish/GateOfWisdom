@@ -18,6 +18,7 @@ Renderer::Renderer(GLFWwindow* window)
 {
 	Init();
 	_window = window;
+	_physics.SetWindow(_window);
 	_gui.SetWindow(_window);
 }
 
@@ -39,21 +40,6 @@ void Renderer::Initialize()
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-
-	Light lightSource;
-	lightSource.SetProgram(lightShader.shader_program);
-	lightSource.Position = glm::vec3(50, 10, 20);
-	lightSource.SetName("light");
-	lights.push_back(lightSource);
-
-	//debugging
-	//Cube cube;
-	//cube.SetProgram(shader.shader_program);
-	//cube.Size = glm::vec3(60, 5, 60);
-	//cube.Position = glm::vec3(50, -10, 20);
-	//cube.RotateOnY(90);
-	//cube.SetName("test" + std::to_string(cubes.size()));
-	//cubes.push_back(cube);
 	lightShader.UnBind();
 	_gui.Init();
 
@@ -66,9 +52,7 @@ double deltaTime = 0;
 double lastTime = 0;
 double currentTime = glfwGetTime();
 int nbFrames = 0;
-bool grounded = false;
-bool isJumping = false;
-float acceleration = 0.05f;
+
 
 void Renderer::Update()
 {
@@ -122,76 +106,11 @@ void Renderer::Update()
 		cube.texture.Bind();
 		cube.UseColor("objectColor");
 
-		int cubeXX = cube.Position.x + cube.Size.x;
-		int cubeX = cube.Position.x;
-		int cubeYY = cube.Position.y + cube.Size.y + 1;
-		int cubeY = cube.Position.y;
-		int cubeZZ = cube.Position.z + cube.Size.z;
-		int cubeZ = cube.Position.z;
-
-		int cameraXX = cameraPos.x + 3;
-		int cameraX = cameraPos.x;
-		int cameraYY = cameraPos.y + 2;
-		int cameraY = cameraPos.y;
-		int cameraZZ = cameraPos.z + 2;
-		int cameraZ = cameraPos.z;
-
-
-
-
-
 		if (gameStarted == true)
-		{
-			/*if (cubeXX < cameraX && cubeZZ < cameraZ && cubeYY < cameraY &&
-				cubeX < cameraXX && cubeY < cameraYY && cubeZ < cameraZZ)
-			{
-				cameraPos.y;
-				std::cout << "triggerd !" << std::endl;
+			_physics.CheckCollision(cube, cameraPos, deltaTime);
 
-			}*/
-			if (grounded == false || cube.collided)
-			{
-				if (cameraY < cubeYY && cubeY < cameraYY && cameraX < cubeXX
-					&& cubeX < cameraXX && cameraZ < cubeZZ && cubeZ < cameraZZ)
-				{
-
-					float distance = cameraPos.y - cube.Position.y;
-					cameraPos.y = cube.Position.y + distance;
-					std::cout << "triggerd !" << std::endl;
-					std::cout << distance << std::endl;
-
-					//std::cout << acceleration << std::endl;
-
-					cube.collided = true;
-					grounded = true;
-					isJumping = false;
-					acceleration = 0.05f;
-				}
-				else
-				{
-					grounded = false;
-					cube.collided = false;
-				}
-			}
-
-			if (grounded == false)
-				cameraPos.y -= 0.00001f * deltaTime;
-
-			if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
-			{
-				cube.collided = false;
-				grounded = false;
-				isJumping = true;
-			}
-
-			if (isJumping)
-			{
-				cameraPos.y += acceleration;
-				acceleration -= 0.00005;
-			}
-
-		}
-		//std::cout << cube.Position.x << std::endl;
+		
+		
 		cube.Draw();
 	}
 

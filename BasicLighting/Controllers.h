@@ -56,7 +56,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 
 
-void processInput(GLFWwindow* window, float deltaTime)
+void processInput(GLFWwindow* window, double &deltaTime)
 {
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -65,7 +65,7 @@ void processInput(GLFWwindow* window, float deltaTime)
 	cameraFront = glm::normalize(direction);
 	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
 
-	const float cameraSpeed = 0.05f; // adjust accordingly
+	const float cameraSpeed = 0.0002f * deltaTime; // adjust accordingly
 	const float rotaionSpeed = 0.01f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos -= glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed;

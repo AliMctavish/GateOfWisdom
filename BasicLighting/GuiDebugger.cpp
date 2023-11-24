@@ -14,11 +14,8 @@ void GuiDebugger::SetWindow(GLFWwindow* window)
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, Shader& shader, Shader& lightShader,std::string &frames , bool &gameStarted)
 {
 	StartFrames();
-
 	//why the variables not chagnging in here?
 	Begin("Objects Coordinates");
-
-
 
 	for (int i = 0; i < cubes.size(); i++)
 	{
@@ -89,8 +86,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	End();
 	Begin("World Settings");
 
-	//ImGui::Text(frames.c_str());
-
+	ImGui::Text(frames.c_str());
 
 	if (ImGui::Button("Create Cube", Button_Size))
 	{

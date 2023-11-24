@@ -47,13 +47,13 @@ void Renderer::Initialize()
 	lights.push_back(lightSource);
 
 	//debugging
-	Cube cube;
-	cube.SetProgram(shader.shader_program);
-	cube.Size = glm::vec3(60, 5, 60);
-	cube.Position = glm::vec3(50, -10, 20);
-	cube.RotateOnY(90);
-	cube.SetName("test" + std::to_string(cubes.size()));
-	cubes.push_back(cube);
+	//Cube cube;
+	//cube.SetProgram(shader.shader_program);
+	//cube.Size = glm::vec3(60, 5, 60);
+	//cube.Position = glm::vec3(50, -10, 20);
+	//cube.RotateOnY(90);
+	//cube.SetName("test" + std::to_string(cubes.size()));
+	//cubes.push_back(cube);
 	lightShader.UnBind();
 	_gui.Init();
 
@@ -62,9 +62,13 @@ void Renderer::Initialize()
 
 float bgColor[] = { 0,0,0 };
 std::string frames;
+double deltaTime = 0;
 double lastTime = 0;
 double currentTime = glfwGetTime();
 int nbFrames = 0;
+bool grounded = false;
+bool isJumping = false;
+float acceleration = 0.1f;
 
 void Renderer::Update()
 {
@@ -76,6 +80,7 @@ void Renderer::Update()
 	if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
 		// printf and reset timer
 		frames = " FPS : " + std::to_string(100000.0 / double(nbFrames));
+		deltaTime = 100000.0 / double(nbFrames);
 		nbFrames = 0;
 		lastTime = currentTime;
 	}
@@ -90,7 +95,6 @@ void Renderer::Update()
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
-
 	shader.Bind();
 	shader.SetMat4("view", view);
 	shader.SetMat4("projection", projection);
@@ -106,7 +110,7 @@ void Renderer::Update()
 
 	shader.setInt("LightCount", lights.size());
 
-	for (Cube cube : cubes)
+	for (Cube& cube : cubes)
 	{
 		cube.Update();
 		shader.setVec3("light.ambiant", cube.material.Ambiant);
@@ -117,19 +121,74 @@ void Renderer::Update()
 		shader.setInt("texture0", cube.texture.m_TextureIndex);
 		cube.texture.Bind();
 		cube.UseColor("objectColor");
-		cube.Draw();
-		//todo make colliders 
-		// also we should make the jumping crushing 
-		// also doing the camera for the player 
-		// annddd too much other stuff ! !! !
+
+		int cubeXX = cube.Position.x + cube.Size.x;
+		int cubeX = cube.Position.x;
+		int cubeYY = cube.Position.y + cube.Size.y + 1;
+		int cubeY = cube.Position.y;
+		int cubeZZ = cube.Position.z + cube.Size.z;
+		int cubeZ = cube.Position.z;
+
+		int cameraXX = cameraPos.x + 3;
+		int cameraX = cameraPos.x;
+		int cameraYY = cameraPos.y + 2;
+		int cameraY = cameraPos.y;
+		int cameraZZ = cameraPos.z + 2;
+		int cameraZ = cameraPos.z;
+
+
+
+
+
 		if (gameStarted == true)
 		{
-			if (cameraPos.y < cube.Position.y + 5)
+			/*if (cubeXX < cameraX && cubeZZ < cameraZ && cubeYY < cameraY &&
+				cubeX < cameraXX && cubeY < cameraYY && cubeZ < cameraZZ)
+			{
 				cameraPos.y;
-			else
-				cameraPos.y -= 0.1f;
+				std::cout << "triggerd !" << std::endl;
+
+			}*/
+			if (grounded == false || cube.collided)
+			{
+				if (cameraY < cubeYY && cubeY < cameraYY && cameraX < cubeXX
+					&& cubeX < cameraXX && cameraZ < cubeZZ && cubeZ < cameraZZ)
+				{
+					cameraPos.y = cube.Position.y + 3;
+					std::cout << "triggerd !" << std::endl;
+					cube.collided = true;
+					grounded = true;
+					isJumping = false;
+					acceleration = 0.1f;
+				}
+				else
+				{
+					grounded = false;
+					cube.collided = false;
+				}
+			}
+
+			if (grounded == false)
+				cameraPos.y -= 0.00001f * deltaTime;
+
+			if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
+			{
+				cube.collided = false;
+				grounded = false;
+				isJumping = true;
+			}
+
+			if (isJumping)
+			{
+				cameraPos.y += acceleration;
+				acceleration -= 0.0005;
+			}
+
 		}
+		//std::cout << cube.Position.x << std::endl;
+		cube.Draw();
 	}
+
 
 	lightShader.Bind();
 
@@ -149,15 +208,14 @@ void Renderer::Update()
 
 	if (gameStarted == false)
 	{
-		_gui.Debugger(lights,cubes,shader,lightShader,frames,gameStarted);
+		_gui.Debugger(lights, cubes, shader, lightShader, frames, gameStarted);
 	}
 	else
 	{
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		glfwSetCursorPosCallback(_window, mouse_callback);
 	}
-
-	processInput(_window, currentTime);
+	processInput(_window, deltaTime);
 	/* Swap front and back buffers */
 	glfwSwapBuffers(_window);
 	/* Poll for and process events */

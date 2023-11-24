@@ -68,7 +68,7 @@ double currentTime = glfwGetTime();
 int nbFrames = 0;
 bool grounded = false;
 bool isJumping = false;
-float acceleration = 0.1f;
+float acceleration = 0.05f;
 
 void Renderer::Update()
 {
@@ -93,7 +93,7 @@ void Renderer::Update()
 	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
 	view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
 	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(45.0f), 1200.f / 800.f, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(70.0f), 1200.f / 800.f, 0.1f, 100.0f);
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
 	shader.Bind();
 	shader.SetMat4("view", view);
@@ -154,12 +154,18 @@ void Renderer::Update()
 				if (cameraY < cubeYY && cubeY < cameraYY && cameraX < cubeXX
 					&& cubeX < cameraXX && cameraZ < cubeZZ && cubeZ < cameraZZ)
 				{
-					cameraPos.y = cube.Position.y + 3;
+
+					float distance = cameraPos.y - cube.Position.y;
+					cameraPos.y = cube.Position.y + distance;
 					std::cout << "triggerd !" << std::endl;
+					std::cout << distance << std::endl;
+
+					//std::cout << acceleration << std::endl;
+
 					cube.collided = true;
 					grounded = true;
 					isJumping = false;
-					acceleration = 0.1f;
+					acceleration = 0.05f;
 				}
 				else
 				{
@@ -181,7 +187,7 @@ void Renderer::Update()
 			if (isJumping)
 			{
 				cameraPos.y += acceleration;
-				acceleration -= 0.0005;
+				acceleration -= 0.00005;
 			}
 
 		}

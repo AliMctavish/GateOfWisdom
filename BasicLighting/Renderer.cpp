@@ -77,7 +77,7 @@ void Renderer::Update()
 	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
 	view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
 	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(70.0f), 1200.f / 800.f, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(fov), 1200.f / 800.f, 0.1f, 100.0f);
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
 	shader.Bind();
 	shader.SetMat4("view", view);

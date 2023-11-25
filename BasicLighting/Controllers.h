@@ -15,7 +15,8 @@ float horizontal_directions = 0;
 float vertical_directions = 0;
 float resize = 2;
 bool isMoving = true;
-float fov = 0;
+float fov = 75;
+static float moveSpeed = 0;
 glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -65,7 +66,7 @@ void processInput(GLFWwindow* window, double &deltaTime)
 	cameraFront = glm::normalize(direction);
 	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
 
-	float cameraSpeed = 0.0002f * deltaTime; // adjust accordingly
+	const float cameraSpeed = 0.0002f * deltaTime; // adjust accordingly
 	const float rotaionSpeed = 0.01f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos -= glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed;
@@ -80,7 +81,7 @@ void processInput(GLFWwindow* window, double &deltaTime)
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		cameraPos -= cameraUp * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-	     cameraSpeed *= 5;
+		cameraPos -= glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed * 0.5f;
 
 
 

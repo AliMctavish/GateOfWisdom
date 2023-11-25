@@ -108,8 +108,6 @@ void Renderer::Update()
 
 		if (gameStarted == true)
 			_physics.CheckCollision(cube, cameraPos, deltaTime);
-
-		
 		
 		cube.Draw();
 	}
@@ -123,7 +121,7 @@ void Renderer::Update()
 	for (int i = 0; i < lights.size(); i++)
 	{
 		lights[i].Update();
-		//lights[i].SinMove();
+		lights[i].SinMove();
 		lightShader.SetMat4("model", lights[i].GetModel());
 		lights[i].UseColor("objectColor");
 		lights[i].Draw();

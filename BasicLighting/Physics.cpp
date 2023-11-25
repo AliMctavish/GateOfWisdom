@@ -17,6 +17,9 @@ void Physics::CheckCollision(Cube &cube,glm::vec3 &cameraPos,double &deltaTime)
 	{
 		if (IsCollided(cube.Position,cameraPos,cube.Size))
 		{
+			std::cout << cube.Size.x << std::endl;
+			std::cout << cube.Size.y << std::endl;
+			std::cout << cube.Size.z << std::endl;
 
 			float distance = cameraPos.y - cube.Position.y;
 			cameraPos.y = cube.Position.y + distance;
@@ -59,7 +62,7 @@ bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& size
 {
 	int object1XX = object1.x + sizeObject1.x;
 	int object1X = object1.x;
-	int object1YY = object1.y + sizeObject1.y + 1;
+	int object1YY = object1.y + sizeObject1.y + 5;
 	int object1Y = object1.y;
 	int object1ZZ = object1.z + sizeObject1.z;
 	int object1Z = object1.z;

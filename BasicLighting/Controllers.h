@@ -65,7 +65,7 @@ void processInput(GLFWwindow* window, double &deltaTime)
 	cameraFront = glm::normalize(direction);
 	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
 
-	const float cameraSpeed = 0.0002f * deltaTime; // adjust accordingly
+	float cameraSpeed = 0.0002f * deltaTime; // adjust accordingly
 	const float rotaionSpeed = 0.01f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		cameraPos -= glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed;
@@ -79,6 +79,10 @@ void processInput(GLFWwindow* window, double &deltaTime)
 		cameraPos += cameraUp * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		cameraPos -= cameraUp * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	     cameraSpeed *= 5;
+
+
 
 	if (pitch > 89.0f)
 		pitch = 89.0f;

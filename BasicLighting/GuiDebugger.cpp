@@ -11,7 +11,7 @@ void GuiDebugger::SetWindow(GLFWwindow* window)
 	m_Window = window;
 }
 
-void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, Shader& shader, Shader& lightShader,std::string &frames , bool &gameStarted)
+void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, Shader& shader, Shader& lightShader, std::string& frames, bool& gameStarted)
 {
 	StartFrames();
 	//why the variables not chagnging in here?
@@ -101,7 +101,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Light light;
 		light.SetProgram(lightShader.shader_program);
-		light.SetName("test" + std::to_string(cubes.size()));
+		light.SetName("object" + std::to_string(cubes.size()));
 		lights.push_back(light);
 	}
 	if (ImGui::Button("Start Game", Button_Size))
@@ -111,13 +111,37 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		FileManager::SaveFile(lights, cubes);
 
 	if (ImGui::Button("Load Map", Button_Size))
-		FileManager::LoadFile(lights, cubes, lightShader, shader);
+	{
+		m_MapSelector = true;
+	}
+	if (m_MapSelector)
+	{
+		Begin("Select Map");
+		if (ImGui::Selectable("Level1", false, 0, Selector_Size))
+			selectedMap = "Level1";
+		else if (ImGui::Selectable("Level2", false, 0, Selector_Size))
+			selectedMap = "Level2";
+		else if (ImGui::Selectable("Level3", false, 0, Selector_Size))
+			selectedMap = "Level3";
+		else if (ImGui::Selectable("Level4", false, 0, Selector_Size))
+			selectedMap = "Level4";
+		else if (ImGui::Selectable("Level5", false, 0, Selector_Size))
+			selectedMap = "Level5";
+		
 
+		if (ImGui::Button("Select", Button_Size))
+		{
+			FileManager::LoadFile(lights, cubes, lightShader, shader, selectedMap);
+			m_MapSelector = false;
+		}
+		End();
+	}
 	//ImGui::ColorEdit3("BackgroundColor", bgColor, 0);
-
 	End();
 	EndFrames();
 }
+
+
 
 GuiDebugger::~GuiDebugger()
 {

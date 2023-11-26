@@ -43,9 +43,9 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes)
 	newStream.close();
 }
 
-void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, Shader& lightShader, Shader& cubeShader)
+void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, Shader& lightShader, Shader& cubeShader , std::string fileName)
 {
-	std::ifstream newStream("Data.txt");
+	std::ifstream newStream("Maps/" + fileName + ".txt");
 	std::string line;
 	bool isColors = false;
 	bool isCube = false;

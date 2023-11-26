@@ -7,7 +7,7 @@ private:
 	GLFWwindow* _window;
 	bool grounded = false;
 	bool isJumping = false;
-	float acceleration = 0.05f;
+	float acceleration = 0.00001f;
 	bool IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
 public : 
 	Physics();

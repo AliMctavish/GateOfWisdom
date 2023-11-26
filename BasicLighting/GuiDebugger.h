@@ -7,6 +7,7 @@
 #include "Cube.h"
 
 #define Button_Size ImVec2(121,20)
+#define Selector_Size ImVec2(130,10)
 
 
 class GuiDebugger{
@@ -14,6 +15,8 @@ private :
 	GLFWwindow* m_Window;
 	FileManager fileManager;
 	const char* selectedTexture = "Assests/grd.jpg";
+	std::string selectedMap = " ";
+	bool m_MapSelector = false;
 public :
 	GuiDebugger();
 	~GuiDebugger();

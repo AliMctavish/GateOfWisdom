@@ -19,7 +19,7 @@ Renderer::Renderer(GLFWwindow* window)
 	Init();
 	_window = window;
 	//_physics.SetVariables(_window,cameraPos);
-	_physics.SetVariables(_window,cameraPos);
+	_physics.SetVariables(_window, cameraPos);
 	_gui.SetWindow(_window);
 }
 
@@ -54,7 +54,7 @@ double lastTime = 0;
 double currentTime = glfwGetTime();
 int nbFrames = 0;
 
-
+bool checked = false;
 void Renderer::Update()
 {
 	currentTime = glfwGetTime();
@@ -71,14 +71,22 @@ void Renderer::Update()
 	{
 		cube.Update();
 
-		if (gameStarted == true)
-			if (_physics.CheckCollision(cube, cameraPos))
-				continue;
+
+
+		if (_physics.CheckCollision(cube, cameraPos))
+		{
+			checked = true;
+			break;
+		}
+		else
+			checked = false;
+
 	}
 
-	_physics.Update(cameraPos,deltaTime);
+	if (gameStarted == true)
+		_physics.Update(cameraPos, deltaTime, checked);
 
-	for(Light &light : lights)
+	for (Light& light : lights)
 		light.Update();
 
 }
@@ -131,7 +139,7 @@ void Renderer::Draw()
 	lightShader.SetMat4("view", view);
 	lightShader.SetMat4("projection", projection);
 
-	for (Light &light : lights)
+	for (Light& light : lights)
 	{
 		//lights[i].SinMove();
 		lightShader.SetMat4("model", light.GetModel());

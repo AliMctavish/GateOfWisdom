@@ -18,20 +18,16 @@ bool Physics::CheckCollision(Cube& cube, glm::vec3& cameraPos)
 	{
 		float distance = cameraPos.y - cube.Position.y;
 		cameraPos.y = cube.Position.y + distance;
-
-		std::cout << "triggerd !" << std::endl;
-
-		//cube.collided = true;
-		grounded = true;
 		isJumping = false;
 		acceleration = 0.001f;
-
 		return true;
-	}
-	return false;
+	}	
+	else
+		return false;
+
 }
 
-void Physics::Update(glm::vec3& cameraPos, double& deltaTime)
+void Physics::Update(glm::vec3& cameraPos, double& deltaTime , bool &grounded)
 {
 	if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		isJumping = true;
@@ -50,7 +46,7 @@ void Physics::Update(glm::vec3& cameraPos, double& deltaTime)
 
 bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1)
 {
-	int object1XX = object1.x + sizeObject1.x;
+	int object1XX = object1.x + sizeObject1.x +1;
 	int object1X = object1.x;
 	int object1YY = object1.y + sizeObject1.y + 5;
 	int object1Y = object1.y;

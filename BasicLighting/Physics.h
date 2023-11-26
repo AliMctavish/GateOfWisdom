@@ -16,6 +16,6 @@ public :
 	Physics();
 	~Physics();
 	void SetVariables(GLFWwindow* window,glm::vec3 cameraPos);
-	void Update(glm::vec3 &cameraPos,double &deltaTime);
+	void Update(glm::vec3 &cameraPos,double &deltaTime , bool &grounded);
 	bool CheckCollision(Cube &cube, glm::vec3& cameraPos);
 };

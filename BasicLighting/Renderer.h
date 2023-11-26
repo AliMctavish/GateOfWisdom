@@ -37,5 +37,5 @@ public:
 	void Init();
 	void Initialize();
 	void Update();
-	void Debugger();
+	void Draw();
 };

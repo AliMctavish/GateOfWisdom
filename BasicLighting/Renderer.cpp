@@ -18,7 +18,8 @@ Renderer::Renderer(GLFWwindow* window)
 {
 	Init();
 	_window = window;
-	_physics.SetWindow(_window);
+	//_physics.SetVariables(_window,cameraPos);
+	_physics.SetVariables(_window,cameraPos);
 	_gui.SetWindow(_window);
 }
 
@@ -56,9 +57,6 @@ int nbFrames = 0;
 
 void Renderer::Update()
 {
-	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	currentTime = glfwGetTime();
 	nbFrames++;
 	if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
@@ -68,6 +66,27 @@ void Renderer::Update()
 		nbFrames = 0;
 		lastTime = currentTime;
 	}
+
+	for (Cube& cube : cubes)
+	{
+		cube.Update();
+
+		if (gameStarted == true)
+			if (_physics.CheckCollision(cube, cameraPos))
+				continue;
+	}
+
+	_physics.Update(cameraPos,deltaTime);
+
+	for(Light &light : lights)
+		light.Update();
+
+}
+
+void Renderer::Draw()
+{
+	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
 	glm::mat4 view;
@@ -96,7 +115,6 @@ void Renderer::Update()
 
 	for (Cube& cube : cubes)
 	{
-		cube.Update();
 		shader.setVec3("light.ambiant", cube.material.Ambiant);
 		shader.setVec3("light.diffuse", cube.material.Diffuse);
 		shader.setVec3("light.specular", cube.material.Specular);
@@ -105,26 +123,20 @@ void Renderer::Update()
 		shader.setInt("texture0", cube.texture.m_TextureIndex);
 		cube.texture.Bind();
 		cube.UseColor("objectColor");
-
-		if (gameStarted == true)
-			_physics.CheckCollision(cube, cameraPos, deltaTime);
-		
 		cube.Draw();
 	}
-
 
 	lightShader.Bind();
 
 	lightShader.SetMat4("view", view);
 	lightShader.SetMat4("projection", projection);
 
-	for (int i = 0; i < lights.size(); i++)
+	for (Light &light : lights)
 	{
-		lights[i].Update();
 		//lights[i].SinMove();
-		lightShader.SetMat4("model", lights[i].GetModel());
-		lights[i].UseColor("objectColor");
-		lights[i].Draw();
+		lightShader.SetMat4("model", light.GetModel());
+		light.UseColor("objectColor");
+		light.Draw();
 	}
 
 	vertexArray2.Bind();

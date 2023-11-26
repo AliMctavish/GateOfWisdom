@@ -5,58 +5,47 @@ Physics::Physics()
 
 }
 
-void Physics::SetWindow(GLFWwindow* window)
+void Physics::SetVariables(GLFWwindow* window, glm::vec3 cameraPos)
 {
 	_window = window;
+	m_CameraPos = cameraPos;
 }
 
 
-void Physics::CheckCollision(Cube &cube,glm::vec3 &cameraPos,double &deltaTime)
+bool Physics::CheckCollision(Cube& cube, glm::vec3& cameraPos)
 {
-	std::cout << cameraPos.y << std::endl;
-
-	if (grounded == false || cube.collided)
+	if (IsCollided(cube.Position, cameraPos, cube.Size))
 	{
-		if (IsCollided(cube.Position,cameraPos,cube.Size))
-		{
-			std::cout << cube.Size.x << std::endl;
-			std::cout << cube.Size.y << std::endl;
-			std::cout << cube.Size.z << std::endl;
+		float distance = cameraPos.y - cube.Position.y;
+		cameraPos.y = cube.Position.y + distance;
 
-			float distance = cameraPos.y - cube.Position.y;
-			std::cout << "triggerd !" << std::endl;
-			std::cout << distance << std::endl;
+		std::cout << "triggerd !" << std::endl;
 
-			//std::cout << acceleration << std::endl;
+		//cube.collided = true;
+		grounded = true;
+		isJumping = false;
+		acceleration = 0.001f;
 
-			cube.collided = true;
-			grounded = true;
-			isJumping = false;
-			acceleration = 0.0001f;
-		}
-		else
-		{
-			grounded = false;
-			cube.collided = false;
-		}
+		return true;
 	}
+	return false;
+}
 
-	if (grounded == false)
-		cameraPos.y -= 0.00001f * deltaTime;
-
+void Physics::Update(glm::vec3& cameraPos, double& deltaTime)
+{
 	if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
-	{
-		cube.collided = false;
-		grounded = false;
 		isJumping = true;
-	}
+
+	if (!grounded)
+		cameraPos.y -= 0.0001f * deltaTime;
 
 	if (isJumping)
 	{
 		cameraPos.y += acceleration * deltaTime;
-		acceleration -= 0.000000000099f * deltaTime;
+		acceleration -= 0.00000001f * deltaTime;
 	}
 }
+
 
 
 bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1)

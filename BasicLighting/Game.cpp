@@ -14,6 +14,7 @@ void Game::Start()
 	while (!glfwWindowShouldClose(_window))
 	{
 		renderer.Update();
+		renderer.Draw();
 	}
 }
  

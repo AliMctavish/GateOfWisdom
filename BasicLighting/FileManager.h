@@ -7,7 +7,7 @@
 #define GroundTexturePath 1
 #define BoxTexturePath 2
 
-static const char* m_texturePath[Available_Textures] = {"Assests/wall.jpg","Assests/lol.jpg","Assests/ds.jpg"};
+static const char* m_texturePath[Available_Textures] = {"Assests/wall.jpg","Assests/grd.jpg","Assests/box.png"};
 
 class FileManager {
 public : 

@@ -88,7 +88,8 @@ void Renderer::Update()
 		light.Update();
 
 }
-
+double posx = 2;
+double posy = 2;
 void Renderer::Draw()
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
@@ -146,15 +147,20 @@ void Renderer::Draw()
 	}
 
 	vertexArray2.Bind();
-
+	
 	if (gameStarted == false)
 	{
 		_gui.Debugger(lights, cubes, shader, lightShader, frames, gameStarted);
+		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 	else
 	{
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		glfwSetCursorPosCallback(_window, mouse_callback);
+
+		if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			gameStarted = false;
+		//glfwSetWindowShouldClose(window, true);
 	}
 	processInput(_window, deltaTime);
 	/* Swap front and back buffers */

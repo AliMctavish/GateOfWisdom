@@ -23,6 +23,12 @@ void Cube::Draw()
 	BaseObject::Draw();
 }
 
+void Cube::SetTextureData(uint16_t textureIndex)
+{
+	m_TextureIndex = textureIndex;
+	texture.SetTexutreType(m_TextureIndex);
+}
+
 //void Cube::SetShaderData()
 //{
 //	shader.setVec3("light.ambiant", material.Ambiant);

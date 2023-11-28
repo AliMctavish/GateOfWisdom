@@ -49,7 +49,7 @@ void Texture::SetTexture(const char* textureFile, int num)
 	stbi_uc* data = stbi_load(textureFile, &width, &height, &nrChannels, 0);
 	if (data)
 	{
-		if(num == 1)
+		if (num == 1)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		else
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -64,4 +64,14 @@ void Texture::SetTexture(const char* textureFile, int num)
 
 
 	stbi_image_free(data);
+}
+
+void Texture::SetTexutreType(uint16_t textureIndex)
+{
+	if (textureIndex == 1)
+		SetTexture("Assests/wall.jpg", 1);
+	else if (textureIndex == 2)
+		SetTexture("Assests/grd.jpg", 1);
+	else if (textureIndex == 3)
+		SetTexture("Assests/box.png", 0);
 }

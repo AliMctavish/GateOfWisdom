@@ -10,7 +10,7 @@ FileManager::~FileManager()
 
 void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes)
 {
-	std::ofstream newStream("Data.txt");
+	std::ofstream newStream("Maps/Level1.txt");
 	newStream << "#Light_Coordinates" << std::endl;
 	for (Light light : lights)
 	{
@@ -34,7 +34,9 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes)
 			cube.Color[2] << " " <<
 			cube.Size.x << " " <<
 			cube.Size.y << " " <<
-			cube.Size.z << " " << std::endl;
+			cube.Size.z << " " <<
+			cube.GetTexutreIndex() << 
+			std::endl;
 			
 
 		std::cout << "saving object data" << std::endl;
@@ -89,12 +91,12 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		{
 			Cube cube;
 			cube.SetProgram(cubeShader.shader_program);
-			cube.texture.SetTexture("Assests/grd1.jpg", 1);
 			cube.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
 			cube.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
 			cube.Size.x = std::stof(stringList[6]);
 			cube.Size.y = std::stof(stringList[7]);
 			cube.Size.z = std::stof(stringList[8]);
+			cube.SetTextureData(std::stoi(stringList[9]));
 
 			//cube.SetObjectColor();
 			cube.SetName("test" + std::to_string(cubes.size()));

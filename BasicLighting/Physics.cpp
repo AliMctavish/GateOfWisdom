@@ -18,6 +18,10 @@ bool Physics::CheckCollision(Cube& cube, glm::vec3& cameraPos)
 	{
 		float distance = cameraPos.y - cube.Position.y;
 		cameraPos.y = cube.Position.y + distance;
+
+
+		//implement the sides collouion also ! 
+
 		isJumping = false;
 		acceleration = 0.001f;
 		return true;
@@ -33,7 +37,7 @@ void Physics::Update(glm::vec3& cameraPos, double& deltaTime , bool &grounded)
 		isJumping = true;
 
 	if (!grounded)
-		cameraPos.y -= 0.0001f * deltaTime;
+		cameraPos.y -= 0.0002f * deltaTime;
 
 	if (isJumping)
 	{

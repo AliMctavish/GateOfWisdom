@@ -2,6 +2,8 @@
 #include "Shader.h"
 
 static int textureCounter;
+
+
 class Texture {
 private:
 	void Init();
@@ -13,4 +15,5 @@ public:
 	Texture();
 	~Texture();
 	void SetTexture(const char* textureFile, int num);
+	void SetTexutreType(uint16_t textureIndex);
 };

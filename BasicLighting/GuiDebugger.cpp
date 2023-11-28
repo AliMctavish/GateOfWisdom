@@ -35,6 +35,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		ImGui::SliderFloat2("Diffuse", &cubes[i].material.Diffuse[0], 0, 10, "%.3f", 0);
 		ImGui::SliderFloat2("Specular", &cubes[i].material.Specular[0], 0, 10, "%.3f", 0);
 		ImGui::SliderFloat("Shininess", &cubes[i].material.shininess, 0, 100, "%.3f", 0);
+		if (ImGui::Button("Delete", Button_Size)) { cubes.erase(cubes.begin() + i); }
 		ImGui::PopID();
 	}
 
@@ -56,6 +57,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		ImGui::SliderFloat("2Rotate on x Axis", &lights[i].rotateX, 0, 10, "%.3f", 1);
 		ImGui::SliderFloat("2Rotate on y Axis", &lights[i].rotateY, 0, 10, "%.3f", 1);
 		ImGui::SliderFloat("2Rotate on z Axis", &lights[i].rotateZ, 0, 10, "%.3f", 1);
+		if (ImGui::Button("Delete", Button_Size)) { lights.erase(lights.begin() + i); }
 		ImGui::PopID();
 
 	}

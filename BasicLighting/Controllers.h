@@ -21,6 +21,11 @@ glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 cameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
+void mouse_callback2(GLFWwindow* window, double xpos, double ypos)
+{
+	std::cout << xpos << std::endl;
+	std::cout << ypos << std::endl;
+}
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -91,8 +96,7 @@ void processInput(GLFWwindow* window, double &deltaTime)
 		pitch = -89.0f;
 
 
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
+
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		yaw -= 0.5;

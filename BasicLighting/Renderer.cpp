@@ -71,8 +71,6 @@ void Renderer::Update()
 	{
 		cube.Update();
 
-
-
 		if (_physics.CheckCollision(cube, cameraPos))
 		{
 			checked = true;

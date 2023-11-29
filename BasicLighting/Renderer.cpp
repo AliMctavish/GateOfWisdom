@@ -150,8 +150,10 @@ void Renderer::Draw()
 	
 	if (gameStarted == false)
 	{
-		_gui.Debugger(lights, cubes, shader, lightShader, frames, gameStarted);
+		glfwSetCursorEnterCallback(_window, GLFW_FALSE);
+		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		_gui.Debugger(lights, cubes, shader, lightShader, frames, gameStarted);
 	}
 	else
 	{

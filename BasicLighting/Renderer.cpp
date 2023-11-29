@@ -150,7 +150,9 @@ void Renderer::Draw()
 	
 	if (gameStarted == false)
 	{
+		//after adding this function it gave me the ability to control the mouse callback !?
 		glfwSetCursorEnterCallback(_window, GLFW_FALSE);
+
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		_gui.Debugger(lights, cubes, shader, lightShader, frames, gameStarted);

@@ -85,9 +85,23 @@ void Renderer::Update()
 		_physics.Update(cameraPos, deltaTime, checked);
 
 	for (Light& light : lights)
+	{
+		_physics.CheckLightCollision(light, cameraPos);
+
 		light.Update();
 
+		if (light.isPickedUp)
+		{
+			glm::vec3 distance = cameraPos - light.Position;
+			light.Position = distance;
+			light.Position.x = (cameraFront.x * cameraPos.x) - 2;
+			light.Position.y = (cameraFront.y * cameraPos.y) - 2;
+			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && glfwGetKey(_window,GLFW_KEY_Q) == GLFW_PRESS)
+				light.isPickedUp = false;
+		}
+	}
 }
+
 double posx = 2;
 double posy = 2;
 void Renderer::Draw()

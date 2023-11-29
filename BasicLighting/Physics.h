@@ -1,9 +1,10 @@
 #pragma once
 #include "BaseObject.h"
 #include "Cube.h"
+#include "Light.h"
 
 class Physics {
-private: 
+private:
 
 	GLFWwindow* _window;
 	glm::vec3 m_CameraPos;
@@ -12,10 +13,13 @@ private:
 	bool isJumping = false;
 	float acceleration = 0.001f;
 	bool IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
-public : 
+public:
 	Physics();
 	~Physics();
-	void SetVariables(GLFWwindow* window,glm::vec3 cameraPos);
-	void Update(glm::vec3 &cameraPos,double &deltaTime , bool &grounded);
-	bool CheckCollision(Cube &cube, glm::vec3& cameraPos);
+	void SetVariables(GLFWwindow* window, glm::vec3 cameraPos);
+	void Update(glm::vec3& cameraPos, double& deltaTime, bool& grounded);
+	bool CheckCollision(Cube& cube, glm::vec3& cameraPos);
+	bool CheckLightCollision(Light& light, glm::vec3& cameraPos);
 };
+
+

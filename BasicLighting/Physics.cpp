@@ -30,6 +30,14 @@ bool Physics::CheckCollision(Cube& cube, glm::vec3& cameraPos)
 		return false;
 
 }
+bool Physics::CheckLightCollision(Light& light, glm::vec3& cameraPos)
+{
+	if (IsCollided(light.Position, cameraPos, light.Size))
+	{
+		if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
+			return light.isPickedUp = true;
+	}
+}
 
 void Physics::Update(glm::vec3& cameraPos, double& deltaTime , bool &grounded)
 {

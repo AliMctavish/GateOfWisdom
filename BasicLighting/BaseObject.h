@@ -19,6 +19,7 @@ class BaseObject {
 private:
 	double sineValue = 50;
 public : 
+	bool isPickedUp = false;
 	glm::vec3 Position;
 	glm::mat4 m_Model;
 	uint32_t m_Program;

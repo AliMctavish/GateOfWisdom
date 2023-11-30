@@ -89,22 +89,13 @@ void Renderer::Update()
 		_physics.CheckLightCollision(light, cameraPos);
 
 		light.Update();
-
-		//light.m_Model = glm::rotate(light.m_Model, light.rotateX, glm::vec3(0, 1, 0));
 		if (light.isPickedUp)
 		{
 			//trying to make cube follow camera direciton ?
-			//glm::vec3 distance = cameraPos - light.Position;
-			light.Position = cameraPos; 
-			glm::vec3 dir = glm::normalize(light.Position - (cameraPos + 2.0f)) ;
-			light.m_Model = glm::translate(light.m_Model, glm::vec3(cameraFront.x * 2.0f,cameraFront.y * 2.0f ,cameraFront.z * 2.0f));
 
-			light.m_Model = glm::rotate(light.m_Model,dir.x, glm::vec3(dir.x,0,0));
-			//light.m_Model = glm::rotate(light.m_Model,cameraFront.y, dir);
-			//light.m_Model = glm::rotate(light.m_Model,cameraFront.z, dir);
-
-			//light.m_Model = glm::rotate(light.m_Model, cameraFront.y, glm::vec3(0, 1, 0));
-			//light.m_Model = glm::rotate(light.m_Model, cameraFront.z, glm::vec3(0, 0, 1));
+			light.Position = cameraPos;
+			light.m_Model = glm::translate(light.m_Model,  ((cameraRight * 0.5f) +  cameraFront) * 2.0f);
+			light.m_Model = glm::rotate(light.m_Model, (float)glfwGetTime(), glm::vec3(1, 1, 0));
 
 			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && glfwGetKey(_window, GLFW_KEY_Q) == GLFW_PRESS)
 				light.isPickedUp = false;

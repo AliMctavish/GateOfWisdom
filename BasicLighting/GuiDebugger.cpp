@@ -91,7 +91,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	if (ImGui::Button("Create Cube", Button_Size))
 	{
 		Cube cube;
-		cube.SetProgram(shader.shader_program);
+		cube.SetShader(shader);
 		cube.SetName("test" + std::to_string(cubes.size()));
 		cube.texture.SetTexture(selectedTexture, 1);
 		cubes.push_back(cube);
@@ -107,10 +107,8 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	if (ImGui::Button("Start Game", Button_Size))
 		gameStarted = true;
 
-	if (ImGui::Button("Save Map", Button_Size))
-		FileManager::SaveFile(lights, cubes);
 
-	if (ImGui::Button("Load Map", Button_Size))
+	if (ImGui::Button("Select Map", Button_Size))
 	{
 		m_MapSelector = true;
 	}
@@ -127,11 +125,15 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			selectedMap = "Level4";
 		else if (ImGui::Selectable("Level5", false, 0, Selector_Size))
 			selectedMap = "Level5";
-		
 
 		if (ImGui::Button("Select", Button_Size))
 		{
 			FileManager::LoadFile(lights, cubes, lightShader, shader, selectedMap);
+			m_MapSelector = false;
+		}
+		if (ImGui::Button("Save Map", Button_Size))
+		{
+			FileManager::SaveFile(lights, cubes, selectedMap);
 			m_MapSelector = false;
 		}
 		End();
@@ -140,7 +142,6 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	End();
 	EndFrames();
 }
-
 
 
 GuiDebugger::~GuiDebugger()

@@ -8,9 +8,9 @@ FileManager::~FileManager()
 {
 }
 
-void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes)
+void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes,std::string &fileName)
 {
-	std::ofstream newStream("Maps/Level1.txt");
+	std::ofstream newStream("Maps/" + fileName + ".txt");
 	newStream << "#Light_Coordinates" << std::endl;
 	for (Light light : lights)
 	{
@@ -91,7 +91,6 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		{
 			Cube cube;
 			cube.SetShader(cubeShader);
-			cube.SetProgram(cubeShader.shader_program);
 			cube.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
 			cube.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
 			cube.Size.x = std::stof(stringList[6]);

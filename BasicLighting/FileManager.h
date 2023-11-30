@@ -18,6 +18,6 @@ public :
 	FileManager();
 	~FileManager();
 	inline static const char* SelectTextureFile(int index) { return m_texturePath[index]; }
-	static void SaveFile(std::vector<Light> &lights ,std::vector<Cube> &cubes);
+	static void SaveFile(std::vector<Light> &lights ,std::vector<Cube> &cubes , std::string &fileName);
 	static void LoadFile(std::vector<Light> &lights,std::vector<Cube> &cubes , Shader& lightShader , Shader& cubeShader ,std::string fileName);
 };

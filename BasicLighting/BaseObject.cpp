@@ -22,6 +22,7 @@ void BaseObject::SinMove()
 void BaseObject::SetShader(Shader &shader)
 {
 	m_Shader = shader;
+	SetProgram(m_Shader.shader_program);
 }
 
 void BaseObject::UseColor(const char* name)

@@ -90,13 +90,23 @@ void Renderer::Update()
 
 		light.Update();
 
+		//light.m_Model = glm::rotate(light.m_Model, light.rotateX, glm::vec3(0, 1, 0));
 		if (light.isPickedUp)
 		{
-			glm::vec3 distance = cameraPos - light.Position;
-			light.Position = distance;
-			light.Position.x = (cameraFront.x * cameraPos.x) - 2;
-			light.Position.y = (cameraFront.y * cameraPos.y) - 2;
-			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && glfwGetKey(_window,GLFW_KEY_Q) == GLFW_PRESS)
+			//trying to make cube follow camera direciton ?
+			//glm::vec3 distance = cameraPos - light.Position;
+			light.Position = cameraPos; 
+			glm::vec3 dir = glm::normalize(light.Position - (cameraPos + 2.0f)) ;
+			light.m_Model = glm::translate(light.m_Model, glm::vec3(cameraFront.x * 2.0f,cameraFront.y * 2.0f ,cameraFront.z * 2.0f));
+
+			light.m_Model = glm::rotate(light.m_Model,dir.x, glm::vec3(dir.x,0,0));
+			//light.m_Model = glm::rotate(light.m_Model,cameraFront.y, dir);
+			//light.m_Model = glm::rotate(light.m_Model,cameraFront.z, dir);
+
+			//light.m_Model = glm::rotate(light.m_Model, cameraFront.y, glm::vec3(0, 1, 0));
+			//light.m_Model = glm::rotate(light.m_Model, cameraFront.z, glm::vec3(0, 0, 1));
+
+			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && glfwGetKey(_window, GLFW_KEY_Q) == GLFW_PRESS)
 				light.isPickedUp = false;
 		}
 	}
@@ -161,7 +171,7 @@ void Renderer::Draw()
 	}
 
 	vertexArray2.Bind();
-	
+
 	if (gameStarted == false)
 	{
 		//after adding this function it gave me the ability to control the mouse callback !?

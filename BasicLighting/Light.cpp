@@ -13,6 +13,11 @@ void Light::Init()
 	CUBEID++;
 }
 
+float Light::MoveOnX()
+{
+	return glm::dot(Position.x,rotateX);
+}
+
 Light::Light()
 {
 	Init();

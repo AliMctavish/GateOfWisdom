@@ -12,6 +12,7 @@ public:
 	glm::mat4 inline GetModel() { return m_Model; }
 	void Update();
 	void Init();
+	float MoveOnX();
 	void Draw();
 	Light();
 };

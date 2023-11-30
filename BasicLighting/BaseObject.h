@@ -19,7 +19,9 @@ class BaseObject {
 private:
 	double sineValue = 50;
 public : 
+	Shader m_Shader;
 	bool isPickedUp = false;
+	glm::vec3 direction;
 	glm::vec3 Position;
 	glm::mat4 m_Model;
 	uint32_t m_Program;
@@ -28,6 +30,7 @@ public :
 	void Update();
 	void Draw();
 	void SinMove();
+	void SetShader(Shader &shader);
 	void UseColor(const char* name);
 	void SetProgram(uint32_t program);
 	void SetObjectColor(float x, float y, float z);

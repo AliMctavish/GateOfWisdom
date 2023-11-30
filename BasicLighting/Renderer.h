@@ -9,6 +9,7 @@
 #include "Texture.h"
 #include "Light.h"
 #include "Physics.h"
+#include "Player.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -16,9 +17,11 @@
 class Renderer {
 private:
 	bool gameStarted = false;
+
 	GLFWwindow* _window;
 	GuiDebugger _gui;
 	Physics _physics;
+	Player _player;
 
 	Shader shader;
 	Shader lightShader;

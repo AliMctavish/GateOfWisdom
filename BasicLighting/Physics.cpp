@@ -2,22 +2,21 @@
 
 Physics::Physics()
 {
-
+	_window = nullptr;
 }
 
-void Physics::SetVariables(GLFWwindow* window, glm::vec3 cameraPos)
+void Physics::SetVariables(GLFWwindow* window ,Player &player)
 {
 	_window = window;
-	m_CameraPos = cameraPos;
+	_player = player;
 }
 
-
-bool Physics::CheckCollision(Cube& cube, glm::vec3& cameraPos)
+bool Physics::CheckCollision(Cube& cube , Player &player)
 {
-	if (IsCollided(cube.Position, cameraPos, cube.Size))
+	if (IsCollided(cube.Position, player.Position, cube.Size))
 	{
-		float distance = cameraPos.y - cube.Position.y;
-		cameraPos.y = cube.Position.y + distance;
+		float distance = player.Position.y - cube.Position.y;
+		player.Position.y = cube.Position.y + distance;
 
 
 		//implement the sides collouion also ! 
@@ -30,30 +29,29 @@ bool Physics::CheckCollision(Cube& cube, glm::vec3& cameraPos)
 		return false;
 
 }
-bool Physics::CheckLightCollision(Light& light, glm::vec3& cameraPos)
+bool Physics::CheckLightCollision(Light& light,Player &player)
 {
-	if (IsCollided(light.Position, cameraPos, light.Size))
+	if (IsCollided(light.Position, player.Position, light.Size))
 	{
 		if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
 			return light.isPickedUp = true;
 	}
 }
 
-void Physics::Update(glm::vec3& cameraPos, double& deltaTime , bool &grounded)
+void Physics::UpdateGravity(double& deltaTime, Player &player)
 {
 	if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		isJumping = true;
 
-	if (!grounded)
-		cameraPos.y -= 0.0002f * deltaTime;
+	if (!player.grounded)
+		player.Position.y -= 0.0002f * deltaTime;
 
 	if (isJumping)
 	{
-		cameraPos.y += acceleration * deltaTime;
+		player.Position.y += acceleration * deltaTime;
 		acceleration -= 0.00000001f * deltaTime;
 	}
 }
-
 
 
 bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1)

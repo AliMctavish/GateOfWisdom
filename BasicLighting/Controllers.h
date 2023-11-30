@@ -5,27 +5,13 @@
 #include "Shader.h"
 
 
+//CAMERA STUFF IN HERE
+
 //MOUSE CONTROLLERS
-bool firstMouse = false;
-float lastX = 400, lastY = 300;
 float yaw = 1;
 float pitch = 1;
-//CAMERA STUFF IN HERE
-float horizontal_directions = 0;
-float vertical_directions = 0;
-float resize = 2;
-bool isMoving = true;
-float fov = 75;
-static float moveSpeed = 0;
-glm::vec3 cameraPos = glm::vec3(3.0f, 3.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-glm::vec3 cameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
-void mouse_callback2(GLFWwindow* window, double xpos, double ypos)
-{
-	std::cout << xpos << std::endl;
-	std::cout << ypos << std::endl;
-}
+float lastX = 400, lastY = 300;
+bool firstMouse = false;
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -53,48 +39,39 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	if (pitch < -89.0f)
 		pitch = -89.0f;
 
-	glm::vec3 direction;
-	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	direction.y = sin(glm::radians(pitch));
-	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction);
 }
 
 
-void processInput(GLFWwindow* window, double &deltaTime)
+void processInput(GLFWwindow* window, double &deltaTime , Player &player)
 {
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	direction.y = sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction);
-	cameraRight = glm::normalize(glm::cross(cameraFront, cameraUp));
+	player.CameraFront = glm::normalize(direction);
+	player.CameraRight = glm::normalize(glm::cross(player.CameraFront, player.CameraUp));
 
 	const float cameraSpeed = 0.0002f * deltaTime; // adjust accordingly
 	const float rotaionSpeed = 0.01f; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		cameraPos -= glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed;
+		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		cameraPos += glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed;
+		player.Position += glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		player.Position -= glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+		player.Position += glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
-		cameraPos += cameraUp * cameraSpeed;
+		player.Position += player.CameraUp * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		cameraPos -= cameraUp * cameraSpeed;
+		player.Position -= player.CameraUp * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		cameraPos -= glm::normalize(glm::cross(cameraRight, cameraUp)) * cameraSpeed * 0.5f;
-
-
+		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * 0.5f;
 
 	if (pitch > 89.0f)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
 		pitch = -89.0f;
-
-
 
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
@@ -108,27 +85,4 @@ void processInput(GLFWwindow* window, double &deltaTime)
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		pitch -= 0.5;
-
-
-	//CAMERA FIELD OF VIEW 
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-		fov += 0.01f;
-	else if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
-		fov -= 0.01f;
-
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		isMoving = false;
-	else
-		isMoving = true;
-
 }
-
-//class Controllers {
-//public :
-//	Controllers();
-//	//void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-//	//static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-//	//void processInput(GLFWwindow* window, float deltaTime);
-//};
-
-

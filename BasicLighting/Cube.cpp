@@ -20,6 +20,15 @@ void Cube::Init()
 
 void Cube::Draw()
 {
+	m_Shader.setVec3("light.ambiant", material.Ambiant);
+	m_Shader.setVec3("light.diffuse", material.Diffuse);
+	m_Shader.setVec3("light.specular", material.Specular);
+	m_Shader.setFloat("material.Shininess", material.shininess);
+	m_Shader.SetMat4("model", m_Model);
+	m_Shader.setInt("texture0", texture.m_TextureIndex);
+	texture.Bind();
+	UseColor("objectColor");
+
 	BaseObject::Draw();
 }
 

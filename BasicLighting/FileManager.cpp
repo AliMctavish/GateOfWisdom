@@ -90,6 +90,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		else
 		{
 			Cube cube;
+			cube.SetShader(cubeShader);
 			cube.SetProgram(cubeShader.shader_program);
 			cube.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
 			cube.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));

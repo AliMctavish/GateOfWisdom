@@ -19,6 +19,11 @@ void BaseObject::SinMove()
 	sineValue += 0.01;
 }
 
+void BaseObject::SetShader(Shader &shader)
+{
+	m_Shader = shader;
+}
+
 void BaseObject::UseColor(const char* name)
 {
 	int colorLoc = glGetUniformLocation(m_Program, name);

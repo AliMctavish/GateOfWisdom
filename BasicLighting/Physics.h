@@ -2,24 +2,24 @@
 #include "BaseObject.h"
 #include "Cube.h"
 #include "Light.h"
+#include "Player.h"
 
 class Physics {
 private:
 
 	GLFWwindow* _window;
-	glm::vec3 m_CameraPos;
+	Player _player;
 
-	bool grounded = false;
 	bool isJumping = false;
 	float acceleration = 0.001f;
-	bool IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
 public:
+	bool IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
 	Physics();
 	~Physics();
-	void SetVariables(GLFWwindow* window, glm::vec3 cameraPos);
-	void Update(glm::vec3& cameraPos, double& deltaTime, bool& grounded);
-	bool CheckCollision(Cube& cube, glm::vec3& cameraPos);
-	bool CheckLightCollision(Light& light, glm::vec3& cameraPos);
+	void SetVariables(GLFWwindow* window, Player &player);
+	void UpdateGravity(double& deltaTime,Player &player);
+	bool CheckCollision(Cube& cube , Player &player);
+	bool CheckLightCollision(Light& light, Player &player);
 };
 
 

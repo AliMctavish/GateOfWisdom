@@ -21,7 +21,6 @@ int main(void)
 		glfwTerminate();
 		return -1;
 	}
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwMakeContextCurrent(window);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

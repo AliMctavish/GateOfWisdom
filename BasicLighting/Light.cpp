@@ -23,9 +23,24 @@ Light::Light()
 	Init();
 }
 
-void Light::Update()
+void Light::Update(Player &player , GLFWwindow* window)
 {
 	BaseObject::Update();
+	if (isPickedUp)
+	{
+		//trying to make cube follow camera direciton ?
+
+		Position = player.Position;
+		m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
+		m_Model = glm::rotate(m_Model, (float)glfwGetTime(), glm::vec3(1, 1, 0));
+
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		{
+			isPickedUp = false;
+			isPushing = true;
+			direction = glm::normalize(player.CameraFront);
+		}
+	}
 }
 
 void Light::Draw()

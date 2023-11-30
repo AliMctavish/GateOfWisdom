@@ -18,8 +18,7 @@ Renderer::Renderer(GLFWwindow* window)
 {
 	Init();
 	_window = window;
-	//_physics.SetVariables(_window,cameraPos);
-	_physics.SetVariables(_window, cameraPos);
+	_physics.SetVariables(_window, _player);
 	_gui.SetWindow(_window);
 }
 
@@ -54,7 +53,6 @@ double lastTime = 0;
 double currentTime = glfwGetTime();
 int nbFrames = 0;
 
-bool checked = false;
 void Renderer::Update()
 {
 	currentTime = glfwGetTime();
@@ -71,35 +69,37 @@ void Renderer::Update()
 	{
 		cube.Update();
 
-		if (_physics.CheckCollision(cube, cameraPos))
+		if (_physics.CheckCollision(cube,_player))
 		{
-			checked = true;
+			_player.grounded = true;
 			break;
 		}
 		else
-			checked = false;
+			_player.grounded = false;
 
 	}
 
 	if (gameStarted == true)
-		_physics.Update(cameraPos, deltaTime, checked);
+		_physics.UpdateGravity(deltaTime,_player);
 
 	for (Light& light : lights)
 	{
-		_physics.CheckLightCollision(light, cameraPos);
+		_physics.CheckLightCollision(light,_player);
 
-		light.Update();
-		if (light.isPickedUp)
+		light.Update(_player,_window);
+
+		if (light.isPushing)
 		{
-			//trying to make cube follow camera direciton ?
-
-			light.Position = cameraPos;
-			light.m_Model = glm::translate(light.m_Model,  ((cameraRight * 0.5f) +  cameraFront) * 2.0f);
-			light.m_Model = glm::rotate(light.m_Model, (float)glfwGetTime(), glm::vec3(1, 1, 0));
-
-			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && glfwGetKey(_window, GLFW_KEY_Q) == GLFW_PRESS)
-				light.isPickedUp = false;
+			light.Position += 0.2f * light.direction;
+			for (Cube& cube : cubes)
+			{
+				if (_physics.IsCollided(cube.Position, light.Position, cube.Size))
+				{
+					light.isPushing = false;
+				}
+			}
 		}
+	
 	}
 }
 
@@ -110,21 +110,14 @@ void Renderer::Draw()
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
-	glm::mat4 view;
-	const float radius = 10.0f;
-	float camX = sin(glfwGetTime() * 0.01) * radius;
-	float camZ = cos(glfwGetTime() * 0.01) * radius;
-	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
-	view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);
-	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(fov), 1200.f / 800.f, 0.1f, 100.0f);
-	//CAMERA STUFF SHOULD BE ADDED SOMEWHERE ELSE OUT OF HERE
+
+	_player.SetMatrix();
+
 	shader.Bind();
-	shader.SetMat4("view", view);
-	shader.SetMat4("projection", projection);
+	shader.SetMat4("view", _player.View);
+	shader.SetMat4("projection", _player.Projection);
 	vertexArray.Bind();
-	shader.setVec3("viewPos", cameraPos);
+	shader.setVec3("viewPos", _player.Position);
 
 	//too many for loops for testing perposses idk how to write perpoesrpes
 	for (int i = 0; i < lights.size(); i++)
@@ -137,21 +130,13 @@ void Renderer::Draw()
 
 	for (Cube& cube : cubes)
 	{
-		shader.setVec3("light.ambiant", cube.material.Ambiant);
-		shader.setVec3("light.diffuse", cube.material.Diffuse);
-		shader.setVec3("light.specular", cube.material.Specular);
-		shader.setFloat("material.Shininess", cube.material.shininess);
-		shader.SetMat4("model", cube.GetModel());
-		shader.setInt("texture0", cube.texture.m_TextureIndex);
-		cube.texture.Bind();
-		cube.UseColor("objectColor");
 		cube.Draw();
 	}
 
 	lightShader.Bind();
 
-	lightShader.SetMat4("view", view);
-	lightShader.SetMat4("projection", projection);
+	lightShader.SetMat4("view", _player.View);
+	lightShader.SetMat4("projection", _player.Projection);
 
 	for (Light& light : lights)
 	{
@@ -161,6 +146,7 @@ void Renderer::Draw()
 		light.Draw();
 	}
 
+	//why using second vertex array ? 
 	vertexArray2.Bind();
 
 	if (gameStarted == false)
@@ -181,7 +167,7 @@ void Renderer::Draw()
 			gameStarted = false;
 		//glfwSetWindowShouldClose(window, true);
 	}
-	processInput(_window, deltaTime);
+	processInput(_window, deltaTime, _player);
 	/* Swap front and back buffers */
 	glfwSwapBuffers(_window);
 	/* Poll for and process events */

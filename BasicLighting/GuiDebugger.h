@@ -14,7 +14,7 @@ class GuiDebugger{
 private : 
 	GLFWwindow* m_Window;
 	FileManager fileManager;
-	const char* selectedTexture = "Assests/grd.jpg";
+	uint16_t selectedTexture = 0;
 	std::string selectedMap = " ";
 	bool m_MapSelector = false;
 public :

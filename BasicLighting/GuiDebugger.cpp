@@ -11,8 +11,12 @@ void GuiDebugger::SetWindow(GLFWwindow* window)
 	m_Window = window;
 }
 
+float bgColor[] = { 0.0,0.0,0.0 };
+
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, Shader& shader, Shader& lightShader, std::string& frames, bool& gameStarted)
 {
+	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
+
 	StartFrames();
 	Begin("Objects Coordinates");
 
@@ -71,17 +75,16 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	Begin("Select Cube Texture");
 
 	if (ImGui::Button("Wall", Button_Size))
-	{
-		selectedTexture = FileManager::SelectTextureFile(WallTexturePath);
-	}
-	if (ImGui::Button("Ground", Button_Size))
-	{
-		selectedTexture = FileManager::SelectTextureFile(GroundTexturePath);
-	}
-	if (ImGui::Button("Box", Button_Size))
-	{
-		selectedTexture = FileManager::SelectTextureFile(BoxTexturePath);
-	}
+		selectedTexture = WallTexturePath;
+	else if (ImGui::Button("Ground", Button_Size))
+		selectedTexture = GroundTexturePath;
+	else if (ImGui::Button("Box", Button_Size))
+		selectedTexture = BoxTexturePath;
+	else if(ImGui::Button("Artifact", Button_Size))
+		selectedTexture = IMAGE_TEXTRUE_PATH_0;
+	else if(ImGui::Button("Artifact2", Button_Size))
+		selectedTexture = IMAGE_TEXTRUE_PATH_1;
+
 
 	End();
 	Begin("World Settings");
@@ -93,7 +96,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		Cube cube;
 		cube.SetShader(shader);
 		cube.SetName("test" + std::to_string(cubes.size()));
-		cube.texture.SetTexture(selectedTexture, 1);
+		cube.SetTextureData(selectedTexture);
 		cubes.push_back(cube);
 	}
 
@@ -138,7 +141,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		}
 		End();
 	}
-	//ImGui::ColorEdit3("BackgroundColor", bgColor, 0);
+	ImGui::ColorEdit3("BackgroundColor", bgColor, 0);
 	End();
 	EndFrames();
 }

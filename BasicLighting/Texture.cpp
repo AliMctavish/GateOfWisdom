@@ -74,4 +74,8 @@ void Texture::SetTexutreType(uint16_t textureIndex)
 		SetTexture("Assests/grd.jpg", 1);
 	else if (textureIndex == 3)
 		SetTexture("Assests/box.png", 0);
+	else if (textureIndex == 4)
+		SetTexture("Assests/artifact.jpg", 1);
+	else if (textureIndex == 5)
+		SetTexture("Assests/artifact2.jpg", 1);
 }

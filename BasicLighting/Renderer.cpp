@@ -48,7 +48,6 @@ void Renderer::Initialize()
 	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
 }
 
-float bgColor[] = { 0.0,0.0,0.0 };
 std::string frames;
 double deltaTime = 0;
 double lastTime = 0;
@@ -89,7 +88,10 @@ void Renderer::Update()
 		{
 			lights[i].Position += 0.5f * lights[i].direction;
 			if (glm::distance(lights[i].Position, _player.Position) > 300)
+			{
 				lights.erase(lights.begin() + i);
+				continue;
+			}
 
 
 			for (Cube& cube : cubes)
@@ -107,7 +109,6 @@ double posx = 2;
 double posy = 2;
 void Renderer::Draw()
 {
-	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 

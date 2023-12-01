@@ -12,7 +12,7 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 {
 	std::ofstream newStream("Maps/" + fileName + ".txt");
 	newStream << "#Light_Coordinates" << std::endl;
-	for (Light light : lights)
+	for (Light &light : lights)
 	{
 		newStream << light.Position.x << " " <<
 			light.Position.y << " " <<
@@ -24,7 +24,7 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		std::cout << "saving light data" << std::endl;
 	}
 	newStream << "#Cube_Coordinates" << std::endl;
-	for (Cube cube : cubes)
+	for (Cube &cube : cubes)
 	{
 		newStream << cube.Position.x << " " <<
 			cube.Position.y << " " <<

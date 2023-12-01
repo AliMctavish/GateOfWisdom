@@ -2,12 +2,11 @@
 #include <vector>
 #include "Cube.h"
 #include "Light.h"
-#define Available_Textures 5
-#define WallTexturePath 0
-#define GroundTexturePath 1
-#define BoxTexturePath 2
-
-static const char* m_texturePath[Available_Textures] = {"Assests/wall.jpg","Assests/grd.jpg","Assests/box.png"};
+#define WallTexturePath 1
+#define GroundTexturePath 2
+#define BoxTexturePath 3
+#define IMAGE_TEXTRUE_PATH_0 4
+#define IMAGE_TEXTRUE_PATH_1 5
 
 class FileManager {
 public : 
@@ -17,7 +16,6 @@ public :
 	};
 	FileManager();
 	~FileManager();
-	inline static const char* SelectTextureFile(int index) { return m_texturePath[index]; }
 	static void SaveFile(std::vector<Light> &lights ,std::vector<Cube> &cubes , std::string &fileName);
 	static void LoadFile(std::vector<Light> &lights,std::vector<Cube> &cubes , Shader& lightShader , Shader& cubeShader ,std::string fileName);
 };

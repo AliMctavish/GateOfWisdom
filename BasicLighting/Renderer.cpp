@@ -78,20 +78,25 @@ void Renderer::Update()
 	if (gameStarted == true)
 		_physics.UpdateGravity(deltaTime, _player);
 
-	for (Light& light : lights)
+	for (int i = 0 ; i < lights.size() ; i++)
 	{
-		_physics.CheckLightCollision(light, _player);
+		// claen the code soon
+		_physics.CheckLightCollision(lights[i], _player);
 
-		light.Update(_player, _window);
+		lights[i].Update(_player, _window);
 
-		if (light.isPushing)
+		if (lights[i].isPushing)
 		{
-			light.Position += 0.5f * light.direction;
+			lights[i].Position += 0.5f * lights[i].direction;
+			if (glm::distance(lights[i].Position, _player.Position) > 300)
+				lights.erase(lights.begin() + i);
+
+
 			for (Cube& cube : cubes)
 			{
-				if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
+				if (_physics.IsCollidedTest(cube.Position, lights[i].Position, cube.Size))
 				{
-					light.isPushing = false;
+					lights[i].isPushing = false;
 				}
 			}
 		}

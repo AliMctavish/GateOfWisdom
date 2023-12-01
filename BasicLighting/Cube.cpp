@@ -37,16 +37,6 @@ void Cube::SetTextureData(uint16_t textureIndex)
 	texture.SetTexutreType(m_TextureIndex);
 }
 
-//void Cube::SetShaderData()
-//{
-//	shader.setVec3("light.ambiant", material.Ambiant);
-//	shader.setVec3("light.diffuse", material.Diffuse);
-//	shader.setVec3("light.specular", material.Specular);
-//	shader.setFloat("material.Shininess", material.shininess);
-//	shader.SetMat4("model", GetModel());
-//	shader.setInt("texture0", texture.m_TextureIndex);
-//}
-
 
 void Cube::Update()
 {

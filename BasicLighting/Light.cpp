@@ -37,6 +37,7 @@ void Light::Update(Player &player , GLFWwindow* window)
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
 		{
 			isPickedUp = false;
+			player.hasLight = false;
 			isPushing = true;
 			direction = glm::normalize(player.CameraFront);
 		}

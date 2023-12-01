@@ -11,6 +11,12 @@ uniform int LightCount;
 uniform vec3 lightColor[40];
 uniform vec3 lightPos[40];
 
+
+
+struct Effect {
+	vec3 DiffuseSurface;
+};
+
 struct Material {
 	vec3 Ambiant;
 	sampler2D Diffuse;
@@ -34,6 +40,7 @@ vec3 Texture(sampler2D passedTexture)
 
 uniform Material material;
 uniform LightSource light;
+uniform Effect effect;
 
 
 vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
@@ -47,8 +54,7 @@ vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
 	float attenuation = ((distance * distance) * 0.0057) + ((distance * 0.0075) + 1);
 
 	float diff = max(dot(norm, lightDir), 0);
-	vec3 diffuse =  light.diffuse * (diff * Texture(texture0)) * lightColor;
-
+	vec3 diffuse = (light.diffuse * (diff * Texture(texture0)) * lightColor);
 
 	// specular
 	float specularStrength = 0.02;
@@ -57,7 +63,7 @@ vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.Shininess);
 	vec3 specular = light.specular * (spec)*objectColor * lightColor;
 
-	return (diffuse + specular) * objectColor / attenuation;
+	return (diffuse + specular ) * objectColor / attenuation;
 }
 
 void main()

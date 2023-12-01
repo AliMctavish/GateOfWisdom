@@ -5,6 +5,7 @@ class Player : BaseObject {
 public:
 	Player();
 	bool grounded = false;
+	bool isJumping = false;
 	glm::vec3 Position;
 	glm::vec3 CameraFront;
 	glm::vec3 CameraUp;

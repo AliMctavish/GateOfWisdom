@@ -44,9 +44,11 @@ void Renderer::Initialize()
 	_gui.Init();
 
 	shader.Bind();
+
+	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
 }
 
-float bgColor[] = { 0,0,0 };
+float bgColor[] = { 0.0,0.0,0.0 };
 std::string frames;
 double deltaTime = 0;
 double lastTime = 0;
@@ -69,37 +71,30 @@ void Renderer::Update()
 	{
 		cube.Update();
 
-		if (_physics.CheckCollision(cube,_player))
-		{
-			_player.grounded = true;
+		if (_physics.CheckCollision(cube, _player))
 			break;
-		}
-		else
-			_player.grounded = false;
-
 	}
 
 	if (gameStarted == true)
-		_physics.UpdateGravity(deltaTime,_player);
+		_physics.UpdateGravity(deltaTime, _player);
 
 	for (Light& light : lights)
 	{
-		_physics.CheckLightCollision(light,_player);
+		_physics.CheckLightCollision(light, _player);
 
-		light.Update(_player,_window);
+		light.Update(_player, _window);
 
 		if (light.isPushing)
 		{
-			light.Position += 0.2f * light.direction;
+			light.Position += 0.5f * light.direction;
 			for (Cube& cube : cubes)
 			{
-				if (_physics.IsCollided(cube.Position, light.Position, cube.Size))
+				if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
 				{
 					light.isPushing = false;
 				}
 			}
 		}
-	
 	}
 }
 

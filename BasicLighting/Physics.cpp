@@ -21,13 +21,14 @@ bool Physics::CheckCollision(Cube& cube , Player &player)
 
 		//implement the sides collouion also ! 
 
-		isJumping = false;
+		player.isJumping = false;
+
 		acceleration = 0.001f;
-		return true;
+
+		return player.grounded = true;
 	}	
 	else
-		return false;
-
+		return player.grounded = false;
 }
 bool Physics::CheckLightCollision(Light& light,Player &player)
 {
@@ -41,12 +42,12 @@ bool Physics::CheckLightCollision(Light& light,Player &player)
 void Physics::UpdateGravity(double& deltaTime, Player &player)
 {
 	if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
-		isJumping = true;
+		player.isJumping = true;
 
 	if (!player.grounded)
 		player.Position.y -= 0.0002f * deltaTime;
 
-	if (isJumping)
+	if (player.isJumping)
 	{
 		player.Position.y += acceleration * deltaTime;
 		acceleration -= 0.00000001f * deltaTime;
@@ -73,6 +74,28 @@ bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& size
 	return object2Y < object1YY&& object1Y < object2YY&& object2X < object1XX
 		&& object1X < object2XX&& object2Z < object1ZZ&& object1Z < object2ZZ;
 }
+
+
+bool Physics::IsCollidedTest(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1)
+{
+	int object1XX = object1.x + sizeObject1.x + 1;
+	int object1X = object1.x;
+	int object1YY = object1.y + sizeObject1.y + 2;
+	int object1Y = object1.y;
+	int object1ZZ = object1.z + sizeObject1.z;
+	int object1Z = object1.z;
+
+	int object2XX = object2.x + 3;
+	int object2X = object2.x;
+	int object2YY = object2.y + 2;
+	int object2Y = object2.y;
+	int object2ZZ = object2.z + 2;
+	int object2Z = object2.z;
+
+	return object2Y < object1YY&& object1Y < object2YY&& object2X < object1XX
+		&& object1X < object2XX&& object2Z < object1ZZ&& object1Z < object2ZZ;
+}
+
 
 
 

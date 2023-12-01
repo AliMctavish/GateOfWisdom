@@ -6,6 +6,7 @@
 class Light :public BaseObject{
 public:
 	bool isPushing = false;
+	bool isInterpolated = false;
 	Material material;
 	int objectId;
 	glm::vec3 Size;

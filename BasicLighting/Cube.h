@@ -13,6 +13,7 @@ public :
 	Material material;
 	Texture texture;
 	bool collided = false;
+	bool isInterpolated = false;
 	int cubeId;
 	glm::vec3 Size;
 	float angle;
@@ -25,7 +26,6 @@ public :
 	void Update();
 	void Draw();
 	void SetTextureData(uint16_t textureIndex);
-	void SetShaderData();
 	void Rotate(float angle);
 	void RotateOnY(float angle);
 	void Resize(glm::vec3& size);

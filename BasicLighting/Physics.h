@@ -10,10 +10,10 @@ private:
 	GLFWwindow* _window;
 	Player _player;
 
-	bool isJumping = false;
 	float acceleration = 0.001f;
 public:
 	bool IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
+	bool IsCollidedTest(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
 	Physics();
 	~Physics();
 	void SetVariables(GLFWwindow* window, Player &player);

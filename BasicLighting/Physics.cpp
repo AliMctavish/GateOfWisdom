@@ -37,6 +37,7 @@ bool Physics::CheckLightCollision(Light& light,Player &player)
 		if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && !player.hasLight)
 		{
 			player.hasLight = true;
+			light.effect.DiffuseSurface = Effect_Defualt_Value;
 			return light.isPickedUp = true;
 		}
 	}

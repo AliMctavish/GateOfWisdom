@@ -55,7 +55,7 @@ vec3 CalculateFragment(vec3 lightPos, vec3 lightColor,vec3 lightDiffuse)
 	float attenuation = ((distance * distance) * 0.0057) + ((distance * 0.0075) + 1);
 
 	float diff = max(dot(norm, lightDir), 0);
-	vec3 diffuse = (light.diffuse * (diff * Texture(texture0)) * lightColor) + lightDiffuse;
+	vec3 diffuse = ((light.diffuse + lightDiffuse) * (diff * Texture(texture0)) * lightColor) ;
 
 	// specular
 	float specularStrength = 0.02;

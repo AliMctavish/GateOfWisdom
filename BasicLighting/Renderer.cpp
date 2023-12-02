@@ -77,7 +77,7 @@ void Renderer::Update()
 	if (gameStarted == true)
 		_physics.UpdateGravity(deltaTime, _player);
 
-	for (int i = 0 ; i < lights.size() ; i++)
+	for (int i = 0; i < lights.size(); i++)
 	{
 		// claen the code soon
 		_physics.CheckLightCollision(lights[i], _player);
@@ -92,11 +92,8 @@ void Renderer::Update()
 				lights.erase(lights.begin() + i);
 				continue;
 			}
-
-
-	
 		}
-		
+
 	}
 }
 
@@ -129,14 +126,13 @@ void Renderer::Draw()
 	{
 		for (Light& light : lights)
 		{
+			//hmmmm is this the way i should work with ? 
 			if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
 			{
+				if (light.effect.DiffuseSurface.x < 1)
+					light.effect.DiffuseSurface += 0.005f;
+
 				light.isPushing = false;
-				cube.material.Diffuse += light.effect.DiffuseSurface + 1.0f;
-			}
-			else
-			{
-				cube.material.Diffuse = Material_Default_Value;
 			}
 		}
 		cube.Draw();

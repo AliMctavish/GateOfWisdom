@@ -8,6 +8,7 @@ public:
 	bool isPushing = false;
 	bool isInterpolated = false;
 	Material material;
+	Effect_Material effect;
 	int objectId;
 	glm::vec3 Size;
 	float angle;

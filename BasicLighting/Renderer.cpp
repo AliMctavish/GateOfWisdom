@@ -94,14 +94,9 @@ void Renderer::Update()
 			}
 
 
-			for (Cube& cube : cubes)
-			{
-				if (_physics.IsCollidedTest(cube.Position, lights[i].Position, cube.Size))
-				{
-					lights[i].isPushing = false;
-				}
-			}
+	
 		}
+		
 	}
 }
 
@@ -125,12 +120,25 @@ void Renderer::Draw()
 	{
 		shader.setVec3("lightPos[" + std::to_string(i) + ']', lights[i].Position);
 		shader.setVec3("lightColor[" + std::to_string(i) + ']', glm::vec3(lights[i].Color[0], lights[i].Color[1], lights[i].Color[2]));
+		shader.setVec3("lightDiffuse[" + std::to_string(i) + ']', lights[i].effect.DiffuseSurface);
 	}
 
 	shader.setInt("LightCount", lights.size());
 
 	for (Cube& cube : cubes)
 	{
+		for (Light& light : lights)
+		{
+			if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
+			{
+				light.isPushing = false;
+				cube.material.Diffuse += light.effect.DiffuseSurface + 1.0f;
+			}
+			else
+			{
+				cube.material.Diffuse = Material_Default_Value;
+			}
+		}
 		cube.Draw();
 	}
 

@@ -117,7 +117,6 @@ void Renderer::Draw()
 	{
 		shader.setVec3("lightPos[" + std::to_string(i) + ']', lights[i].Position);
 		shader.setVec3("lightColor[" + std::to_string(i) + ']', glm::vec3(lights[i].Color[0], lights[i].Color[1], lights[i].Color[2]));
-		shader.setVec3("lightDiffuse[" + std::to_string(i) + ']', lights[i].effect.DiffuseSurface);
 	}
 
 	shader.setInt("LightCount", lights.size());
@@ -128,12 +127,7 @@ void Renderer::Draw()
 		{
 			//hmmmm is this the way i should work with ? 
 			if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
-			{
-				if (light.effect.DiffuseSurface.x < 1)
-					light.effect.DiffuseSurface += 0.005f;
-
 				light.isPushing = false;
-			}
 		}
 		cube.Draw();
 	}

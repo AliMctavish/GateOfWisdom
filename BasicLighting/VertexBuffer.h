@@ -19,6 +19,7 @@ public :
 
 	uint32_t inline GetBuffer() { return m_VertexBuffer; }
 	void Bind();
+	void InitializeVertexBuffer(const VertexType& type);
 	void SetCubeAttributes();
 	void SetCubeWithNormalsAttributes();
 	void SetCubeWithNormalsAndTexturesAttributes();

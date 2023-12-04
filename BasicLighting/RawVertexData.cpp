@@ -1,8 +1,8 @@
 #include "RawVertexData.h"
 
-float* RawVertexData::PyramidData()
+std::array<float, Pyramid_Data_Buffer> RawVertexData::PyramidData()
 {
-	float* vertices = new float[9] {
+	std::array<float, Pyramid_Data_Buffer> vertices = {
 			1, 1,1,
 			1, -1,1,
 			-1,-1,1,
@@ -10,9 +10,9 @@ float* RawVertexData::PyramidData()
 	return vertices;
 }
 
-float* RawVertexData::CubeData()
+std::array<float, Cube_Data_Buffer>  RawVertexData::CubeData()
 {
-	float* vertices = new float[Cube_Data_Buffer] {
+	std::array<float, Cube_Data_Buffer> vertices = {
 		   -1, -1, -1,
 			1, -1, -1,
 			1, 1, -1,
@@ -60,11 +60,11 @@ float* RawVertexData::CubeData()
 }
 
 
-float* RawVertexData::FlatSurface()
+std::array<float, Flat_Surface_Data_Buffer_With_Texture> RawVertexData::FlatSurface()
 {
 	float textureSize = 1.0f;
 
-	float* verticese = new float[Flat_Surface_Data_Buffer_With_Texture] {
+	std::array<float, Flat_Surface_Data_Buffer_With_Texture> verticese = {
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
 			0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, textureSize, 0.0f,
 			0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, textureSize, textureSize,   //Face 1 front
@@ -77,10 +77,10 @@ float* RawVertexData::FlatSurface()
 	return verticese;
 }
 
-float* RawVertexData::CubeWithNormalsData()
+std::array<float, Cube_With_Normals_And_Texture_Data_Buffer_Size> RawVertexData::CubeWithNormalsData()
 {
 	float textureSize = 1.0f;
-	float* vertices = new float[Cube_With_Normals_And_Texture_Data_Buffer]{
+	std::array<float, Cube_With_Normals_And_Texture_Data_Buffer_Size> vertices ={
 	//COORDINATES VEC3    //NORAMALS VEC3    //TEXUTRE VEC2
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f,
 	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, textureSize, 0.0f,

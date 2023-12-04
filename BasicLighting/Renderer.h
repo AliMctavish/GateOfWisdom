@@ -32,7 +32,7 @@ private:
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);
-	VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Cube_Type);
+	VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Surface_Type);
 
 	//Controllers controllers;
 public:

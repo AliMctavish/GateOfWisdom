@@ -26,38 +26,35 @@ void VertexBuffer::Bind()
 
 void VertexBuffer::InitializeVertexBuffer(const VertexType& type)
 {
-	float* vertices = nullptr;
 	RawVertexData rawData;
-	int size;
+
+	glGenBuffers(1, &m_VertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 
 	switch (m_Type)
 	{
 	case VertexType::Cube_Type:
-		vertices = rawData.CubeWithNormalsData();
-		size = Cube_With_Normals_And_Texture_Data_Buffer;
-		break;
-	case VertexType::Surface_Type:
-		vertices = rawData.FlatSurface();
-		size = Flat_Surface_Data_Buffer_With_Texture;
-		break;
-	case VertexType::Pyramid_Type:
-		vertices = rawData.PyramidData();
-		size = Pyramid_Data_Buffer;
-		break;
-	default:
+	{
+		std::array<float, Cube_With_Normals_And_Texture_Data_Buffer_Size> arrayData = rawData.CubeWithNormalsData();
+		std::array<float, arrayData.size()> vert = arrayData;
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
 		break;
 	}
-	float* vert = new float[size];
-
-	for (int i = 0; i < size; i++)
-		vert[i] = vertices[i];
-
-	glGenBuffers(1, &m_VertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
-
-	delete[] vertices;
-	delete[] vert;
+	case VertexType::Surface_Type:
+	{
+		std::array<float, Flat_Surface_Data_Buffer_With_Texture> arrayData = rawData.FlatSurface();
+		std::array<float, arrayData.size()> vert = arrayData;
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
+		break;
+	}
+	case VertexType::Pyramid_Type:
+	{
+		std::array<float, Pyramid_Data_Buffer> arrayData = rawData.PyramidData();
+		std::array<float, arrayData.size()> vert = arrayData;
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
+		break;
+	}
+	}
 }
 
 void VertexBuffer::SetCubeAttributes()
@@ -72,7 +69,7 @@ void VertexBuffer::SetCubeWithNormalsAttributes()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-}	
+}
 
 void VertexBuffer::SetCubeWithNormalsAndTexturesAttributes()
 {

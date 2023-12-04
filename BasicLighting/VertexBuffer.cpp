@@ -13,15 +13,7 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::Bind()
 {
-	if (m_Type == VertexType::Cube_Type) {
 		InitializeVertexBuffer(m_Type);
-	}
-	else if (m_Type == VertexType::Pyramid_Type) {
-		InitializeVertexBuffer(m_Type);
-	}
-	else if (m_Type == VertexType::Surface_Type) {
-		InitializeVertexBuffer(m_Type);
-	}
 }
 
 void VertexBuffer::InitializeVertexBuffer(const VertexType& type)

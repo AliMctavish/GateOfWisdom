@@ -138,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AddtionalIncludeDirectories)%;C:\Users\pc\source\repos\AliMctavish\BasicLighting\BasicLighting\Libraries\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\pc\source\repos\AliMctavish\BasicLighting\BasicLighting\Libraries\include;%(AddtionalIncludeDirectories)%</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,6 +165,8 @@
     <ClCompile Include="Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RawVertexData.cpp" />
@@ -197,6 +199,8 @@
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RawVertexData.h" />

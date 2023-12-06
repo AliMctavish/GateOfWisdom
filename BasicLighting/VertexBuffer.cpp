@@ -13,10 +13,10 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::Bind()
 {
-		InitializeVertexBuffer(m_Type);
+	InitializeVertexBuffer();
 }
 
-void VertexBuffer::InitializeVertexBuffer(const VertexType& type)
+void VertexBuffer::InitializeVertexBuffer()
 {
 	RawVertexData rawData;
 
@@ -28,8 +28,8 @@ void VertexBuffer::InitializeVertexBuffer(const VertexType& type)
 	case VertexType::Cube_Type:
 	{
 		std::array<float, Cube_With_Normals_And_Texture_Data_Buffer_Size> arrayData = rawData.CubeWithNormalsData();
-		std::array<float, arrayData.size()> vert = arrayData;
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(arrayData), &arrayData, GL_STATIC_DRAW);
+		SetCubeWithNormalsAndTexturesAttributes();
 		break;
 	}
 	case VertexType::Surface_Type:
@@ -37,6 +37,7 @@ void VertexBuffer::InitializeVertexBuffer(const VertexType& type)
 		std::array<float, Flat_Surface_Data_Buffer_With_Texture> arrayData = rawData.FlatSurface();
 		std::array<float, arrayData.size()> vert = arrayData;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
+		SetCubeWithNormalsAndTexturesAttributes();
 		break;
 	}
 	case VertexType::Pyramid_Type:
@@ -44,6 +45,7 @@ void VertexBuffer::InitializeVertexBuffer(const VertexType& type)
 		std::array<float, Pyramid_Data_Buffer> arrayData = rawData.PyramidData();
 		std::array<float, arrayData.size()> vert = arrayData;
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vert), &vert, GL_STATIC_DRAW);
+		SetCubeAttributes();
 		break;
 	}
 	}

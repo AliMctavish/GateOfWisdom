@@ -29,11 +29,9 @@ void Renderer::Initialize()
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
-	vertexBuffer.SetCubeWithNormalsAndTexturesAttributes();
 
 	vertexArray2.Bind();
-	vertexBuffer2.Bind();
-	vertexBuffer2.SetCubeAttributes();
+	//vertexBuffer2.Bind();
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -146,7 +144,7 @@ void Renderer::Draw()
 	}
 
 	//why using second vertex array ? 
-	vertexArray2.Bind();
+	//vertexArray2.Bind();
 
 	if (gameStarted == false)
 	{

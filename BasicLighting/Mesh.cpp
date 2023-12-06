@@ -13,6 +13,9 @@ void Mesh::Draw(Shader& shader)
 {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;
+	unsigned int normalNr = 1;
+	unsigned int heightNr = 1;
+
 	for (unsigned int i = 0; i < Textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
@@ -23,6 +26,10 @@ void Mesh::Draw(Shader& shader)
 			number = std::to_string(diffuseNr++);
 		else if (name == "texture_specular")
 			number = std::to_string(specularNr++);
+		else if (name == "texture_normal")
+			number = std::to_string(normalNr++); // transfer unsigned int to string
+		else if (name == "texture_height")
+			number = std::to_string(heightNr++); // transfer unsigned int to string
 
 		shader.setInt(("material." + name + number).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, Textures[i].id);

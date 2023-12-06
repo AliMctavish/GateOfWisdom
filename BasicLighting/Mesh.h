@@ -1,4 +1,8 @@
 #pragma once
+#ifndef MESH_H
+#define MESH_H
+
+#include "stb_image.h"
 #include "Shader.h"
 #include <vector>
 
@@ -20,7 +24,7 @@ class Mesh {
 public:
 	// mesh data
 	std::vector<Vertex_Struct>       Vertices;
-	std::vector<unsigned int> Indices;
+	std::vector<unsigned int>		 Indices;
 	std::vector<Texture_Struct>      Textures;
 
 	Mesh(std::vector<Vertex_Struct> vertices, std::vector<unsigned int> indices, std::vector<Texture_Struct> textures);
@@ -31,3 +35,4 @@ private:
 
 	void setupMesh();
 };
+#endif

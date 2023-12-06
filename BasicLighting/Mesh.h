@@ -2,7 +2,6 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "stb_image.h"
 #include "Shader.h"
 #include <vector>
 

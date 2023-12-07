@@ -10,6 +10,7 @@
 #include "Light.h"
 #include "Physics.h"
 #include "Player.h"
+#include "Model.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -28,6 +29,7 @@ private:
 
 	std::vector<Light> lights;
 	std::vector<Cube> cubes;
+	Model ourModel = Model("Models/Test/Plat.obj", false);
 
 	VertexArray vertexArray;
 	VertexArray vertexArray2;

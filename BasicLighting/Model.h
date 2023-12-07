@@ -10,18 +10,20 @@
 
 class Model {
 public:
-    Model(char* path)
-    {
-        loadModel(path);
-    }
-    void Draw(Shader& shader);
-private:
+    bool gammaCorrection;
     // model data
     std::vector<Mesh> meshes;
     std::string directory;
     std::vector<Texture_Struct> textures_loaded;
 
-    void loadModel(std::string path);
+
+    Model(std::string const& path, bool gamma = false) : gammaCorrection(gamma)
+    {
+        loadModel(path);
+    }
+    void Draw(Shader& shader);
+private:
+    void loadModel(std::string const &path);
     void processNode(aiNode* node, const aiScene* scene);
     Mesh processMesh(aiMesh* mesh, const aiScene* scene);
     unsigned int  TextureFromFile(const char* path, const std::string& directory, bool gamma);

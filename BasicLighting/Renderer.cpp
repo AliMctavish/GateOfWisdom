@@ -27,6 +27,8 @@ void Renderer::Initialize()
 	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
 
+	
+
 	vertexArray.Bind();
 	vertexBuffer.Bind();
 
@@ -102,7 +104,12 @@ void Renderer::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
+
+
 	_player.SetMatrix();
+
+
+
 
 	shader.Bind();
 	shader.SetMat4("view", _player.View);
@@ -117,6 +124,9 @@ void Renderer::Draw()
 		shader.setVec3("lightColor[" + std::to_string(i) + ']', glm::vec3(lights[i].Color[0], lights[i].Color[1], lights[i].Color[2]));
 	}
 
+
+	
+
 	shader.setInt("LightCount", lights.size());
 
 	for (Cube& cube : cubes)
@@ -129,6 +139,15 @@ void Renderer::Draw()
 		}
 		cube.Draw();
 	}
+
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(67, -1.924, -25)); // translate it down so it's at the center of the scene
+	model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
+	shader.SetMat4("model", model);
+	ourModel.Draw(shader);
+
+
+
 
 	lightShader.Bind();
 

@@ -29,9 +29,7 @@ void Cube::Draw()
 	UseColor("objectColor");
 
 	//model.Draw(m_Shader);
-
 	BaseObject::Draw();
-
 	//glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -48,7 +46,7 @@ void Cube::Update()
 	BaseObject::Update();
 	Rotate(rotateX);
 	RotateOnY(rotateY);
-	Resize(Size);
+	BaseObject::Resize();
 }
 
 void Cube::Rotate(float angle)
@@ -61,18 +59,7 @@ void Cube::RotateOnY(float angle)
 	m_Model = glm::rotate(m_Model, rotateY, glm::vec3(0, 1, 0));
 }
 
-void Cube::Resize(glm::vec3& size)
-{
-	m_Model = glm::translate(m_Model, glm::vec3(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f));
-	m_Model = glm::scale(m_Model, glm::vec3(size));
-}
-
-
-
-
 Cube::~Cube()
 {
 
 }
-
-

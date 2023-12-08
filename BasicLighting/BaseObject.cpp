@@ -18,6 +18,12 @@ void BaseObject::SinMove()
 	sineValue += 0.01;
 }
 
+void BaseObject::Resize()
+{
+	m_Model = glm::translate(m_Model, glm::vec3(Size.x * 0.5f, Size.y * 0.5f, Size.z * 0.5f));
+	m_Model = glm::scale(m_Model, glm::vec3(Size));
+}
+
 void BaseObject::SetShader(Shader &shader)
 {
 	m_Shader = shader;

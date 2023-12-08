@@ -17,18 +17,15 @@ public :
 	bool collided = false;
 	bool isInterpolated = false;
 	int cubeId;
-	glm::vec3 Size;
 	float angle;
 	float rotateX,rotateY,rotateZ;
 	Cube();
 	~Cube();
 	uint16_t inline GetTexutreIndex() { return m_TextureIndex; }
-	std::string inline GetName() { return _name; }
 	glm::mat4 inline GetModel() { return m_Model; }
 	void Update();
 	void Draw();
 	void SetTextureData(uint16_t textureIndex);
 	void Rotate(float angle);
 	void RotateOnY(float angle);
-	void Resize(glm::vec3& size);
 };

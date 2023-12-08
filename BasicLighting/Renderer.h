@@ -12,6 +12,7 @@
 #include "Player.h"
 #include "Model.h"
 #include "ModelLoader.h"
+#include "Enemy.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -27,13 +28,14 @@ private:
 
 	Shader shader;
 	Shader lightShader;
-	//Shader modelShader;
+	Shader modelShader;
 
 	ModelLoader modelLoader;
 	
 
 	std::vector<Light> lights;
 	std::vector<Cube> cubes;
+	std::vector<Enemy> enemies;
 
 	VertexArray vertexArray;
 	VertexArray vertexArray2;

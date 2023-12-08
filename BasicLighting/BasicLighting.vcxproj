@@ -153,6 +153,7 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BasicLighting.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad.c" />

@@ -13,11 +13,29 @@ void GuiDebugger::SetWindow(GLFWwindow* window)
 
 float bgColor[] = { 0.0,0.0,0.0 };
 
-void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, Shader& shader, Shader& lightShader, std::string& frames, bool& gameStarted)
+void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,std::vector<Enemy> &enemies, Shader& shader, Shader& lightShader,Shader& modelShader, std::string& frames, bool& gameStarted)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
 	StartFrames();
+	Begin("Enemies Coordinates");
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		ImGui::Text(enemies[i].GetName().c_str());
+		ImGui::PushID(enemies[i].objectId);
+		ImGui::SliderFloat("Move3 On X", &enemies[i].Position.x, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move3 On Y", &enemies[i].Position.y, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move3 On Z", &enemies[i].Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Rsizex3 object", &enemies[i].Size.x, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizey3 object", &enemies[i].Size.y, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizez3 object", &enemies[i].Size.z, 0, 100, "%.3f", 0);
+		if (ImGui::Button("Delete", Button_Size)) { enemies.erase(enemies.begin() + i); }
+		ImGui::PopID();
+	}
+
+	End();
+
 	Begin("Objects Coordinates");
 
 	for (int i = 0; i < cubes.size(); i++)
@@ -44,7 +62,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 	End();
 
-	Begin("Object Coordinates2");
+	Begin("Lights Coordinates2");
 
 	for (int i = 0; i < lights.size(); i++)
 	{
@@ -105,6 +123,15 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		light.SetName("object" + std::to_string(cubes.size()));
 		lights.push_back(light);
 	}
+
+	if (ImGui::Button("Create Enemy", Button_Size))
+	{
+		Enemy enemy;
+		enemy.SetShader(modelShader);
+		enemy.SetName("enemy" + std::to_string(enemies.size()));
+		enemies.push_back(enemy);
+	}
+
 	if (ImGui::Button("Start Game", Button_Size))
 		gameStarted = true;
 

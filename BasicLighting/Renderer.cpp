@@ -27,7 +27,7 @@ void Renderer::Initialize()
 {
 	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
-	//modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
+	modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
 
 
 
@@ -47,8 +47,8 @@ void Renderer::Initialize()
 	lightShader.UnBind();
 	_gui.Init();
 
-	//shader.Bind();
-	//modelShader.Bind();
+	shader.Bind();
+	modelShader.Bind();
 
 	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
 }
@@ -78,6 +78,9 @@ void Renderer::Update()
 		if (_physics.CheckCollision(cube, _player))
 			break;
 	}
+
+	for (Enemy& enemy : enemies)
+		enemy.Update();
 
 	if (gameStarted == true)
 		_physics.UpdateGravity(deltaTime, _player);
@@ -111,12 +114,30 @@ void Renderer::Draw()
 
 	_player.SetMatrix();
 
+
+
+	//why the fuck there is nothing showing on the screen ?????????????
+	//okay .... basically you should send the view matrix for the camera !!!-_-
+	modelShader.Bind();
+
+	//abstract this motherfucker plz !.
+	modelShader.SetMat4("view", _player.View);
+	modelShader.SetMat4("projection", _player.Projection);
+
+	for (Enemy& enemy : enemies)
+	{
+		enemy.Draw(modelLoader);
+	}
+	modelShader.UnBind();
+
+
+
 	shader.Bind();
 
 	shader.SetMat4("view", _player.View);
 	shader.SetMat4("projection", _player.Projection);
-	vertexArray.Bind();
 	shader.setVec3("viewPos", _player.Position);
+	vertexArray.Bind();
 
 	//too many for loops for testing perposses idk how to write perpoesrpes
 	for (int i = 0; i < lights.size(); i++)
@@ -141,7 +162,6 @@ void Renderer::Draw()
 	shader.UnBind();
 
 	lightShader.Bind();
-
 	lightShader.SetMat4("view", _player.View);
 	lightShader.SetMat4("projection", _player.Projection);
 
@@ -152,8 +172,8 @@ void Renderer::Draw()
 
 		light.Draw(modelLoader);
 	}
-
 	lightShader.UnBind();
+
 
 
 	//why using second vertex array ? 
@@ -166,7 +186,7 @@ void Renderer::Draw()
 
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		_gui.Debugger(lights, cubes, shader, lightShader, frames, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, shader, lightShader,modelShader, frames, gameStarted);
 
 
 		if (glfwGetKey(_window, GLFW_KEY_P) == GLFW_PRESS)

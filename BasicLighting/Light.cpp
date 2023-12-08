@@ -41,6 +41,6 @@ void Light::Draw(ModelLoader &objectModel)
 	//BaseObject::Draw();
 	m_Shader.SetMat4("model", m_Model);
 	UseColor("objectColor");
-	objectModel.GetModel(ModelLoader::Type_Enemy).Draw(m_Shader);
+	objectModel.GetModel(ModelLoader::Type_Sphere).Draw(m_Shader);
 }
 

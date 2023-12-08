@@ -28,6 +28,7 @@ public :
 	Shader m_Shader;
 	bool isPickedUp = false;
 	glm::vec3 Position;
+	glm::vec3 Size;
 	glm::mat4 m_Model;
 	std::string _name;
 	float Color[3] = { 0.5,0.5,0.5 };
@@ -35,7 +36,9 @@ public :
 	void Draw();
 	void SinMove();
 	void SetShader(Shader &shader);
+	std::string inline GetName() { return _name; }
 	void UseColor(const char* name);
 	void SetObjectColor(float x, float y, float z);
 	void SetName(std::string name);
+	void Resize();
 };

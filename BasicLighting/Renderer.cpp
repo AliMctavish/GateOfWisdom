@@ -147,7 +147,9 @@ void Renderer::Draw()
 
 	for (Light& light : lights)
 	{
-		//light.SinMove();
+		if (!light.isPickedUp)
+			light.SinMove();
+
 		lightShader.SetMat4("model", light.GetModel());
 		light.Draw(modelLoader);
 	}
@@ -177,7 +179,7 @@ void Renderer::Draw()
 			cube.SetName("test" + std::to_string(cubes.size()));
 			cube.SetTextureData(1);
 			cubes.push_back(cube);
-		}		
+		}
 		if (glfwGetKey(_window, GLFW_KEY_L) == GLFW_PRESS)
 		{
 			Light light;

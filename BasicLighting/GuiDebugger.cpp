@@ -101,7 +101,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	if (ImGui::Button("Create Light", Button_Size))
 	{
 		Light light;
-		light.SetProgram(lightShader.shader_program);
+		light.SetShader(lightShader);
 		light.SetName("object" + std::to_string(cubes.size()));
 		lights.push_back(light);
 	}

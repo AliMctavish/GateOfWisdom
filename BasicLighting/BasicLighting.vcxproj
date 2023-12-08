@@ -188,6 +188,7 @@
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="FileManager.h" />
     <ClInclude Include="GuiDebugger.h" />
     <ClInclude Include="Libraries\imgui\imconfig.h" />

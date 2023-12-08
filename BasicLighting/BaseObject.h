@@ -27,10 +27,8 @@ private:
 public : 
 	Shader m_Shader;
 	bool isPickedUp = false;
-	glm::vec3 direction;
 	glm::vec3 Position;
 	glm::mat4 m_Model;
-	uint32_t m_Program;
 	std::string _name;
 	float Color[3] = { 0.5,0.5,0.5 };
 	void Update();
@@ -38,7 +36,6 @@ public :
 	void SinMove();
 	void SetShader(Shader &shader);
 	void UseColor(const char* name);
-	void SetProgram(uint32_t program);
 	void SetObjectColor(float x, float y, float z);
 	void SetName(std::string name);
 };

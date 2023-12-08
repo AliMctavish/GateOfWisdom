@@ -10,6 +10,7 @@ void BaseObject::Draw()
 {
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
+
 void BaseObject::SinMove()
 {
 	m_Model = glm::mat4(1.0f);

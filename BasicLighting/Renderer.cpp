@@ -84,7 +84,7 @@ void Renderer::Update()
 
 	for (int i = 0; i < lights.size(); i++)
 	{
-		// claen the code soon
+		// clean the code soon
 		_physics.CheckLightCollision(lights[i], _player);
 
 		lights[i].Update(_player, _window);
@@ -150,12 +150,10 @@ void Renderer::Draw()
 		if (!light.isPickedUp)
 			light.SinMove();
 
-		lightShader.SetMat4("model", light.GetModel());
 		light.Draw(modelLoader);
 	}
 
 	lightShader.UnBind();
-
 
 
 	//why using second vertex array ? 

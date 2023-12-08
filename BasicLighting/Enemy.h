@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseObject.h"
 
-class Enemy : public BaseObject{
 
+//enmey class that handles enemies :3 
+class Enemy : public BaseObject{
+	
 };

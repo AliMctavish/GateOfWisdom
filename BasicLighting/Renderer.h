@@ -11,6 +11,7 @@
 #include "Physics.h"
 #include "Player.h"
 #include "Model.h"
+#include "ModelLoader.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -26,10 +27,13 @@ private:
 
 	Shader shader;
 	Shader lightShader;
+	//Shader modelShader;
+
+	ModelLoader modelLoader;
+	
 
 	std::vector<Light> lights;
 	std::vector<Cube> cubes;
-	Model ourModel = Model("Models/Test/Plat.obj", false);
 
 	VertexArray vertexArray;
 	VertexArray vertexArray2;

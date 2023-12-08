@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseObject.h"
 #include "Texture.h"
+#include "Model.h"
 
 #define Texture_Type_Wall  1
 #define Texture_Type_Ground  2
@@ -12,6 +13,7 @@ class Cube : public BaseObject{
 public : 
 	Material material;
 	Texture texture;
+	//Model model = Model("Models/Test/plat.obj", false);
 	bool collided = false;
 	bool isInterpolated = false;
 	int cubeId;

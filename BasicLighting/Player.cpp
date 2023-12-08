@@ -18,7 +18,7 @@ void Player::SetMatrix()
 	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
 	view = glm::lookAt(Position, CameraFront + Position, CameraUp);
 	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(75.0f), 1200.f / 800.f, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(75.0f), 1200.f / 800.f, 0.1f, 100000.0f);
 
 	View = view;
 	Projection = projection;

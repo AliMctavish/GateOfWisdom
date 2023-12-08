@@ -2,22 +2,18 @@
 #include "BaseObject.h"
 #include "Player.h"
 #include "Shader.h"
+#include "ModelLoader.h"
 
 class Light :public BaseObject{
 public:
 	bool isPushing = false;
 	bool isInterpolated = false;
-	Material material;
-	Effect_Material effect;
 	int objectId;
 	glm::vec3 Size;
-	float angle;
-	float rotateX, rotateY, rotateZ;
 	std::string GetName() { return _name; }
 	glm::mat4 inline GetModel() { return m_Model; }
 	void Update(Player &player , GLFWwindow* window);
 	void Init();
-	float MoveOnX();
-	void Draw();
+	void Draw(ModelLoader &objectModel);
 	Light();
 };

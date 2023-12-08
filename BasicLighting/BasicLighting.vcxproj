@@ -180,6 +180,8 @@
     <None Include="FragmentShader.shader" />
     <None Include="LightFragmentShader.shader" />
     <None Include="LightVertexShader.shader" />
+    <None Include="ModelFragmentShader.shader" />
+    <None Include="ModelVertexShader.shader" />
     <None Include="VertexShader.shader" />
   </ItemGroup>
   <ItemGroup>
@@ -201,6 +203,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RawVertexData.h" />

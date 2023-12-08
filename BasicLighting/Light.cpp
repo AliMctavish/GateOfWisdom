@@ -3,9 +3,6 @@
 void Light::Init()
 {
 	objectId = CUBEID;
-	angle = 0;
-	rotateX = 0;
-	rotateY = 0;
 	Size = glm::vec3(2, 2, 2);
 	m_Model = glm::mat4(1.0f);
 	Position = glm::vec3(50, 0, 20);
@@ -13,10 +10,6 @@ void Light::Init()
 	CUBEID++;
 }
 
-float Light::MoveOnX()
-{
-	return glm::dot(Position.x,rotateX);
-}
 
 Light::Light()
 {
@@ -44,8 +37,10 @@ void Light::Update(Player &player , GLFWwindow* window)
 	}
 }
 
-void Light::Draw()
+void Light::Draw(ModelLoader &objectModel)
 {
-	BaseObject::Draw();
+	//BaseObject::Draw();
+	UseColor("objectColor");
+	objectModel.GetModel(ModelLoader::Type_Sphere).Draw(m_Shader);
 }
 

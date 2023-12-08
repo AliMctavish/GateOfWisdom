@@ -78,4 +78,6 @@ void Texture::SetTexutreType(uint16_t textureIndex)
 		SetTexture("Assests/artifact.jpg", 1);
 	else if (textureIndex == 5)
 		SetTexture("Assests/artifact2.jpg", 1);
+	//else if(textureIndex == 6)
+		//SetTexture("")
 }

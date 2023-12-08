@@ -20,19 +20,23 @@ Renderer::Renderer(GLFWwindow* window)
 	_window = window;
 	_physics.SetVariables(_window, _player);
 	_gui.SetWindow(_window);
+	modelLoader.InitializeModels();
 }
 
 void Renderer::Initialize()
 {
 	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
+	//modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
 
-	
+
+
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
 
 	vertexArray2.Bind();
+
 	//vertexBuffer2.Bind();
 
 	glEnable(GL_DEPTH_TEST);
@@ -43,7 +47,8 @@ void Renderer::Initialize()
 	lightShader.UnBind();
 	_gui.Init();
 
-	shader.Bind();
+	//shader.Bind();
+	//modelShader.Bind();
 
 	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
 }
@@ -99,19 +104,15 @@ void Renderer::Update()
 
 double posx = 2;
 double posy = 2;
+int index = 0;
 void Renderer::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
-
 	_player.SetMatrix();
 
-
-
-
 	shader.Bind();
+
 	shader.SetMat4("view", _player.View);
 	shader.SetMat4("projection", _player.Projection);
 	vertexArray.Bind();
@@ -124,10 +125,8 @@ void Renderer::Draw()
 		shader.setVec3("lightColor[" + std::to_string(i) + ']', glm::vec3(lights[i].Color[0], lights[i].Color[1], lights[i].Color[2]));
 	}
 
-
-	
-
 	shader.setInt("LightCount", lights.size());
+
 
 	for (Cube& cube : cubes)
 	{
@@ -139,15 +138,7 @@ void Renderer::Draw()
 		}
 		cube.Draw();
 	}
-
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(67, -1.924, -25)); // translate it down so it's at the center of the scene
-	model = glm::scale(model, glm::vec3(6.0f, 6.0f, 6.0f));	// it's a bit too big for our scene, so scale it down
-	shader.SetMat4("model", model);
-	ourModel.Draw(shader);
-
-
-
+	shader.UnBind();
 
 	lightShader.Bind();
 
@@ -156,11 +147,14 @@ void Renderer::Draw()
 
 	for (Light& light : lights)
 	{
-		//lights[i].SinMove();
+		//light.SinMove();
 		lightShader.SetMat4("model", light.GetModel());
-		light.UseColor("objectColor");
-		light.Draw();
+		light.Draw(modelLoader);
 	}
+
+	lightShader.UnBind();
+
+
 
 	//why using second vertex array ? 
 	//vertexArray2.Bind();
@@ -173,6 +167,25 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		_gui.Debugger(lights, cubes, shader, lightShader, frames, gameStarted);
+
+
+		if (glfwGetKey(_window, GLFW_KEY_P) == GLFW_PRESS)
+		{
+			Cube cube;
+			cube.SetShader(shader);
+			cube.Position = _player.Position;
+			cube.SetName("test" + std::to_string(cubes.size()));
+			cube.SetTextureData(1);
+			cubes.push_back(cube);
+		}		
+		if (glfwGetKey(_window, GLFW_KEY_L) == GLFW_PRESS)
+		{
+			Light light;
+			light.SetShader(shader);
+			light.Position = _player.Position;
+			light.SetName("test" + std::to_string(cubes.size()));
+			lights.push_back(light);
+		}
 	}
 	else
 	{

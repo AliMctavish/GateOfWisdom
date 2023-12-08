@@ -57,9 +57,6 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		ImGui::SliderFloat("Move On Z", &lights[i].Position.z, -50, 50, "%.3f", 0);
 
 		ImGui::SliderFloat("2Rsize object", &lights[i].Size.x, 0, 10, "%.3f", 1);
-		ImGui::SliderFloat("2Rotate on x Axis", &lights[i].rotateX, 0, 10, "%.3f", 1);
-		ImGui::SliderFloat("2Rotate on y Axis", &lights[i].rotateY, 0, 10, "%.3f", 1);
-		ImGui::SliderFloat("2Rotate on z Axis", &lights[i].rotateZ, 0, 10, "%.3f", 1);
 		if (ImGui::Button("Delete", Button_Size)) { lights.erase(lights.begin() + i); }
 		ImGui::PopID();
 
@@ -99,6 +96,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		cube.SetTextureData(selectedTexture);
 		cubes.push_back(cube);
 	}
+
 
 	if (ImGui::Button("Create Light", Button_Size))
 	{

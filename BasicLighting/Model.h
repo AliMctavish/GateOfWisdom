@@ -12,11 +12,14 @@ class Model {
 public:
     bool gammaCorrection;
     // model data
+    glm::vec3 position;
+    glm::vec3 size;
     std::vector<Mesh> meshes;
     std::string directory;
     std::vector<Texture_Struct> textures_loaded;
 
 
+    Model();
     Model(std::string const& path, bool gamma = false) : gammaCorrection(gamma)
     {
         loadModel(path);

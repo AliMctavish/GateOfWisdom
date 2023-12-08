@@ -113,6 +113,12 @@
     <None Include="LightVertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="ModelFragmentShader.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="ModelVertexShader.shader">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -197,6 +203,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

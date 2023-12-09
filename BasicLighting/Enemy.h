@@ -11,4 +11,5 @@ public :
 	Enemy();
 	void Draw(ModelLoader& objectModel);
 	void Update();
+	void MoveTowardsPlayer();
 };

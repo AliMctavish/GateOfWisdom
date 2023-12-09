@@ -12,8 +12,15 @@ Enemy::Enemy()
 
 void Enemy::Update()
 {
+	
+
+
 	BaseObject::Update();
 	BaseObject::Resize();
+}
+
+void Enemy::MoveTowardsPlayer()
+{
 }
 
 void Enemy::Draw(ModelLoader& objectModel)

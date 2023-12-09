@@ -80,7 +80,9 @@ void Renderer::Update()
 	}
 
 	for (Enemy& enemy : enemies)
+	{
 		enemy.Update();
+	}
 
 	if (gameStarted == true)
 		_physics.UpdateGravity(deltaTime, _player);

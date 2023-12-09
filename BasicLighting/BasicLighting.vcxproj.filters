@@ -214,7 +214,7 @@
     <ClInclude Include="Enemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
+    <ClInclude Include="ObjectGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

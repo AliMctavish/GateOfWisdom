@@ -79,23 +79,29 @@ void Renderer::Update()
 			break;
 	}
 
-	for (Enemy& enemy : enemies)
+	for (int i = 0; i < enemies.size(); i++)
 	{
-		enemy.Update();
-		enemy.MoveTowardsPlayer(_player);
+		enemies[i].Update();
+		enemies[i].MoveTowardsPlayer(_player);
 
-		for (int i = 0 ; i < lights.size() ; i++)
-			if (_physics.IsCollidedTest(enemy.Position, lights[i].Position, enemy.Size) && lights[i].isPushing)
-			{
-				enemies.erase(enemies.begin() + i);
-				lights.erase(lights.begin() + i);
-			}
+		for (int j = 0; j < lights.size(); j++)
+		{
+			if (enemies.size() > 0 && lights.size() > 0)
+				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, enemies[i].Size) && lights[j].isPushing)
+				{
+					enemies.erase(enemies.begin() + i);
+					lights.erase(lights.begin() + j);
+				}
+		}
 	}
 
-	enemyManager.EnemyGenerator(enemies);
 
 	if (gameStarted == true)
+	{
 		_physics.UpdateGravity(deltaTime, _player);
+		objectGenerator.GenerateEnemy(enemies, modelShader);
+		objectGenerator.GenerateLight(lights, lightShader);
+	}
 
 	for (int i = 0; i < lights.size(); i++)
 	{
@@ -106,7 +112,7 @@ void Renderer::Update()
 
 		if (lights[i].isPushing)
 		{
-			lights[i].Position  += 0.5f * lights[i].direction;
+			lights[i].Position += 0.5f * lights[i].direction;
 			if (glm::distance(lights[i].Position, _player.Position) > 300)
 			{
 				lights.erase(lights.begin() + i);
@@ -198,7 +204,8 @@ void Renderer::Draw()
 
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		_gui.Debugger(lights, cubes, enemies, shader, lightShader,modelShader, frames, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, shader, lightShader, modelShader, frames, gameStarted);
+		_gui.SetupImGuiStyle(true, 1);
 
 
 		if (glfwGetKey(_window, GLFW_KEY_P) == GLFW_PRESS)

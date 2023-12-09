@@ -13,7 +13,7 @@
 #include "Model.h"
 #include "ModelLoader.h"
 #include "Enemy.h"
-#include "EnemyManager.h"
+#include "ObjectGenerator.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -37,7 +37,7 @@ private:
 	std::vector<Light> lights;
 	std::vector<Cube> cubes;
 	std::vector<Enemy> enemies;
-	EnemyManager enemyManager = EnemyManager(modelShader);
+	ObjectGenerator objectGenerator;
 
 	VertexArray vertexArray;
 	VertexArray vertexArray2;

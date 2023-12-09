@@ -15,7 +15,12 @@ Light::Light()
 	Init();
 }
 
-void Light::Update(Player &player , GLFWwindow* window)
+void Light::SetRandomLocation()
+{
+	Position = glm::vec3(rand() % 90, rand() % 90, rand() % 90);
+}
+
+void Light::Update(Player& player, GLFWwindow* window)
 {
 	BaseObject::Update();
 	if (isPickedUp)
@@ -36,7 +41,7 @@ void Light::Update(Player &player , GLFWwindow* window)
 	}
 }
 
-void Light::Draw(ModelLoader &objectModel)
+void Light::Draw(ModelLoader& objectModel)
 {
 	//BaseObject::Draw();
 	m_Shader.SetMat4("model", m_Model);

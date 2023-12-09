@@ -11,6 +11,7 @@ public:
 	int objectId;
 	glm::vec3 Size;
 	glm::vec3 direction;
+	void SetRandomLocation();
 	std::string GetName() { return _name; }
 	void Update(Player &player , GLFWwindow* window);
 	void Init();

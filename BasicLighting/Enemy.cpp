@@ -11,7 +11,7 @@ Enemy::Enemy()
 
 void Enemy::SetRandomLocation()
 {
-	Position = glm::vec3(rand() % 9,rand() % 9,rand() % 9);
+	Position = glm::vec3(rand() % 90,rand() % 90,rand() % 90);
 }
 
 
@@ -28,7 +28,7 @@ void Enemy::MoveTowardsPlayer(Player &player)
 	Position -= direction * 0.08f;
 
 	if (glm::distance(Position, player.Position) < 2)
-		player.Position = glm::vec3(99, 99, 99);
+		player.Position = glm::vec3(0, 0, 0);
 }
 
 

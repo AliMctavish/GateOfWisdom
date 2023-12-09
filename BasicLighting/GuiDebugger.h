@@ -23,6 +23,7 @@ public :
 	~GuiDebugger();
 	void StartFrames();
 	void EndFrames();
+	void SetupImGuiStyle(bool bStyleDark_, float alpha_);
 	void SetWindow(GLFWwindow* window);
 	void Init();
 	void Begin(const char* windowTitle);

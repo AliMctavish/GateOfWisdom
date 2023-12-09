@@ -11,7 +11,7 @@ Enemy::Enemy()
 
 void Enemy::SetRandomLocation()
 {
-	Position = glm::vec3(rand() % 90,rand() % 90,rand() % 90);
+	Position = glm::vec3(rand() % 90, rand() % 90, rand() % 90);
 }
 
 
@@ -21,11 +21,12 @@ void Enemy::Update()
 	BaseObject::Resize();
 }
 
-void Enemy::MoveTowardsPlayer(Player &player)
+void Enemy::MoveTowardsPlayer(Player& player)
 {
 	glm::vec3 direction = glm::normalize(Position - player.Position);
 
 	Position -= direction * 0.08f;
+	m_Model = glm::rotate(m_Model, (float)glfwGetTime(), glm::vec3(direction.x, direction.y, direction.z));
 
 	if (glm::distance(Position, player.Position) < 2)
 		player.Position = glm::vec3(0, 0, 0);

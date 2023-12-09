@@ -82,7 +82,17 @@ void Renderer::Update()
 	for (Enemy& enemy : enemies)
 	{
 		enemy.Update();
+		enemy.MoveTowardsPlayer(_player);
+
+		for (int i = 0 ; i < lights.size() ; i++)
+			if (_physics.IsCollidedTest(enemy.Position, lights[i].Position, enemy.Size) && lights[i].isPushing)
+			{
+				enemies.erase(enemies.begin() + i);
+				lights.erase(lights.begin() + i);
+			}
 	}
+
+	enemyManager.EnemyGenerator(enemies);
 
 	if (gameStarted == true)
 		_physics.UpdateGravity(deltaTime, _player);
@@ -96,7 +106,7 @@ void Renderer::Update()
 
 		if (lights[i].isPushing)
 		{
-			lights[i].Position += 0.5f * lights[i].direction;
+			lights[i].Position  += 0.5f * lights[i].direction;
 			if (glm::distance(lights[i].Position, _player.Position) > 300)
 			{
 				lights.erase(lights.begin() + i);

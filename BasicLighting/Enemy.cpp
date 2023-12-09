@@ -9,19 +9,29 @@ Enemy::Enemy()
 	CUBEID++;
 }
 
+void Enemy::SetRandomLocation()
+{
+	Position = glm::vec3(rand() % 9,rand() % 9,rand() % 9);
+}
+
 
 void Enemy::Update()
 {
-	
-
-
 	BaseObject::Update();
 	BaseObject::Resize();
 }
 
-void Enemy::MoveTowardsPlayer()
+void Enemy::MoveTowardsPlayer(Player &player)
 {
+	glm::vec3 direction = glm::normalize(Position - player.Position);
+
+	Position -= direction * 0.08f;
+
+	if (glm::distance(Position, player.Position) < 2)
+		player.Position = glm::vec3(99, 99, 99);
 }
+
+
 
 void Enemy::Draw(ModelLoader& objectModel)
 {

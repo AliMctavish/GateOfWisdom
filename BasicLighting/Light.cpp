@@ -28,7 +28,15 @@ void Light::Update(Player& player, GLFWwindow* window)
 		//trying to make cube follow camera direciton ?
 
 		Position = player.Position;
+
+		if (player.isRunning)
+		{
+			m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
+			m_Model = glm::translate(m_Model, glm::sin(glm::vec3(0, -player.counter + 0.1f,0)));
+		}
+		else
 		m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
+
 		m_Model = glm::rotate(m_Model, (float)glfwGetTime(), glm::vec3(1, 1, 0));
 
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)

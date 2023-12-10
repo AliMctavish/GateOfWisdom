@@ -2,10 +2,10 @@
 
 Player::Player()
 {
-   Position = glm::vec3(3.0f, 3.0f, 3.0f);
-   CameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
-   CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-   CameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
+	Position = glm::vec3(3.0f, 3.0f, 3.0f);
+	CameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
+	CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	CameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
 }
 
 
@@ -18,10 +18,18 @@ void Player::SetMatrix()
 	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
 	view = glm::lookAt(Position, CameraFront + Position, CameraUp);
 	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(75.0f), 1200.f / 800.f, 0.1f, 100000.0f);
+	projection = glm::perspective(glm::radians(m_Pov), 1200.f / 800.f, 0.1f, 100000.0f);
 
 	View = view;
 	Projection = projection;
+}
+
+void Player::OnRunning()
+{
+	View = glm::translate(View, glm::sin(glm::vec3(0, counter, 0)));
+	counter += 0.08f;
+	if (counter > 360)
+		counter = 0;
 }
 
 

@@ -42,7 +42,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 
 
-void processInput(GLFWwindow* window, double &deltaTime , Player &player)
+void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 {
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -65,8 +65,15 @@ void processInput(GLFWwindow* window, double &deltaTime , Player &player)
 		player.Position += player.CameraUp * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
 		player.Position -= player.CameraUp * cameraSpeed;
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+
+	//nasty code in here :3 
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && player.grounded)
+	{
 		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * 0.5f;
+		player.isRunning = true;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE || !player.grounded)
+		player.isRunning = false;
 
 	if (pitch > 89.0f)
 		pitch = 89.0f;

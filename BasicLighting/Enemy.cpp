@@ -24,13 +24,12 @@ void Enemy::Update()
 void Enemy::MoveTowardsPlayer(Player& player)
 {
 	glm::vec3 direction = glm::normalize(Position - player.Position);
-
-	Position -= direction * 0.08f;
-	m_Model = glm::rotate(m_Model, (float)glfwGetTime(), glm::vec3(direction.x, direction.y, direction.z));
-
-	if (glm::distance(Position, player.Position) < 2)
-		player.Position = glm::vec3(0, 0, 0);
-}
+	Position -= direction * 0.02f;
+	float angle;
+	angle = glm::atan( Position.x - player.Position.x, Position.z - player.Position.z);
+	m_Model = glm::rotate(m_Model,angle, glm::vec3(0, 1, 0));
+	//m_Model = glm::translate(m_Model, direction);
+}
 
 
 

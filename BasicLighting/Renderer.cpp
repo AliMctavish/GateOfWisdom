@@ -132,6 +132,10 @@ void Renderer::Draw()
 
 	_player.SetMatrix();
 
+	if (_player.isRunning)
+		_player.OnRunning();
+
+
 
 
 	//why the fuck there is nothing showing on the screen ?????????????

@@ -22,12 +22,28 @@ void Player::SetMatrix()
 
 	View = view;
 	Projection = projection;
+
+	OscillateOnMoving();
 }
 
-void Player::OnRunning()
+void Player::Update()
 {
-	View = glm::translate(View, glm::sin(glm::vec3(0, counter, 0)));
-	counter += 0.08f;
+	BaseObject::Update();
+}
+
+void Player::OscillateOnMoving()
+{
+	//do it in cenratain amount of Oscillation ?
+	if (isRunning)
+		MoveWithOscillation(0.08f);
+	else
+		MoveWithOscillation(0.03f);
+}
+
+void Player::MoveWithOscillation(float amount)
+{
+	View = glm::translate(View, glm::sin(glm::vec3(0, counter  , 0)));
+	counter += amount;
 	if (counter > 360)
 		counter = 0;
 }

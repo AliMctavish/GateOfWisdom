@@ -4,6 +4,8 @@
 class Player :public BaseObject {
 private : 
 	float m_Pov = 75.0f;
+	void OscillateOnMoving();
+	void MoveWithOscillation(float amount);
 public:
 	float counter = 0;
 	Player();
@@ -18,6 +20,6 @@ public:
 	glm::mat4 View;
 	glm::mat4 Projection;
 	void SetMatrix();
-	void OnRunning();
+	void Update();
 	~Player();
 };

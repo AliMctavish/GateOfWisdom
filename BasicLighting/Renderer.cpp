@@ -71,6 +71,8 @@ void Renderer::Update()
 		lastTime = currentTime;
 	}
 
+	_player.Update();
+
 	for (Cube& cube : cubes)
 	{
 		cube.Update();
@@ -131,12 +133,6 @@ void Renderer::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	_player.SetMatrix();
-
-	if (_player.isRunning)
-		_player.OnRunning();
-
-
-
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-

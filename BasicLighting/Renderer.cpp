@@ -192,11 +192,9 @@ void Renderer::Draw()
 	}
 	lightShader.UnBind();
 
-
-
 	//why using second vertex array ? 
 	//vertexArray2.Bind();
-
+	 
 	if (gameStarted == false)
 	{
 		//after adding this function it gave me the ability to control the mouse callback !?

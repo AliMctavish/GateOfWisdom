@@ -9,10 +9,12 @@ private :
 	void MoveWithOscillation(float speedAmount, float oscTime);
 public:
 	float counter = 0;
+	float speedAmount= 0 ; 
 	Player();
 	bool grounded = false;
 	bool isJumping = false;
 	bool isRunning = false;
+	bool isWalking = false;
 	bool hasLight = false;
 	glm::vec3 Position;
 	glm::vec3 CameraFront;

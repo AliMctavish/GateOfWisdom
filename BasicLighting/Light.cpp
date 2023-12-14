@@ -20,22 +20,23 @@ void Light::SetRandomLocation()
 	Position = glm::vec3(rand() % 90, rand() % 90, rand() % 90);
 }
 
+void Light::SetRandomColor()
+{
+	Color[0] = rand() % 10;
+	Color[1] = rand() % 10;
+	Color[2] = rand() % 10;
+}
+
 void Light::Update(Player& player, GLFWwindow* window)
 {
 	BaseObject::Update();
 	if (isPickedUp)
 	{
-		//trying to make cube follow camera direciton ?
-
 		Position = player.Position;
 
-		if (player.isRunning)
-		{
-			m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
-			m_Model = glm::translate(m_Model, glm::sin(glm::vec3(0, -player.counter + 0.1f,0)));
-		}
-		else
 		m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
+		if (player.isRunning)
+			m_Model = glm::translate(m_Model, glm::sin(glm::vec3(0, -player.counter + 0.1f, 0)));
 
 		m_Model = glm::rotate(m_Model, (float)glfwGetTime(), glm::vec3(1, 1, 0));
 

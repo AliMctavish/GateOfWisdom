@@ -36,15 +36,11 @@ void Player::OscillateOnMoving()
 	//do it in cenratain amount of Oscillation ?
 	if (isRunning)
 		MoveWithOscillation(0.08f,0.8f);
-	else
-		MoveWithOscillation(0.03f,0.1f);
 }
 
 void Player::MoveWithOscillation(float speedAmount , float oscTime)
 {
 	m_OscillationAngle = glm::sin(glm::vec3(0, counter, 0)) * oscTime;
-
-	std::cout << m_OscillationAngle.y << std::endl;
 
 	View = glm::translate(View, m_OscillationAngle);
 	counter += speedAmount;

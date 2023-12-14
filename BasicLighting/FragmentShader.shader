@@ -71,7 +71,7 @@ void main()
 	vec3 ambient = (light.ambiant) * Texture(texture0);
 	for (int i = 0; i < LightCount; i++)
 	{
-	ambient *= lightColor[i];
+	//ambient *= lightColor[i];
 
 		//todo clean the code and make loop on list of light sourse so we can make multiple light sources
 		result += CalculateFragment(lightPos[i], lightColor[i]);

@@ -12,7 +12,6 @@ public :
 	unsigned int objectId;
 	Enemy();
 	void SetRandomLocation();
-	void EnemyGenerator(std::vector<Enemy> enemies);
 	void Draw(ModelLoader& objectModel);
 	void Update();
 	void MoveTowardsPlayer(Player &player);

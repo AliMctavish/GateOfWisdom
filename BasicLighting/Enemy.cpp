@@ -29,7 +29,7 @@ void Enemy::MoveTowardsPlayer(Player& player)
 
 	m_Model = glm::rotate(m_Model, angle, glm::vec3(0, 1, 0));
 	//m_Model = glm::translate(m_Model, direction);
-}
+}
 
 
 

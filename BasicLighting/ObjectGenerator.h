@@ -28,6 +28,7 @@ public :
 			Light light;
 			light.SetShader(shader);
 			light.SetRandomLocation();
+			light.SetRandomColor();
 			light.SetName("light" + std::to_string(lights.size()));
 			lights.push_back(light);
 			lightSpawnTime = 10;

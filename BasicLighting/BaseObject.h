@@ -8,9 +8,9 @@
 #define Effect_Defualt_Value glm::vec3(0,0,0)
 
 	struct Material {
-		glm::vec3 Ambiant = glm::vec3(0.05f, 0.05f, 0.05f);
-		glm::vec3 Diffuse = Material_Default_Value;
-		glm::vec3 Specular = Material_Default_Value;
+		glm::vec3 Ambiant = Material_Default_Value * 0.1f;
+		glm::vec3 Diffuse = Material_Default_Value * 2.0f;
+		glm::vec3 Specular = Material_Default_Value * 2.0f;
 		float shininess = 32;
 	};
 

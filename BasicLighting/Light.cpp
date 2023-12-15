@@ -27,6 +27,12 @@ void Light::SetRandomColor()
 	Color[2] = rand() % 10;
 }
 
+
+void Light::Push(double &deltaTime)
+{
+	Position += 0.0005f * direction * (float)deltaTime;
+}
+
 void Light::Update(Player& player, GLFWwindow* window)
 {
 	BaseObject::Update();

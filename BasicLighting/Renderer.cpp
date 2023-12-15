@@ -114,7 +114,7 @@ void Renderer::Update()
 
 		if (lights[i].isPushing)
 		{
-			lights[i].Position += 0.5f * lights[i].direction;
+			lights[i].Push(deltaTime);
 			if (glm::distance(lights[i].Position, _player.Position) > 300)
 			{
 				lights.erase(lights.begin() + i);
@@ -133,6 +133,7 @@ void Renderer::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	_player.SetMatrix();
+	_player.OscillateOnMoving(deltaTime);
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-

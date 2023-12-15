@@ -22,8 +22,6 @@ void Player::SetMatrix()
 
 	View = view;
 	Projection = projection;
-
-	OscillateOnMoving();
 }
 
 void Player::Update()
@@ -31,19 +29,19 @@ void Player::Update()
 	BaseObject::Update();
 }
 
-void Player::OscillateOnMoving()
+void Player::OscillateOnMoving(double &deltaTime)
 {
 	//do it in cenratain amount of Oscillation ?
 	if (isRunning)
-		MoveWithOscillation(0.08f,0.8f);
+		MoveWithOscillation(0.08f,0.8f ,deltaTime);
 }
 
-void Player::MoveWithOscillation(float speedAmount , float oscTime)
+void Player::MoveWithOscillation(float speedAmount , float oscTime,double &deltaTime)
 {
-	m_OscillationAngle = glm::sin(glm::vec3(0, counter, 0)) * oscTime;
+	m_OscillationAngle = glm::sin(glm::vec3(0, counter, 0)) * oscTime ;
 
 	View = glm::translate(View, m_OscillationAngle);
-	counter += speedAmount;
+	counter += speedAmount ;
 	if (counter > 360)
 		counter = 0;
 }

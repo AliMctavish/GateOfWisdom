@@ -13,6 +13,7 @@ public:
 	glm::vec3 direction;
 	void SetRandomLocation();
 	void SetRandomColor();
+	void Push(double &deltaTime);
 	std::string GetName() { return _name; }
 	void Update(Player &player , GLFWwindow* window);
 	void Init();

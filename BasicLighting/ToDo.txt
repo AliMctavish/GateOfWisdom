@@ -13,3 +13,6 @@ here is the todo for the project
 when you spawn a light there is somthing wrong with shaders  ! 
 
 
+8- fix the framessssss understand how they work plz !!
+
+

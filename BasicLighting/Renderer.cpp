@@ -50,28 +50,18 @@ void Renderer::Initialize()
 	shader.Bind();
 	modelShader.Bind();
 
+	glfwSwapInterval(0);
+
 	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
 }
-
-std::string frames;
-double deltaTime = 0;
-double lastTime = 0;
-double currentTime = glfwGetTime();
-int nbFrames = 0;
+double deltaTime = 1;
+std::string frames = "frames";
 
 void Renderer::Update()
 {
-	currentTime = glfwGetTime();
-	nbFrames++;
-	if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
-		// printf and reset timer
-		frames = " FPS : " + std::to_string(100000.0 / double(nbFrames));
-		deltaTime = 100000.0 / double(nbFrames);
-		nbFrames = 0;
-		lastTime = currentTime;
-	}
-
 	_player.Update();
+	_player.OscillateOnMoving(deltaTime);
+
 
 	for (Cube& cube : cubes)
 	{
@@ -114,7 +104,7 @@ void Renderer::Update()
 
 		if (lights[i].isPushing)
 		{
-			lights[i].Push(deltaTime);
+			lights[i].Push();
 			if (glm::distance(lights[i].Position, _player.Position) > 300)
 			{
 				lights.erase(lights.begin() + i);
@@ -122,7 +112,11 @@ void Renderer::Update()
 			}
 		}
 
+		if (!lights[i].isPickedUp && !lights[i].isPushing)
+			lights[i].SinMove();
+
 	}
+	processInput(_window, deltaTime, _player);
 }
 
 double posx = 2;
@@ -133,7 +127,6 @@ void Renderer::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	_player.SetMatrix();
-	_player.OscillateOnMoving(deltaTime);
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-
@@ -144,12 +137,9 @@ void Renderer::Draw()
 	modelShader.SetMat4("projection", _player.Projection);
 
 	for (Enemy& enemy : enemies)
-	{
 		enemy.Draw(modelLoader);
-	}
+
 	modelShader.UnBind();
-
-
 
 	shader.Bind();
 
@@ -186,9 +176,6 @@ void Renderer::Draw()
 
 	for (Light& light : lights)
 	{
-		if (!light.isPickedUp)
-			light.SinMove();
-
 		light.Draw(modelLoader);
 	}
 	lightShader.UnBind();
@@ -234,7 +221,6 @@ void Renderer::Draw()
 			gameStarted = false;
 		//glfwSetWindowShouldClose(window, true);
 	}
-	processInput(_window, deltaTime, _player);
 	/* Swap front and back buffers */
 	glfwSwapBuffers(_window);
 	/* Poll for and process events */

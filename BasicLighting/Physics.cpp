@@ -17,13 +17,10 @@ bool Physics::CheckCollision(Cube& cube , Player &player)
 	{
 		float distance = player.Position.y - cube.Position.y;
 		player.Position.y = cube.Position.y + distance;
-
-
 		//implement the sides collouion also ! 
 
 		player.isJumping = false;
-
-		acceleration = 0.001f;
+		acceleration = 2;
 
 		return player.grounded = true;
 	}	
@@ -48,12 +45,12 @@ void Physics::UpdateGravity(double& deltaTime, Player &player)
 		player.isJumping = true;
 
 	if (!player.grounded)
-		player.Position.y -= 0.0002f * deltaTime;
+		player.Position.y -= 1 ;
 
 	if (player.isJumping)
 	{
-		player.Position.y += acceleration * deltaTime;
-		acceleration -= 0.00000001f * deltaTime;
+		player.Position.y += acceleration;
+		acceleration -= 0.1f;
 	}
 }
 

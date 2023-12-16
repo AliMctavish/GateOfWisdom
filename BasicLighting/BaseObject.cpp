@@ -15,7 +15,7 @@ void BaseObject::SinMove()
 {
 	m_Model = glm::mat4(1.0f);
 	m_Model = glm::translate(m_Model, Position + glm::vec3(0, glm::sin(sineValue) / 2 + 1,0));
-	sineValue += 0.01;
+	sineValue += 0.1;
 }
 
 void BaseObject::Resize()

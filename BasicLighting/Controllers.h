@@ -51,8 +51,7 @@ void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 	player.CameraFront = glm::normalize(direction);
 	player.CameraRight = glm::normalize(glm::cross(player.CameraFront, player.CameraUp));
 
-	const float cameraSpeed = 0.0002f * deltaTime; // adjust accordingly
-	const float rotaionSpeed = 0.01f; // adjust accordingly
+	const float cameraSpeed = 0.7; // adjust accordingly
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
 
@@ -61,13 +60,15 @@ void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 	else
 		player.isWalking = false;
 
-
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		player.Position += glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		player.Position -= glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		player.Position += glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
+
+
+
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 		player.Position += player.CameraUp * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)

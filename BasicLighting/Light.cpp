@@ -28,9 +28,9 @@ void Light::SetRandomColor()
 }
 
 
-void Light::Push(double &deltaTime)
+void Light::Push()
 {
-	Position += 0.0005f * direction * (float)deltaTime;
+	Position += 1.0f * direction;
 }
 
 void Light::Update(Player& player, GLFWwindow* window)
@@ -40,7 +40,9 @@ void Light::Update(Player& player, GLFWwindow* window)
 	{
 		Position = player.Position;
 
+
 		m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
+
 		if (player.isRunning)
 			m_Model = glm::translate(m_Model, glm::sin(glm::vec3(0, -player.counter + 0.1f, 0)));
 

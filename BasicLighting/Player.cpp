@@ -13,8 +13,6 @@ void Player::SetMatrix()
 {
 	glm::mat4 view;
 	const float radius = 10.0f;
-	float camX = sin(glfwGetTime() * 0.01) * radius;
-	float camZ = cos(glfwGetTime() * 0.01) * radius;
 	view = glm::translate(view, glm::vec3(-10.0f, 10.0f, 20.0f));
 	view = glm::lookAt(Position, CameraFront + Position, CameraUp);
 	glm::mat4 projection;
@@ -29,19 +27,20 @@ void Player::Update()
 	BaseObject::Update();
 }
 
-void Player::OscillateOnMoving(double &deltaTime)
+
+void Player::OscillateOnMoving(double& deltaTime)
 {
 	//do it in cenratain amount of Oscillation ?
 	if (isRunning)
-		MoveWithOscillation(0.08f,0.8f ,deltaTime);
+		MoveWithOscillation(0.08f, 0.8f, deltaTime);
 }
 
-void Player::MoveWithOscillation(float speedAmount , float oscTime,double &deltaTime)
+void Player::MoveWithOscillation(float speedAmount, float oscTime, double& deltaTime)
 {
-	m_OscillationAngle = glm::sin(glm::vec3(0, counter, 0)) * oscTime ;
+	m_OscillationAngle = glm::sin(glm::vec3(0, counter, 0)) * oscTime;
 
 	View = glm::translate(View, m_OscillationAngle);
-	counter += speedAmount ;
+	counter += speedAmount;
 	if (counter > 360)
 		counter = 0;
 }

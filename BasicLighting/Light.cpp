@@ -36,10 +36,12 @@ void Light::Push()
 void Light::Update(Player& player, GLFWwindow* window)
 {
 	BaseObject::Update();
+
 	if (isPickedUp)
 	{
 		Position = player.Position;
 
+		m_Model = glm::translate(player.m_Model, player.Position);
 
 		m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
 

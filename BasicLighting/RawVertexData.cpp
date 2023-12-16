@@ -79,7 +79,7 @@ std::array<float, Flat_Surface_Data_Buffer_With_Texture> RawVertexData::FlatSurf
 
 std::array<float, Cube_With_Normals_And_Texture_Data_Buffer_Size> RawVertexData::CubeWithNormalsData()
 {
-	float textureSize = 1.0f;
+	float textureSize = 3.0f;
 	std::array<float, Cube_With_Normals_And_Texture_Data_Buffer_Size> vertices ={
 	//COORDINATES VEC3    //NORAMALS VEC3    //TEXUTRE VEC2
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f,

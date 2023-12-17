@@ -41,7 +41,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 }
 
-
 void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 {
 	glm::vec3 direction;
@@ -49,11 +48,18 @@ void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 	direction.y = sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	player.CameraFront = glm::normalize(direction);
-	player.CameraRight = glm::normalize(glm::cross(player.CameraFront, player.CameraUp));
+	player.CameraRight = glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) ;
 
-	const float cameraSpeed = 0.7; // adjust accordingly
+	const float cameraSpeed = 0.7; 
+
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		player.Position += glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		player.Position -= glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		player.Position += glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
 
 
 	if (player.grounded && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || player.grounded && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || player.grounded && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || player.grounded && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -61,12 +67,9 @@ void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 	else
 		player.isWalking = false;
 
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		player.Position += glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		player.Position -= glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		player.Position += glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
+		player.UnAttachObject();
 
 
 
@@ -78,7 +81,7 @@ void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 	//nasty code in here :3 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && player.grounded)
 	{
-		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * 0.5f;
+		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * 0.7f;
 		player.isRunning = true;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE || !player.grounded)

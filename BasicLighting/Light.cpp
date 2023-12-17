@@ -3,7 +3,7 @@
 void Light::Init()
 {
 	objectId = CUBEID;
-	Size = glm::vec3(2, 2, 2);
+	Size = glm::vec3(0, 0, 0);
 	m_Model = glm::mat4(1.0f);
 	Position = glm::vec3(50, 0, 20);
 	CUBEID++;
@@ -27,38 +27,17 @@ void Light::SetRandomColor()
 	Color[2] = rand() % 10;
 }
 
-
 void Light::Push()
 {
 	Position += 1.0f * direction;
 }
 
-void Light::Update(Player& player, GLFWwindow* window)
+void Light::Update()
 {
 	BaseObject::Update();
 
-	if (isPickedUp)
-	{
-		Position = player.Position;
-
-		m_Model = glm::translate(player.m_Model, player.Position);
-
-		m_Model = glm::translate(m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
-
-		if (player.isRunning)
-			m_Model = glm::translate(m_Model, glm::sin(glm::vec3(0, -player.counter + 0.1f, 0)));
-
-		m_Model = glm::rotate(m_Model, (float)glfwGetTime(), glm::vec3(1, 1, 0));
-
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-		{
-			isPickedUp = false;
-			player.hasLight = false;
-			isPushing = true;
-			direction = glm::normalize(player.CameraFront);
-		}
-	}
 }
+
 
 void Light::Draw(ModelLoader& objectModel)
 {

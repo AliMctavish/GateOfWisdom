@@ -59,8 +59,10 @@ std::string frames = "frames";
 
 void Renderer::Update()
 {
-	_player.Update();
+	//_player.Update();
 	_player.OscillateOnMoving(deltaTime);
+
+
 
 
 	for (Cube& cube : cubes)
@@ -99,8 +101,14 @@ void Renderer::Update()
 	{
 		// clean the code soon
 		_physics.CheckLightCollision(lights[i], _player);
+		lights[i].Update();
 
-		lights[i].Update(_player, _window);
+		if (lights[i].isPickedUp && !_player.hasAttachedObject)
+		{
+			_player.AttachObject(&lights[i]);
+			lights[i].isPickedUp = false;
+			break;
+		}
 
 		if (lights[i].isPushing)
 		{
@@ -114,8 +122,13 @@ void Renderer::Update()
 
 		if (!lights[i].isPickedUp && !lights[i].isPushing)
 			lights[i].SinMove();
-
 	}
+
+	if (_player.m_AttachedLight != nullptr)
+		_physics.PickUp(_player, *_player.m_AttachedLight);
+
+	_player.SetMatrix();
+
 	processInput(_window, deltaTime, _player);
 }
 
@@ -126,7 +139,6 @@ void Renderer::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	_player.SetMatrix();
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-
@@ -182,7 +194,7 @@ void Renderer::Draw()
 
 	//why using second vertex array ? 
 	//vertexArray2.Bind();
-	 
+
 	if (gameStarted == false)
 	{
 		//after adding this function it gave me the ability to control the mouse callback !?

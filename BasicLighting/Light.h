@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseObject.h"
-#include "Player.h"
 #include "Shader.h"
 #include "ModelLoader.h"
 
@@ -9,13 +8,12 @@ public:
 	bool isPushing = false;
 	bool isInterpolated = false;
 	int objectId;
-	glm::vec3 Size;
 	glm::vec3 direction;
 	void SetRandomLocation();
 	void SetRandomColor();
 	void Push();
 	std::string GetName() { return _name; }
-	void Update(Player &player , GLFWwindow* window);
+	void Update();
 	void Init();
 	void Draw(ModelLoader &objectModel);
 	Light();

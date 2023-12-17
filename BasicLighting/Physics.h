@@ -14,6 +14,7 @@ private:
 public:
 	bool IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
 	bool IsCollidedTest(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1);
+	void PickUp(Player& player, Light& light);
 	Physics();
 	~Physics();
 	void SetVariables(GLFWwindow* window, Player &player);

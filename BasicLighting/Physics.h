@@ -17,7 +17,7 @@ public:
 	Physics();
 	~Physics();
 	void SetVariables(GLFWwindow* window, Player &player);
-	void UpdateGravity(double& deltaTime,Player &player);
+	void UpdateGravity(Player &player);
 	bool CheckCollision(Cube& cube , Player &player);
 	bool CheckLightCollision(Light& light, Player &player);
 };

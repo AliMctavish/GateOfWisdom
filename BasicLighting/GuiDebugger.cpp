@@ -93,7 +93,7 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 	}
 }
 
-void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,std::vector<Enemy> &enemies, Shader& shader, Shader& lightShader,Shader& modelShader, std::string& frames, bool& gameStarted)
+void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,std::vector<Enemy> &enemies, Shader& shader, Shader& lightShader,Shader& modelShader, bool& gameStarted)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -185,7 +185,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	End();
 	Begin("World Settings");
 
-	ImGui::Text(frames.c_str());
+	//ImGui::Text(frames.c_str());
 
 	if (ImGui::Button("Create Cube", Button_Size))
 	{

@@ -173,16 +173,19 @@
     <ClCompile Include="RawVertexData.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShader.shader" />
+    <None Include="SpriteFragmentShader.shader" />
     <None Include="LightFragmentShader.shader" />
     <None Include="LightVertexShader.shader" />
     <None Include="ModelFragmentShader.shader" />
     <None Include="ModelVertexShader.shader" />
+    <None Include="SpriteVertexShader.shader" />
     <None Include="VertexShader.shader" />
   </ItemGroup>
   <ItemGroup>
@@ -213,6 +216,7 @@
     <ClInclude Include="RawVertexData.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />

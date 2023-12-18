@@ -85,5 +85,5 @@ void Mesh::setupMesh()
 	//// weights
 	//glEnableVertexAttribArray(6);
 	//glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex_Struct), (void*)offsetof(Vertex_Struct, m_Weights));
-	//glBindVertexArray(0);
+	glBindVertexArray(0);
 }

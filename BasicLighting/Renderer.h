@@ -14,6 +14,7 @@
 #include "ModelLoader.h"
 #include "Enemy.h"
 #include "ObjectGenerator.h"
+#include "Sprite.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -31,6 +32,7 @@ private:
 	Shader lightShader;
 	Shader modelShader;
 
+
 	ModelLoader modelLoader;
 	
 
@@ -42,6 +44,9 @@ private:
 	VertexArray vertexArray;
 	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);
+
+	Sprite aimSprite;
+
 	//VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Surface_Type);
 
 	//Controllers controllers;

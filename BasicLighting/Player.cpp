@@ -22,14 +22,14 @@ void Player::SetMatrix()
 	Projection = projection;
 }
 
-void Player::OscillateOnMoving(double& deltaTime)
+void Player::OscillateOnMoving()
 {
 	//do it in cenratain amount of Oscillation ?
 	if (isRunning)
-		MoveWithOscillation(3.f, 0.20f, deltaTime);
+		MoveWithOscillation(3.f, 0.20f);
 }
 
-void Player::MoveWithOscillation(float speedAmount, float oscTime, double& deltaTime)
+void Player::MoveWithOscillation(float speedAmount, float oscTime)
 {
 	m_OscillationAngle = glm::sin(glm::vec3(0, counter, 0)) * oscTime;
 

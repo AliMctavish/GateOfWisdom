@@ -5,9 +5,9 @@ class Player :public BaseObject {
 private : 
 	float m_Pov = 75.0f;
 	glm::vec3 m_OscillationAngle = glm::vec3(0,0,0);
-	void MoveWithOscillation(float speedAmount, float oscTime , double &deltaTime);
+	void MoveWithOscillation(float speedAmount, float oscTime);
 public:
-	void OscillateOnMoving(double &deltaTime);
+	void OscillateOnMoving();
 	float counter = 0;
 	float speedAmount= 0 ; 
 	Player();

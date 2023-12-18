@@ -2,7 +2,6 @@
 #include "Shader.h"
 #include "RawVertexData.h"
 
-
 enum VertexType {
 	Cube_Type = 0,
 	Surface_Type = 1,

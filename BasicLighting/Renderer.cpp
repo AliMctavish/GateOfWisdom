@@ -29,14 +29,11 @@ void Renderer::Initialize()
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
 	modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
 
-
-
+	aimSprite.SetTexture("Assests/aim.png");
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
-
 	vertexArray2.Bind();
-
 	//vertexBuffer2.Bind();
 
 	glEnable(GL_DEPTH_TEST);
@@ -44,25 +41,30 @@ void Renderer::Initialize()
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	lightShader.UnBind();
 	_gui.Init();
 
-	shader.Bind();
-	modelShader.Bind();
+
+	//why binding the shaders if you dont want to use them here ? 
+	//shader.Bind();
+	//lightShader.Bind();
+	//modelShader.Bind();
+	//spriteShader.Bind();
 
 	glfwSwapInterval(0);
 
 	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
 }
-double deltaTime = 1;
-std::string frames = "frames";
 
 void Renderer::Update()
 {
 	//_player.Update();
-	_player.OscillateOnMoving(deltaTime);
+	_player.OscillateOnMoving();
 	_player.SetMatrix();
+	aimSprite.SetCamera(&_player);
 
+
+	aimSprite.Update();
+	
 
 	for (Cube& cube : cubes)
 	{
@@ -91,7 +93,7 @@ void Renderer::Update()
 
 	if (gameStarted == true)
 	{
-		_physics.UpdateGravity(deltaTime, _player);
+		_physics.UpdateGravity(_player);
 		objectGenerator.GenerateEnemy(enemies, modelShader);
 		objectGenerator.GenerateLight(lights, lightShader);
 	}
@@ -119,13 +121,14 @@ void Renderer::Update()
 			lights[i].SinMove();
 	}
 
-	processInput(_window, deltaTime, _player);
+	processInput(_window, _player);
 }
 
 void Renderer::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	aimSprite.Draw();
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-
@@ -140,12 +143,14 @@ void Renderer::Draw()
 
 	modelShader.UnBind();
 
+
+	vertexArray.Bind();
+
 	shader.Bind();
 
 	shader.SetMat4("view", _player.View);
 	shader.SetMat4("projection", _player.Projection);
 	shader.setVec3("viewPos", _player.Position);
-	vertexArray.Bind();
 
 	//too many for loops for testing perposses idk how to write perpoesrpes
 	for (int i = 0; i < lights.size(); i++)
@@ -189,7 +194,7 @@ void Renderer::Draw()
 
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		_gui.Debugger(lights, cubes, enemies, shader, lightShader, modelShader, frames, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, shader, lightShader, modelShader, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 
 

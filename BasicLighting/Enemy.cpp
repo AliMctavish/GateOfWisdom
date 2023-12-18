@@ -24,7 +24,7 @@ void Enemy::Update()
 void Enemy::MoveTowardsPlayer(Player& player)
 {
 	glm::vec3 direction = glm::normalize(Position - player.Position);
-	Position -= direction * 0.02f;
+	Position -= direction * 0.2f;
 	float angle = glm::atan(direction.x, direction.z);
 
 	m_Model = glm::rotate(m_Model, angle, glm::vec3(0, 1, 0));

@@ -40,7 +40,7 @@ bool Physics::CheckLightCollision(Light& light, Player& player)
 	}
 }
 
-void Physics::UpdateGravity(double& deltaTime, Player& player)
+void Physics::UpdateGravity(Player& player)
 {
 	if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		player.isJumping = true;

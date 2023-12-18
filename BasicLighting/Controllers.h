@@ -68,11 +68,6 @@ void processInput(GLFWwindow* window, double& deltaTime, Player& player)
 		player.isWalking = false;
 
 
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
-		player.UnAttachObject();
-
-
-
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 		player.Position += player.CameraUp * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)

@@ -11,20 +11,6 @@ void Physics::SetVariables(GLFWwindow* window, Player& player)
 	_player = player;
 }
 
-void Physics::PickUp(Player& player, Light& light)
-{
-	light.Position = player.Position;
-
-	light.m_Model = glm::translate(light.m_Model, ((player.CameraRight * 0.5f) + player.CameraFront) * 2.0f);
-
-	if (player.isRunning)
-		light.m_Model = glm::translate(light.m_Model, glm::sin(glm::vec3(0, -player.counter, 0)));
-
- 	light.m_Model = glm::rotate(light.m_Model, (float)glfwGetTime(), glm::vec3(1, 1, 0));
-
-	light.isPickedUp = false;
-}
-
 
 bool Physics::CheckCollision(Cube& cube, Player& player)
 {
@@ -32,7 +18,7 @@ bool Physics::CheckCollision(Cube& cube, Player& player)
 	{
 		float distance = player.Position.y - cube.Position.y;
 		player.Position.y = cube.Position.y + distance;
-		//implement the sides collouion also ! 
+		//implement the sides collitions also ! 
 
 		player.isJumping = false;
 		acceleration = 2;
@@ -60,12 +46,23 @@ void Physics::UpdateGravity(double& deltaTime, Player& player)
 		player.isJumping = true;
 
 	if (!player.grounded)
-		player.Position.y -= 1;
+	{
+		player.Position -= player.CameraUp;
+
+		//think about how to solve such case plz !! 
+		player.SetMatrix();
+	}
 
 	if (player.isJumping)
 	{
-		player.Position.y += acceleration;
-		acceleration -= 0.1f;
+		player.Position += player.CameraUp * acceleration;
+		acceleration -= 0.05f;
+
+		//basically this is a silly solution 
+		//the problem is with the matrix of the player translations
+		//so when you change the position of the player the matrix still the same
+		//so the light will apear to offset the position of the jump
+		player.SetMatrix();
 	}
 }
 

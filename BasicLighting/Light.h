@@ -2,6 +2,7 @@
 #include "BaseObject.h"
 #include "Shader.h"
 #include "ModelLoader.h"
+#include "Player.h"
 
 class Light :public BaseObject{
 public:
@@ -13,7 +14,7 @@ public:
 	void SetRandomColor();
 	void Push();
 	std::string GetName() { return _name; }
-	void Update();
+	void Update(Player &player , GLFWwindow* window);
 	void Init();
 	void Draw(ModelLoader &objectModel);
 	Light();

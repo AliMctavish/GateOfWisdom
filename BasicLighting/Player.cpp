@@ -22,37 +22,6 @@ void Player::SetMatrix()
 	Projection = projection;
 }
 
-void Player::Update()
-{
-	//BaseObject::Update();
-	//View = glm::translate(View, Position);
-}
-
-void Player::AttachObject(Light* light)
-{
-	if (!hasAttachedObject)
-	{
-		m_AttachedLight = light;
-		m_AttachedLight->isPickedUp = true;
-		hasAttachedObject = true;
-	}
-}
-
-void Player::UnAttachObject()
-{
-	if (m_AttachedLight != nullptr)
-	{
-		m_AttachedLight->isPickedUp = false;
-		hasLight = false;
-		m_AttachedLight->isPushing = true;
-		m_AttachedLight->direction = glm::normalize(CameraFront);
-		hasAttachedObject = false;
-		m_AttachedLight = nullptr;
-	}
-}
-
-
-
 void Player::OscillateOnMoving(double& deltaTime)
 {
 	//do it in cenratain amount of Oscillation ?

@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseObject.h"
-#include "Light.h"
 
 class Player :public BaseObject {
 private : 
@@ -8,7 +7,6 @@ private :
 	glm::vec3 m_OscillationAngle = glm::vec3(0,0,0);
 	void MoveWithOscillation(float speedAmount, float oscTime , double &deltaTime);
 public:
-	Light* m_AttachedLight = nullptr;
 	void OscillateOnMoving(double &deltaTime);
 	float counter = 0;
 	float speedAmount= 0 ; 
@@ -25,9 +23,6 @@ public:
 	glm::vec3 CameraRight;
 	glm::mat4 View;
 	glm::mat4 Projection;
-	void AttachObject(Light* light);
-	void UnAttachObject();
 	void SetMatrix();
-	void Update();
 	~Player();
 };

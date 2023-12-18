@@ -61,8 +61,7 @@ void Renderer::Update()
 {
 	//_player.Update();
 	_player.OscillateOnMoving(deltaTime);
-
-
+	_player.SetMatrix();
 
 
 	for (Cube& cube : cubes)
@@ -101,14 +100,7 @@ void Renderer::Update()
 	{
 		// clean the code soon
 		_physics.CheckLightCollision(lights[i], _player);
-		lights[i].Update();
-
-		if (lights[i].isPickedUp && !_player.hasAttachedObject)
-		{
-			_player.AttachObject(&lights[i]);
-			lights[i].isPickedUp = false;
-			break;
-		}
+		lights[i].Update(_player, _window);
 
 		if (lights[i].isPushing)
 		{
@@ -120,21 +112,16 @@ void Renderer::Update()
 			}
 		}
 
+		//this part of the code will override the update method of the light 
+		//in the matrix part
+		//when you are not picking up the object ! 
 		if (!lights[i].isPickedUp && !lights[i].isPushing)
 			lights[i].SinMove();
 	}
 
-	if (_player.m_AttachedLight != nullptr)
-		_physics.PickUp(_player, *_player.m_AttachedLight);
-
-	_player.SetMatrix();
-
 	processInput(_window, deltaTime, _player);
 }
 
-double posx = 2;
-double posy = 2;
-int index = 0;
 void Renderer::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

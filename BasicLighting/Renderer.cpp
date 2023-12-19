@@ -29,26 +29,19 @@ void Renderer::Initialize()
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
 	modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
 
-	aimSprite.SetTexture("Assests/aim.png");
+	testSprite.SetTexture("Assests/aim.png");
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
-	vertexArray2.Bind();
-	//vertexBuffer2.Bind();
+	vertexArray.UnBind();
 
 	glEnable(GL_DEPTH_TEST);
+
 
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	_gui.Init();
-
-
-	//why binding the shaders if you dont want to use them here ? 
-	//shader.Bind();
-	//lightShader.Bind();
-	//modelShader.Bind();
-	//spriteShader.Bind();
 
 	glfwSwapInterval(0);
 
@@ -60,12 +53,11 @@ void Renderer::Update()
 	//_player.Update();
 	_player.OscillateOnMoving();
 	_player.SetMatrix();
-	aimSprite.SetCamera(&_player);
 
+	testSprite.SetCamera(&_player);
+	testSprite.Update();
 
-	aimSprite.Update();
 	
-
 	for (Cube& cube : cubes)
 	{
 		cube.Update();
@@ -124,11 +116,25 @@ void Renderer::Update()
 	processInput(_window, _player);
 }
 
+
+std::string m_TextCounter;
+float m_Counter;
+
+
 void Renderer::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	aimSprite.Draw();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+	testSprite.Draw();
+
+	font.BindShader();
+	font.Draw(_player,"This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+	font.Draw(_player,"(C) LearnOpenGL.com", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
+	font.UnBindShader();
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-
@@ -191,9 +197,9 @@ void Renderer::Draw()
 	{
 		//after adding this function it gave me the ability to control the mouse callback !?
 		glfwSetCursorEnterCallback(_window, GLFW_FALSE);
-
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
 		_gui.Debugger(lights, cubes, enemies, shader, lightShader, modelShader, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 

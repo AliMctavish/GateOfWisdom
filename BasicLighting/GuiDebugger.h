@@ -14,6 +14,7 @@
 class GuiDebugger{
 private : 
 	GLFWwindow* m_Window;
+
 	FileManager fileManager;
 	uint16_t selectedTexture = 0;
 	std::string selectedMap = " ";

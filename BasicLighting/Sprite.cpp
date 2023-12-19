@@ -40,8 +40,8 @@ void Sprite::Draw()
 	vertexArray.Bind();
 	texture.Bind();
 	m_Shader.Bind();
-	m_Shader.SetMat4("view", m_Player->View);
 	m_Shader.SetMat4("projection", m_Player->Projection);
+	m_Shader.SetMat4("model", m_Model);
 	m_Shader.Set3Float("spriteColor", m_Color.x, m_Color.y, m_Color.z);
 	m_Shader.setInt("spriteTexture", texture.m_TextureIndex);
 	m_Shader.SetMat4("model", m_Model);

@@ -93,12 +93,13 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 	}
 }
 
-void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,std::vector<Enemy> &enemies, Shader& shader, Shader& lightShader,Shader& modelShader, bool& gameStarted)
+void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Enemy>& enemies, Shader& shader, Shader& lightShader, Shader& modelShader, bool& gameStarted)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
 
 	StartFrames();
+
 	Begin("Enemies Coordinates");
 
 	for (int i = 0; i < enemies.size(); i++)
@@ -176,9 +177,9 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		selectedTexture = GroundTexturePath;
 	else if (ImGui::Button("Box", Button_Size))
 		selectedTexture = BoxTexturePath;
-	else if(ImGui::Button("Artifact", Button_Size))
+	else if (ImGui::Button("Artifact", Button_Size))
 		selectedTexture = IMAGE_TEXTRUE_PATH_0;
-	else if(ImGui::Button("Artifact2", Button_Size))
+	else if (ImGui::Button("Artifact2", Button_Size))
 		selectedTexture = IMAGE_TEXTRUE_PATH_1;
 
 

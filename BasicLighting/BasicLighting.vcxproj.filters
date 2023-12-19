@@ -105,6 +105,9 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader.shader">
@@ -129,6 +132,12 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="SpriteFragmentShader.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="FontFragmentShader.shader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="FontVertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
@@ -230,6 +239,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

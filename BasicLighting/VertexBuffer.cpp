@@ -48,7 +48,18 @@ void VertexBuffer::InitializeVertexBuffer()
 		SetCubeAttributes();
 		break;
 	}
+	case VertexType::Text_Font_Type:
+	{
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+		SetFontAtteributes();
+		break;
 	}
+	}
+}
+
+void VertexBuffer::SetFontAtteributes()
+{
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
 }
 
 void VertexBuffer::SetCubeAttributes()

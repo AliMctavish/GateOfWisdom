@@ -127,7 +127,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\pc\source\repos\AliMctavish\BasicLighting\BasicLighting\Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp.lib;opengl32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;assimp.lib;opengl32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,6 +155,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FileManager.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GuiDebugger.cpp" />
@@ -179,6 +180,8 @@
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FontFragmentShader.shader" />
+    <None Include="FontVertexShader.shader" />
     <None Include="FragmentShader.shader" />
     <None Include="SpriteFragmentShader.shader" />
     <None Include="LightFragmentShader.shader" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectGenerator.h" />
     <ClInclude Include="FileManager.h" />

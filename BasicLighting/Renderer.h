@@ -15,6 +15,7 @@
 #include "Enemy.h"
 #include "ObjectGenerator.h"
 #include "Sprite.h"
+#include "Font.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -42,10 +43,10 @@ private:
 	ObjectGenerator objectGenerator;
 
 	VertexArray vertexArray;
-	VertexArray vertexArray2;
 	VertexBuffer vertexBuffer = VertexBuffer(VertexType::Cube_Type);
 
-	Sprite aimSprite;
+	Sprite testSprite;
+	Font font;
 
 	//VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Surface_Type);
 

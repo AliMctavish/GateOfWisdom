@@ -46,6 +46,8 @@ void Renderer::Initialize()
 	glfwSwapInterval(0);
 
 	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
+
+	font.SetView(_player.Projection);
 }
 
 void Renderer::Update()
@@ -54,9 +56,7 @@ void Renderer::Update()
 	_player.OscillateOnMoving();
 	_player.SetMatrix();
 
-	testSprite.SetCamera(&_player);
 	testSprite.Update();
-
 	
 	for (Cube& cube : cubes)
 	{
@@ -128,13 +128,11 @@ void Renderer::Draw()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	font.Draw("This is sample text", 2.0f, 2.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+	font.Draw("(C) LearnOpenGL.com", 5.0f, 5.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
+
 
 	testSprite.Draw();
-
-	font.BindShader();
-	font.Draw(_player,"This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-	font.Draw(_player,"(C) LearnOpenGL.com", 540.0f, 570.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
-	font.UnBindShader();
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-

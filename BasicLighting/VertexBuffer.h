@@ -12,8 +12,8 @@ enum VertexType {
 class VertexBuffer {
 private : 
 	VertexType m_Type;
-public : 
 	uint32_t m_VertexBuffer;
+public : 
 	VertexBuffer(VertexType type);
 	~VertexBuffer();
 

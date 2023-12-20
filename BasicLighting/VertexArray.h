@@ -9,7 +9,6 @@ private :
 public :
 	VertexArray();
 	~VertexArray();
-	void Update();
 	void Bind();
 	void UnBind();
 };

@@ -12,7 +12,7 @@
 #include "Player.h"
 #include "Model.h"
 #include "ModelLoader.h"
-#include "Enemy.h"
+#include "EntityManager.h"
 #include "ObjectGenerator.h"
 #include "Sprite.h"
 #include "Font.h"
@@ -43,6 +43,7 @@ private:
 	std::vector<Cube> cubes;
 	std::vector<Enemy> enemies;
 	std::vector<Key> keys;
+	EntityManager entityManager;
 
 	ObjectGenerator objectGenerator;
 

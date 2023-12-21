@@ -72,11 +72,10 @@ void Light::Update(Player& player, GLFWwindow* window)
 }
 
 
-void Light::Draw(ModelLoader& objectModel)
+void Light::Draw()
 {
-	//BaseObject::Draw();
 	m_Shader.SetMat4("model", m_Model);
 	UseColor("objectColor");
-    objectModel.GetModel(ModelLoader::Type_Sphere).Draw(m_Shader);
+    m_ModelLoader.GetModel(ModelLoader::Type_Sphere).Draw(m_Shader);
 }
 

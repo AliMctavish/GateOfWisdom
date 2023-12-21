@@ -6,7 +6,9 @@ class ObjectGenerator {
 private :
 	float enemySpawnTime = 10;
 	float lightSpawnTime = 10;
+	ModelLoader m_ModelLoader;
 public : 
+	void inline SetModelLoader(ModelLoader& modelLoader) { m_ModelLoader = modelLoader; }
 	void GenerateEnemy(std::vector<Enemy>& enemies , Shader &shader)
 	{
 		enemySpawnTime -= 0.01;
@@ -14,6 +16,7 @@ public :
 		{
 			Enemy enemy;
 			enemy.SetShader(shader);
+			enemy.SetModel(m_ModelLoader);
 			enemy.SetRandomLocation();
 			enemy.SetName("enemy" + std::to_string(enemies.size()));
 			enemies.push_back(enemy);
@@ -27,6 +30,7 @@ public :
 		{
 			Light light;
 			light.SetShader(shader);
+			light.SetModel(m_ModelLoader);
 			light.SetRandomLocation();
 			light.SetRandomColor();
 			light.SetName("light" + std::to_string(lights.size()));

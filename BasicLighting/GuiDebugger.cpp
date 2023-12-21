@@ -93,7 +93,9 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 	}
 }
 
-void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Enemy>& enemies , std::vector<Key> &keys, Shader& shader, Shader& lightShader, Shader& modelShader, bool& gameStarted)
+void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
+	std::vector<Enemy>& enemies , std::vector<Key> &keys, Shader& shader,
+	Shader& lightShader, Shader& modelShader,ModelLoader &modelLoader ,bool& gameStarted)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -223,6 +225,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Light light;
 		light.SetShader(lightShader);
+		light.SetModel(modelLoader);
 		light.SetName("object" + std::to_string(cubes.size()));
 		lights.push_back(light);
 	}
@@ -231,6 +234,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Enemy enemy;
 		enemy.SetShader(modelShader);
+		enemy.SetModel(modelLoader);
 		enemy.SetName("enemy" + std::to_string(enemies.size()));
 		enemies.push_back(enemy);
 	}	
@@ -238,6 +242,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Key key;
 		key.SetShader(lightShader);
+		key.SetModel(modelLoader);
 		key.SetName("key" + std::to_string(keys.size()));
 		keys.push_back(key);
 	}
@@ -266,7 +271,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 		if (ImGui::Button("Select", Button_Size))
 		{
-			FileManager::LoadFile(lights, cubes, keys,lightShader, shader, selectedMap);
+			FileManager::LoadFile(lights, cubes, keys,lightShader, shader,modelLoader, selectedMap);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))

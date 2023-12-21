@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
+#include "ModelLoader.h"
 
 #define Material_Default_Value glm::vec3(0.5f,0.5f,0.5f)
 #define Effect_Defualt_Value glm::vec3(0,0,0)
@@ -26,6 +27,7 @@ private:
 	double sineValue = 50;
 	float m_RotationAngleCounter = 0;
 public : 
+	ModelLoader m_ModelLoader;
 	Shader m_Shader;
 	bool isPickedUp = false;
 	glm::vec3 Position;
@@ -37,6 +39,7 @@ public :
 	void Draw();
 	void SinMove();
 	void SetShader(Shader &shader);
+	void SetModel(ModelLoader& modelLoader);
 	std::string inline GetName() { return _name; }
 	void UseColor(const char* name);
 	void SetObjectColor(float x, float y, float z);

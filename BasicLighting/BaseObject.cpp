@@ -37,6 +37,12 @@ void BaseObject::SetShader(Shader &shader)
 	m_Shader = shader;
 }
 
+void BaseObject::SetModel(ModelLoader& modelLoader)
+{
+	m_ModelLoader = modelLoader;
+}
+
+
 void BaseObject::UseColor(const char* name)
 {
 	int colorLoc = glGetUniformLocation(m_Shader.shader_program, name);

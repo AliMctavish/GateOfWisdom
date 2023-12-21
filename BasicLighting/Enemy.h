@@ -7,12 +7,11 @@
 
 //enmey class that handles enemies :3 
 class Enemy : public BaseObject{
-private : 
 public : 
 	unsigned int objectId;
 	Enemy();
 	void SetRandomLocation();
-	void Draw(ModelLoader& objectModel);
+	void Draw();
 	void Update();
 	void MoveTowardsPlayer(Player &player);
 };

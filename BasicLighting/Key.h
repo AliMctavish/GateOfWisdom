@@ -13,5 +13,5 @@ public :
 	Key();
 	void Init();
 	void Update();
-	void Draw(ModelLoader *modelLoader);
+	void Draw();
 };

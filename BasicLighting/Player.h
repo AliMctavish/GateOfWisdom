@@ -14,6 +14,7 @@ public:
 	float counter = 0;
 	float speedAmount= 0 ; 
 	Player();
+	void Draw();
 	void Update();
 	bool hasAttachedObject = false;
 	bool inRangeOfKeyObject = false;

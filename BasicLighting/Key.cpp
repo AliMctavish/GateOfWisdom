@@ -19,9 +19,9 @@ void Key::Update()
 	BaseObject::Rotate();
 }
 
-void Key::Draw(ModelLoader *modelLoader)
+void Key::Draw()
 {
 	m_Shader.SetMat4("model" , m_Model);
 	BaseObject::UseColor("objectColor");
-	modelLoader->GetModel(modelLoader->Type_Key).Draw(m_Shader);
+	m_ModelLoader.GetModel(ModelLoader::Type_Key).Draw(m_Shader);
 }

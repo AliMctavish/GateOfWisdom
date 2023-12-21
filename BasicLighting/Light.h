@@ -16,6 +16,6 @@ public:
 	std::string GetName() { return _name; }
 	void Update(Player &player , GLFWwindow* window);
 	void Init();
-	void Draw(ModelLoader &objectModel);
+	void Draw();
 	Light();
 };

@@ -42,6 +42,14 @@ void Player::OscillateOnMoving()
 		MoveWithOscillation(3.f, 0.20f);
 }
 
+
+void Player::Draw()
+{
+	m_Shader.SetMat4("view", View);
+	m_Shader.SetMat4("projection", Projection);
+	m_Shader.setVec3("viewPos", Position);
+}
+
 void Player::MoveWithOscillation(float speedAmount, float oscTime)
 {
 	m_OscillationAngle = glm::sin(glm::vec3(0, counter, 0)) * oscTime;

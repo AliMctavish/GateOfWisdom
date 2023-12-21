@@ -28,14 +28,12 @@ void Enemy::MoveTowardsPlayer(Player& player)
 	float angle = glm::atan(direction.x, direction.z);
 
 	m_Model = glm::rotate(m_Model, angle, glm::vec3(0, 1, 0));
-	//m_Model = glm::translate(m_Model, direction);
 }
 
 
 
-void Enemy::Draw(ModelLoader& objectModel)
+void Enemy::Draw()
 {
 	m_Shader.SetMat4("model", m_Model);
-	//BaseObject::Draw();
-	objectModel.GetModel(ModelLoader::Type_Enemy).Draw(m_Shader);
+	m_ModelLoader.GetModel(ModelLoader::Type_Enemy).Draw(m_Shader);
 }

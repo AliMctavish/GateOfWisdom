@@ -60,7 +60,7 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	newStream.close();
 }
 
-void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, Shader& lightShader, Shader& cubeShader, std::string fileName)
+void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, Shader& lightShader, Shader& cubeShader, ModelLoader &modelLoader, std::string fileName)
 {
 	std::ifstream newStream("Maps/" + fileName + ".txt");
 	std::string line;
@@ -103,12 +103,9 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			{
 				Light light;
 				light.SetShader(lightShader);
-
 				light.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
 				light.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
-
-
-				//cube.SetObjectColor();
+				light.SetModel(modelLoader);
 				light.SetName("test" + std::to_string(lights.size()));
 				lights.push_back(light);
 			}
@@ -131,6 +128,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			{
 				Key key;
 				key.SetShader(lightShader);
+				key.SetModel(modelLoader);
 
 				key.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
 				key.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));

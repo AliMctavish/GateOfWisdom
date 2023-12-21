@@ -18,5 +18,5 @@ public :
 	FileManager();
 	~FileManager();
 	static void SaveFile(std::vector<Light> &lights ,std::vector<Cube> &cubes ,std::vector<Key> &keys, std::string& fileName);
-	static void LoadFile(std::vector<Light> &lights,std::vector<Cube> &cubes , std::vector<Key>& keys, Shader& lightShader , Shader& cubeShader ,std::string fileName);
+	static void LoadFile(std::vector<Light> &lights,std::vector<Cube> &cubes , std::vector<Key>& keys, Shader& lightShader , Shader& cubeShader ,ModelLoader &modelLoader,std::string fileName);
 };

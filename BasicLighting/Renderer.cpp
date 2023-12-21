@@ -43,11 +43,11 @@ void Renderer::Initialize()
 
 	_gui.Init();
 	font.SetView(_player.Projection);
+	_player.SetShader(shader);
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, lightShader, shader, "Level1");
-
+	FileManager::LoadFile(lights, cubes, keys, lightShader, shader, modelLoader, "Level1");
 }
 
 void Renderer::Update()
@@ -60,6 +60,13 @@ void Renderer::Update()
 	{
 		cube.Update();
 
+		for (Light& light : lights)
+			if (_physics.IsCollidedTest(cube.Position,light.Position,cube.Size))
+				light.isPushing = false;
+	}
+
+	for (Cube& cube : cubes)
+	{
 		if (_physics.CheckCollision(cube, _player))
 			break;
 	}
@@ -90,7 +97,7 @@ void Renderer::Update()
 		for (int j = 0; j < lights.size(); j++)
 		{
 			if (enemies.size() > 0 && lights.size() > 0)
-				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5,5,5)) && lights[j].isPushing)
+				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)) && lights[j].isPushing)
 				{
 					enemies.erase(enemies.begin() + i);
 					lights.erase(lights.begin() + j);
@@ -101,6 +108,7 @@ void Renderer::Update()
 	if (gameStarted == true)
 	{
 		_physics.UpdateGravity(_player);
+		objectGenerator.SetModelLoader(modelLoader);
 		objectGenerator.GenerateEnemy(enemies, modelShader);
 		objectGenerator.GenerateLight(lights, lightShader);
 	}
@@ -130,14 +138,11 @@ void Renderer::Update()
 	processInput(_window, _player);
 }
 
-
-std::string m_TextCounter;
-float m_Counter;
-
 void Renderer::Draw()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	entityManager.SetEntities(enemies, cubes, keys, lights);
 
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -147,23 +152,14 @@ void Renderer::Draw()
 	//okay .... basically you should send the view matrix for the camera !!!-_-
 
 	modelShader.Bind();
-
-	//abstract this motherfucker plz !.
 	modelShader.SetMat4("view", _player.View);
 	modelShader.SetMat4("projection", _player.Projection);
-
-	for (Enemy& enemy : enemies)
-		enemy.Draw(modelLoader);
-
+	entityManager.DrawEnemies();
 	modelShader.UnBind();
 
 	vertexArray.Bind();
 	shader.Bind();
-
-	shader.SetMat4("view", _player.View);
-	shader.SetMat4("projection", _player.Projection);
-	shader.setVec3("viewPos", _player.Position);
-
+	_player.Draw();
 	//too many for loops for testing perposses idk how to write perpoesrpes
 	for (int i = 0; i < lights.size(); i++)
 	{
@@ -173,31 +169,17 @@ void Renderer::Draw()
 
 	shader.setInt("LightCount", lights.size());
 
+	entityManager.DrawCubes();
 
-	for (Cube& cube : cubes)
-	{
-		for (Light& light : lights)
-		{
-			//hmmmm is this the way i should work with ? 
-			if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
-				light.isPushing = false;
-		}
-		cube.Draw();
-	}
 	shader.UnBind();
 
 	lightShader.Bind();
 	lightShader.SetMat4("view", _player.View);
 	lightShader.SetMat4("projection", _player.Projection);
-
-	for (Light& light : lights)
-		light.Draw(modelLoader);
-
-	for (Key& key : keys)
-		key.Draw(&modelLoader);
+	entityManager.DrawLights();
+	entityManager.DrawKeys();
 
 	lightShader.UnBind();
-
 
 	font.Draw("number of enemies : " + std::to_string(enemies.size()), -0.8, 0.8, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 	font.Draw("Number Of Keys Left : " + std::to_string(_player.NumberOfKeys) + "/" + std::to_string(keys.size()), -0.8, 0.9, 0.001f, glm::vec3(0.9, 0.9f, 0.1f));
@@ -216,10 +198,11 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 
 
+		//for testing perposes
 		if (glfwGetKey(_window, GLFW_KEY_P) == GLFW_PRESS)
 		{
 			Cube cube;

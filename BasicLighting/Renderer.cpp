@@ -53,7 +53,6 @@ void Renderer::Initialize()
 void Renderer::Update()
 {
 	_player.Update();
-
 	testSprite.Update();
 
 	for (Cube& cube : cubes)
@@ -86,7 +85,6 @@ void Renderer::Update()
 			}
 		}
 	}
-
 
 	for (int i = 0; i < enemies.size(); i++)
 	{

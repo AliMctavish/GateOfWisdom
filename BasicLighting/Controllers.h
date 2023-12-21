@@ -74,7 +74,7 @@ void processInput(GLFWwindow* window, Player& player)
 		player.Position -= player.CameraUp * cameraSpeed;
 
 	//nasty code in here :3 
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS && player.grounded)
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS )
 	{
 		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * 0.7f;
 		player.isRunning = true;

@@ -52,9 +52,7 @@ void Renderer::Initialize()
 
 void Renderer::Update()
 {
-	//_player.Update();
-	_player.OscillateOnMoving();
-	_player.SetMatrix();
+	_player.Update();
 
 	testSprite.Update();
 
@@ -70,7 +68,7 @@ void Renderer::Update()
 	{
 		keys[i].Update();
 
-		if (_physics.IsCollided(keys[i].Position, _player.Position, keys[i].Size = glm::vec3(3,3,3)))
+		if (_physics.IsCollided(keys[i].Position, _player.Position, glm::vec3(3, 3, 3)))
 		{
 			_player.inRangeOfKeyObject = true;
 			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
@@ -80,8 +78,6 @@ void Renderer::Update()
 				keys.erase(keys.begin() + i);
 			}
 		}
-		else
-			_player.inRangeOfKeyObject = false;
 	}
 
 
@@ -94,7 +90,7 @@ void Renderer::Update()
 		for (int j = 0; j < lights.size(); j++)
 		{
 			if (enemies.size() > 0 && lights.size() > 0)
-				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, enemies[i].Size) && lights[j].isPushing)
+				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5,5,5)) && lights[j].isPushing)
 				{
 					enemies.erase(enemies.begin() + i);
 					lights.erase(lights.begin() + j);
@@ -124,13 +120,6 @@ void Renderer::Update()
 				continue;
 			}
 		}
-
-		if (_physics.CheckLightCollision(lights[i], _player) && !lights[i].isPickedUp && !lights[i].isPushing)
-			_player.inRangeOfLightObject = true;
-		else
-			_player.inRangeOfLightObject = false;
-
-
 		//this part of the code will override the update method of the light 
 		//in the matrix part
 		//when you are not picking up the object ! 

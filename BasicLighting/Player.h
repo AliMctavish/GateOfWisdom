@@ -6,12 +6,15 @@ private :
 	float m_Pov = 75.0f;
 	glm::vec3 m_OscillationAngle = glm::vec3(0,0,0);
 	void MoveWithOscillation(float speedAmount, float oscTime);
-public:
+	void SetVariablesToDefault();
 	void OscillateOnMoving();
+public:
+	void SetMatrix();
 	int NumberOfKeys = 0;
 	float counter = 0;
 	float speedAmount= 0 ; 
 	Player();
+	void Update();
 	bool hasAttachedObject = false;
 	bool inRangeOfKeyObject = false;
 	bool inRangeOfLightObject = false;
@@ -26,6 +29,5 @@ public:
 	glm::vec3 CameraRight;
 	glm::mat4 View;
 	glm::mat4 Projection;
-	void SetMatrix();
 	~Player();
 };

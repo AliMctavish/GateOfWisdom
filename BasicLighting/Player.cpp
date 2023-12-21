@@ -8,6 +8,13 @@ Player::Player()
 	CameraRight = glm::vec3(1.0f, 0.0f, 0.0f);
 }
 
+void Player::Update()
+{
+	OscillateOnMoving();
+	SetMatrix();
+	SetVariablesToDefault();
+}
+
 
 void Player::SetMatrix()
 {
@@ -20,6 +27,12 @@ void Player::SetMatrix()
 
 	View = view;
 	Projection = projection;
+}
+
+void Player::SetVariablesToDefault()
+{
+	inRangeOfKeyObject = false;
+	inRangeOfLightObject = false;
 }
 
 void Player::OscillateOnMoving()

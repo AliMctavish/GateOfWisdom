@@ -32,6 +32,9 @@ bool Physics::CheckLightCollision(Light& light, Player& player)
 {
 	if (IsCollided(light.Position, player.Position, light.Size))
 	{
+		if (!light.isPushing && !light.isPickedUp)
+			player.inRangeOfLightObject = true;
+
 		if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && !player.hasLight)
 		{
 			player.hasLight = true;
@@ -69,7 +72,7 @@ void Physics::UpdateGravity(Player& player)
 }
 
 
-bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1)
+bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3 sizeObject1)
 {
 	int object1XX = object1.x + sizeObject1.x + 1;
 	int object1X = object1.x;
@@ -90,7 +93,7 @@ bool Physics::IsCollided(glm::vec3& object1, glm::vec3& object2, glm::vec3& size
 }
 
 
-bool Physics::IsCollidedTest(glm::vec3& object1, glm::vec3& object2, glm::vec3& sizeObject1)
+bool Physics::IsCollidedTest(glm::vec3& object1, glm::vec3& object2, glm::vec3 sizeObject1)
 {
 	int object1XX = object1.x + sizeObject1.x + 1;
 	int object1X = object1.x;

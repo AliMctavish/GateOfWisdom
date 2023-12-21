@@ -8,10 +8,13 @@ private :
 	void MoveWithOscillation(float speedAmount, float oscTime);
 public:
 	void OscillateOnMoving();
+	int NumberOfKeys = 0;
 	float counter = 0;
 	float speedAmount= 0 ; 
 	Player();
 	bool hasAttachedObject = false;
+	bool inRangeOfKeyObject = false;
+	bool inRangeOfLightObject = false;
 	bool grounded = false;
 	bool isJumping = false;
 	bool isRunning = false;

@@ -24,6 +24,7 @@
 class BaseObject {
 private:
 	double sineValue = 50;
+	float m_RotationAngleCounter = 0;
 public : 
 	Shader m_Shader;
 	bool isPickedUp = false;
@@ -41,4 +42,5 @@ public :
 	void SetObjectColor(float x, float y, float z);
 	void SetName(std::string name);
 	void Resize();
+	void Rotate();
 };

@@ -9,7 +9,7 @@
 
 class Sprite {
 private :
-	glm::mat4 m_Projeciton = glm::perspective(glm::radians(75.0f), 1200.f / 800.f, 0.1f, 1000.0f);
+	glm::mat4 m_Projeciton = glm::perspective(glm::radians(75.0f), 1200.f / 800.f, 0.1f, 10.0f);
 	glm::vec3 Position;
 	Texture texture;
 	Shader m_Shader;

@@ -3,11 +3,11 @@
 #include "Shader.h"
 #include "ModelLoader.h"
 #include "Player.h"
+#include "Texture.h"
 
 class Light :public BaseObject{
 public:
 	bool isPushing = false;
-	bool isInterpolated = false;
 	int objectId;
 	glm::vec3 direction;
 	void SetRandomLocation();

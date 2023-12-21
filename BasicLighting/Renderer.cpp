@@ -42,12 +42,12 @@ void Renderer::Initialize()
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	_gui.Init();
+	font.SetView(_player.Projection);
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, lightShader, shader, "Level1");
+	FileManager::LoadFile(lights, cubes, keys, lightShader, shader, "Level1");
 
-	font.SetView(_player.Projection);
 }
 
 void Renderer::Update()
@@ -57,7 +57,7 @@ void Renderer::Update()
 	_player.SetMatrix();
 
 	testSprite.Update();
-	
+
 	for (Cube& cube : cubes)
 	{
 		cube.Update();
@@ -66,10 +66,30 @@ void Renderer::Update()
 			break;
 	}
 
+	for (int i = 0; i < keys.size(); i++)
+	{
+		keys[i].Update();
+
+		if (_physics.IsCollided(keys[i].Position, _player.Position, keys[i].Size = glm::vec3(3,3,3)))
+		{
+			_player.inRangeOfKeyObject = true;
+			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
+			{
+				_player.inRangeOfKeyObject = false;
+				_player.NumberOfKeys += 1;
+				keys.erase(keys.begin() + i);
+			}
+		}
+		else
+			_player.inRangeOfKeyObject = false;
+	}
+
+
 	for (int i = 0; i < enemies.size(); i++)
 	{
 		enemies[i].Update();
-		enemies[i].MoveTowardsPlayer(_player);
+		if (gameStarted)
+			enemies[i].MoveTowardsPlayer(_player);
 
 		for (int j = 0; j < lights.size(); j++)
 		{
@@ -81,7 +101,6 @@ void Renderer::Update()
 				}
 		}
 	}
-
 
 	if (gameStarted == true)
 	{
@@ -106,6 +125,12 @@ void Renderer::Update()
 			}
 		}
 
+		if (_physics.CheckLightCollision(lights[i], _player) && !lights[i].isPickedUp && !lights[i].isPushing)
+			_player.inRangeOfLightObject = true;
+		else
+			_player.inRangeOfLightObject = false;
+
+
 		//this part of the code will override the update method of the light 
 		//in the matrix part
 		//when you are not picking up the object ! 
@@ -120,7 +145,6 @@ void Renderer::Update()
 std::string m_TextCounter;
 float m_Counter;
 
-
 void Renderer::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -128,14 +152,11 @@ void Renderer::Draw()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	font.Draw("This is sample text", 2.0f, 2.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-	font.Draw("(C) LearnOpenGL.com", 5.0f, 5.0f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
-
-
 	testSprite.Draw();
 
 	//why the fuck there is nothing showing on the screen ?????????????
 	//okay .... basically you should send the view matrix for the camera !!!-_-
+
 	modelShader.Bind();
 
 	//abstract this motherfucker plz !.
@@ -147,9 +168,7 @@ void Renderer::Draw()
 
 	modelShader.UnBind();
 
-
 	vertexArray.Bind();
-
 	shader.Bind();
 
 	shader.SetMat4("view", _player.View);
@@ -183,13 +202,23 @@ void Renderer::Draw()
 	lightShader.SetMat4("projection", _player.Projection);
 
 	for (Light& light : lights)
-	{
 		light.Draw(modelLoader);
-	}
+
+	for (Key& key : keys)
+		key.Draw(&modelLoader);
+
 	lightShader.UnBind();
 
-	//why using second vertex array ? 
-	//vertexArray2.Bind();
+
+	font.Draw("number of enemies : " + std::to_string(enemies.size()), -0.8, 0.8, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+	font.Draw("Number Of Keys Left : " + std::to_string(_player.NumberOfKeys) + "/" + std::to_string(keys.size()), -0.8, 0.9, 0.001f, glm::vec3(0.9, 0.9f, 0.1f));
+
+	if (_player.inRangeOfKeyObject)
+		font.Draw("Press 'E' to collect", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+
+	if (_player.inRangeOfLightObject)
+		font.Draw("Press 'E' to pick up", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+
 
 	if (gameStarted == false)
 	{
@@ -198,7 +227,7 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		_gui.Debugger(lights, cubes, enemies, shader, lightShader, modelShader, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 
 
@@ -214,7 +243,7 @@ void Renderer::Draw()
 		if (glfwGetKey(_window, GLFW_KEY_L) == GLFW_PRESS)
 		{
 			Light light;
-			light.SetShader(shader);
+			light.SetShader(lightShader);
 			light.Position = _player.Position;
 			light.SetName("test" + std::to_string(cubes.size()));
 			lights.push_back(light);

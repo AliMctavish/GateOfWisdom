@@ -27,10 +27,8 @@ void Cube::Draw()
 	m_Shader.setInt("texture0", texture.m_TextureIndex);
 	texture.Bind();
 	UseColor("objectColor");
-
-	//model.Draw(m_Shader);
 	BaseObject::Draw();
-	//glBindTexture(GL_TEXTURE_2D, 0);
+	texture.UnBind();
 }
 
 void Cube::SetTextureData(uint16_t textureIndex)

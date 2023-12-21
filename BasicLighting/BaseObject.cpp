@@ -8,6 +8,7 @@ void BaseObject::Update()
 
 void BaseObject::Draw()
 {
+	
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
@@ -22,6 +23,13 @@ void BaseObject::Resize()
 {
 	m_Model = glm::translate(m_Model, glm::vec3(Size.x * 0.5f, Size.y * 0.5f, Size.z * 0.5f));
 	m_Model = glm::scale(m_Model, glm::vec3(Size));
+}
+
+void BaseObject::Rotate()
+{
+	m_Model = glm::rotate(m_Model, glm::radians(m_RotationAngleCounter++), glm::vec3(1, 1, 0));
+	if (m_RotationAngleCounter > 360)
+		m_RotationAngleCounter = 0;
 }
 
 void BaseObject::SetShader(Shader &shader)

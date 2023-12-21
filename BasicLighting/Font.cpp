@@ -9,10 +9,10 @@ Font::Font()
 	GenerateBuffer();
 }
 
-void Font::SetView(glm::mat4 playerMat)
+void Font::SetView(glm::mat4 projectionMatrix)
 {
 	m_Shader.Bind();
-	m_Shader.SetMat4("projection", playerMat);
+	m_Shader.SetMat4("projection", projectionMatrix);
 	m_Shader.UnBind();
 }
 
@@ -62,6 +62,7 @@ void Font::Draw(std::string text, float x, float y, float scale, glm::vec3 color
 	}
 	m_VAO.UnBind();
 	glBindTexture(GL_TEXTURE_2D, 0);
+	m_Shader.UnBind();
 }
 
 void Font::ShaderInit()

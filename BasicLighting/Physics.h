@@ -3,6 +3,8 @@
 #include "Cube.h"
 #include "Light.h"
 #include "Player.h"
+#include "Font.h"
+
 
 class Physics {
 private:

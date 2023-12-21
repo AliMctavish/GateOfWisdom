@@ -6,6 +6,8 @@
 #include "Light.h"
 #include "Cube.h"
 #include "Enemy.h"
+#include "Key.h"
+
 
 #define Button_Size ImVec2(121,20)
 #define Selector_Size ImVec2(130,10)
@@ -29,7 +31,7 @@ public :
 	void Init();
 	void Begin(const char* windowTitle);
 	void End();
-	void Debugger(std::vector<Light> &lights , std::vector<Cube> &cubes,std::vector<Enemy> &enemies,
+	void Debugger(std::vector<Light> &lights , std::vector<Cube> &cubes,std::vector<Enemy> &enemies,std::vector<Key> &keys,
 		Shader &shader , Shader &lightShader , Shader& modelShader
 		, bool &gameStarted);
 	void Display();

@@ -1,6 +1,7 @@
 #pragma once
 #include "VertexBuffer.h"
 #include "VertexArray.h"
+#include "Player.h"
 #include "Shader.h"
 #include <ft2build.h>
 #include <map>
@@ -15,7 +16,7 @@ private :
 		glm::ivec2   Bearing;
 		unsigned int Advance;
 	};
-	glm::mat4 m_Projection = glm::perspective(glm::radians(75.0f), 1200.f / 800.f, 0.1f, 10.0f);
+	glm::mat4 m_Projection = glm::perspective(glm::radians(75.0f), 1200.f / 800.f, 0.1f, 1000.0f);
 	FT_Library m_FreeType;
 	FT_Face m_Face;
 	Shader m_Shader;
@@ -27,7 +28,7 @@ private :
 	void GenerateBuffer();
 public: 
 	Font();
-	void SetView (glm::mat4 playerMat);
+	void SetView (glm::mat4 projectionMatrix);
 	void Draw(std::string text, float x, float y, float scale, glm::vec3 color);
 	std::map<char, FontCharacter> Characters;
 };

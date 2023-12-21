@@ -93,7 +93,7 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 	}
 }
 
-void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Enemy>& enemies, Shader& shader, Shader& lightShader, Shader& modelShader, bool& gameStarted)
+void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Enemy>& enemies , std::vector<Key> &keys, Shader& shader, Shader& lightShader, Shader& modelShader, bool& gameStarted)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -106,13 +106,35 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		ImGui::Text(enemies[i].GetName().c_str());
 		ImGui::PushID(enemies[i].objectId);
-		ImGui::SliderFloat("Move3 On X", &enemies[i].Position.x, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move3 On Y", &enemies[i].Position.y, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move3 On Z", &enemies[i].Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move3 On X", &enemies[i].Position.x, -250, 250, "%.3f", 0);
+		ImGui::SliderFloat("Move3 On Y", &enemies[i].Position.y, -250, 250, "%.3f", 0);
+		ImGui::SliderFloat("Move3 On Z", &enemies[i].Position.z, -250, 250, "%.3f", 0);
 		ImGui::SliderFloat("Rsizex3 object", &enemies[i].Size.x, 0, 100, "%.3f", 0);
 		ImGui::SliderFloat("Rsizey3 object", &enemies[i].Size.y, 0, 100, "%.3f", 0);
 		ImGui::SliderFloat("Rsizez3 object", &enemies[i].Size.z, 0, 100, "%.3f", 0);
 		if (ImGui::Button("Delete", Button_Size)) { enemies.erase(enemies.begin() + i); }
+		ImGui::PopID();
+	}
+
+	End();
+
+
+
+	Begin("Keys Coordinates");
+
+
+	for (int i = 0; i < keys.size(); i++)
+	{
+		ImGui::Text(keys[i].GetName().c_str());
+		ImGui::PushID(keys[i].objectId);
+		ImGui::ColorEdit3("Object2 Color", keys[i].Color, 0);
+		ImGui::SliderFloat("Move3 On X", &keys[i].Position.x, -250, 250, "%.3f", 0);
+		ImGui::SliderFloat("Move3 On Y", &keys[i].Position.y, -250, 250, "%.3f", 0);
+		ImGui::SliderFloat("Move3 On Z", &keys[i].Position.z, -250, 250, "%.3f", 0);
+		ImGui::SliderFloat("Rsizex3 object", &keys[i].Size.x, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizey3 object", &keys[i].Size.y, 0, 100, "%.3f", 0);
+		ImGui::SliderFloat("Rsizez3 object", &keys[i].Size.z, 0, 100, "%.3f", 0);
+		if (ImGui::Button("Delete", Button_Size)) { keys.erase(keys.begin() + i); }
 		ImGui::PopID();
 	}
 
@@ -124,9 +146,9 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		ImGui::Text(cubes[i].GetName().c_str());
 		ImGui::PushID(cubes[i].cubeId);
-		ImGui::SliderFloat("Move2 On X", &cubes[i].Position.x, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Y", &cubes[i].Position.y, -50, 50, "%.3f", 0);
-		ImGui::SliderFloat("Move2 On Z", &cubes[i].Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On X", &cubes[i].Position.x, -250, 250, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Y", &cubes[i].Position.y, -250, 250, "%.3f", 0);
+		ImGui::SliderFloat("Move2 On Z", &cubes[i].Position.z, -250, 250, "%.3f", 0);
 		ImGui::SliderFloat("Rsizex object", &cubes[i].Size.x, 0, 100, "%.3f", 0);
 		ImGui::SliderFloat("Rsizey object", &cubes[i].Size.y, 0, 100, "%.3f", 0);
 		ImGui::SliderFloat("Rsizez object", &cubes[i].Size.z, 0, 100, "%.3f", 0);
@@ -141,7 +163,6 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		if (ImGui::Button("Delete", Button_Size)) { cubes.erase(cubes.begin() + i); }
 		ImGui::PopID();
 	}
-
 	End();
 
 	Begin("Lights Coordinates2");
@@ -152,9 +173,9 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		ImGui::PushID(lights[i].objectId);
 		ImGui::ColorEdit3("Object2 Color", lights[i].Color, 0);
 
-		ImGui::SliderFloat("Move On X", &lights[i].Position.x, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move On X", &lights[i].Position.x, -250, 250, "%.3f", 0);
 		ImGui::SliderFloat("Move On Y", &lights[i].Position.y, -100, 100, "%.3f", 0);
-		ImGui::SliderFloat("Move On Z", &lights[i].Position.z, -50, 50, "%.3f", 0);
+		ImGui::SliderFloat("Move On Z", &lights[i].Position.z, -250, 250, "%.3f", 0);
 
 		ImGui::SliderFloat("2Rsize object", &lights[i].Size.x, 0, 10, "%.3f", 1);
 		if (ImGui::Button("Delete", Button_Size)) { lights.erase(lights.begin() + i); }
@@ -212,6 +233,13 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		enemy.SetShader(modelShader);
 		enemy.SetName("enemy" + std::to_string(enemies.size()));
 		enemies.push_back(enemy);
+	}	
+	if (ImGui::Button("Create Key", Button_Size))
+	{
+		Key key;
+		key.SetShader(lightShader);
+		key.SetName("key" + std::to_string(keys.size()));
+		keys.push_back(key);
 	}
 
 	if (ImGui::Button("Start Game", Button_Size))
@@ -238,12 +266,12 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 		if (ImGui::Button("Select", Button_Size))
 		{
-			FileManager::LoadFile(lights, cubes, lightShader, shader, selectedMap);
+			FileManager::LoadFile(lights, cubes, keys,lightShader, shader, selectedMap);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))
 		{
-			FileManager::SaveFile(lights, cubes, selectedMap);
+			FileManager::SaveFile(lights, cubes,keys, selectedMap);
 			m_MapSelector = false;
 		}
 		End();

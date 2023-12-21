@@ -8,6 +8,7 @@
 #define Texture_Type_Box  3
 
 class Cube : public BaseObject{
+private: 
 	void Init();
 	uint16_t m_TextureIndex;
 public : 

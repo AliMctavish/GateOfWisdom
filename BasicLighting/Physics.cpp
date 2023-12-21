@@ -35,8 +35,10 @@ bool Physics::CheckLightCollision(Light& light, Player& player)
 		if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && !player.hasLight)
 		{
 			player.hasLight = true;
-			return light.isPickedUp = true;
+			light.isPickedUp = true;
+			return false;
 		}
+		return true;
 	}
 }
 

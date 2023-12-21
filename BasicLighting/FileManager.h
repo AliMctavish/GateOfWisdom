@@ -2,6 +2,7 @@
 #include <vector>
 #include "Cube.h"
 #include "Light.h"
+#include "Key.h"
 #define WallTexturePath 1
 #define GroundTexturePath 2
 #define BoxTexturePath 3
@@ -16,6 +17,6 @@ public :
 	};
 	FileManager();
 	~FileManager();
-	static void SaveFile(std::vector<Light> &lights ,std::vector<Cube> &cubes , std::string &fileName);
-	static void LoadFile(std::vector<Light> &lights,std::vector<Cube> &cubes , Shader& lightShader , Shader& cubeShader ,std::string fileName);
+	static void SaveFile(std::vector<Light> &lights ,std::vector<Cube> &cubes ,std::vector<Key> &keys, std::string& fileName);
+	static void LoadFile(std::vector<Light> &lights,std::vector<Cube> &cubes , std::vector<Key>& keys, Shader& lightShader , Shader& cubeShader ,std::string fileName);
 };

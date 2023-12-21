@@ -16,6 +16,7 @@
 #include "ObjectGenerator.h"
 #include "Sprite.h"
 #include "Font.h"
+#include "Key.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -36,10 +37,13 @@ private:
 
 	ModelLoader modelLoader;
 	
+	
 
 	std::vector<Light> lights;
 	std::vector<Cube> cubes;
 	std::vector<Enemy> enemies;
+	std::vector<Key> keys;
+
 	ObjectGenerator objectGenerator;
 
 	VertexArray vertexArray;

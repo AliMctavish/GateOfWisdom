@@ -35,8 +35,8 @@ void Texture::Bind()
 
 void Texture::UnBind()
 {
-	//it was texture unbinding problem ! 
-	//glBindTexture(GL_TEXTURE_2D, 0);
+	glActiveTexture(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture::SetTexture(const char* textureFile, int num)
@@ -65,6 +65,7 @@ void Texture::SetTexture(const char* textureFile, int num)
 	}
 
 	stbi_image_free(data);
+	UnBind();
 }
 
 void Texture::SetTexutreType(uint16_t textureIndex)

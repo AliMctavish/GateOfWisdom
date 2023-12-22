@@ -169,6 +169,7 @@
     <ClCompile Include="Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Machine.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Physics.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Key.h" />
+    <ClInclude Include="Machine.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectGenerator.h" />
     <ClInclude Include="FileManager.h" />

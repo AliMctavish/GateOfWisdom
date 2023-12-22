@@ -17,6 +17,7 @@
 #include "Sprite.h"
 #include "Font.h"
 #include "Key.h"
+#include "Machine.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -29,6 +30,7 @@ private:
 	GuiDebugger _gui;
 	Physics _physics;
 	Player _player;
+	Machine _machine;
 
 	Shader shader;
 	Shader lightShader;

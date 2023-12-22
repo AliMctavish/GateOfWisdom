@@ -43,6 +43,8 @@ void Renderer::Initialize()
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	_gui.Init();
+	_machine.SetShader(lightShader);
+	_machine.SetModel(modelLoader);
 	font.SetView(_player.Projection);
 	_player.SetShader(shader);
 
@@ -54,20 +56,10 @@ void Renderer::Initialize()
 void Renderer::Update(std::string& deltaTime)
 {
 	_player.Update();
+	_machine.Update();
 	testSprite.Update();
 
 	std::cout << deltaTime << std::endl;
-
-	for (Cube& cube : cubes)
-	{
-		cube.Update();
-
-		for (Light& light : lights)
-			if (light.isPushing)
-				if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
-					light.isPushing = false;
-
-	}
 
 
 	//checks if the player has collided with a ground (cube) if so then this 
@@ -153,6 +145,19 @@ void Renderer::Update(std::string& deltaTime)
 			lights[i].SinMove();
 	}
 
+
+	for (Cube& cube : cubes)
+	{
+		cube.Update();
+
+		for (Light& light : lights)
+			if (light.isPushing)
+				if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
+					light.isPushing = false;
+
+	}
+
+
 	processInput(_window, _player);
 }
 
@@ -167,6 +172,7 @@ void Renderer::Draw()
 	modelShader.Bind();
 	modelShader.SetMat4("view", _player.View);
 	modelShader.SetMat4("projection", _player.Projection);
+
 
 	for (Enemy& enemy : enemies)
 		enemy.Draw();
@@ -197,6 +203,9 @@ void Renderer::Draw()
 	for (Light& light : lights)
 		light.Draw();
 
+	_machine.Draw();
+
+
 	for (Key& key : keys)
 		key.Draw();
 
@@ -220,7 +229,7 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader,_machine, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 	}
 	else

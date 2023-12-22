@@ -94,8 +94,8 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 }
 
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
-	std::vector<Enemy>& enemies , std::vector<Key> &keys, Shader& shader,
-	Shader& lightShader, Shader& modelShader,ModelLoader &modelLoader ,bool& gameStarted)
+	std::vector<Enemy>& enemies, std::vector<Key>& keys, Shader& shader,
+	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine,bool& gameStarted)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -120,6 +120,18 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 	End();
 
+
+	Begin("Machine Coordinates");
+	ImGui::Text(machine.GetName().c_str());
+	ImGui::PushID(machine.objectId);
+	ImGui::ColorEdit3("Object Color", machine.Color, 0);
+	ImGui::SliderFloat("Move On X", &machine.Position.x, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move On Y", &machine.Position.y, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move On Z", &machine.Position.z, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Rotate On Y", &machine.rotateY, -250, 250, "%.3f", 0);
+
+	ImGui::PopID();
+	End();
 
 
 	Begin("Keys Coordinates");
@@ -237,7 +249,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		enemy.SetModel(modelLoader);
 		enemy.SetName("enemy" + std::to_string(enemies.size()));
 		enemies.push_back(enemy);
-	}	
+	}
 	if (ImGui::Button("Create Key", Button_Size))
 	{
 		Key key;
@@ -271,12 +283,12 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 		if (ImGui::Button("Select", Button_Size))
 		{
-			FileManager::LoadFile(lights, cubes, keys, enemies,lightShader, shader,modelShader,modelLoader, selectedMap);
+			FileManager::LoadFile(lights, cubes, keys, enemies, lightShader, shader, modelShader, modelLoader, selectedMap);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))
 		{
-			FileManager::SaveFile(lights, cubes,keys, enemies,selectedMap);
+			FileManager::SaveFile(lights, cubes, keys, enemies, selectedMap);
 			m_MapSelector = false;
 		}
 		End();

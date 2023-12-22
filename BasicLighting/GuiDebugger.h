@@ -7,6 +7,8 @@
 #include "Cube.h"
 #include "Enemy.h"
 #include "Key.h"
+#include "Machine.h"
+
 
 
 #define Button_Size ImVec2(121,20)
@@ -33,6 +35,6 @@ public :
 	void End();
 	void Debugger(std::vector<Light> &lights , std::vector<Cube> &cubes,std::vector<Enemy> &enemies,std::vector<Key> &keys,
 		Shader &shader , Shader &lightShader , Shader& modelShader
-		, ModelLoader& modelLoader,bool &gameStarted);
+		, ModelLoader& modelLoader,Machine &machine,bool &gameStarted);
 	void Display();
 };

@@ -8,7 +8,7 @@ FileManager::~FileManager()
 {
 }
 
-// WARNING : cade smell down here :D 
+// WARNING : code smell down here :D 
 
 void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, std::string& fileName)
 {

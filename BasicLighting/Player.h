@@ -8,11 +8,18 @@ private :
 	void MoveWithOscillation(float speedAmount, float oscTime);
 	void SetVariablesToDefault();
 	void OscillateOnMoving();
+	//assinging the object to the player 
 	uint32_t m_CubeIndex = 0;
+	uint32_t m_LightIndex = 0;
+	uint32_t m_KeyIndex = 0;
 public:
 	uint32_t inline GetCollidedCubeIndex() { return m_CubeIndex; }
+	uint32_t inline GetPickedLightIndex() { return m_LightIndex; }
+	uint32_t inline GetPickedKeyIndex() { return m_KeyIndex; }
 	void ResetCollisionDetection();
 	void AssignCollidedCube(uint32_t cubeIndex);
+	void AssignPickedLight(uint32_t lightIndex);
+	void AssignPickedKey(uint32_t lightIndex);
 	void SetMatrix();
 	int NumberOfKeys = 0;
 	float counter = 0;
@@ -24,11 +31,13 @@ public:
 	bool hasAttachedObject = false;
 	bool inRangeOfKeyObject = false;
 	bool inRangeOfLightObject = false;
+	bool inRangeOfMachineObject = false;
 	bool grounded = false;
 	bool isJumping = false;
 	bool isRunning = false;
 	bool isWalking = false;
 	bool hasLight = false;
+	bool hasKey = false;
 	glm::vec3 Position;
 	glm::vec3 CameraFront;
 	glm::vec3 CameraUp;

@@ -50,17 +50,32 @@ void Renderer::Initialize()
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, enemies,lightShader, shader,modelShader,modelLoader, "Level1");
+	FileManager::LoadFile(lights, cubes, keys, enemies, lightShader, shader, modelShader, modelLoader, "Level1");
 }
 
 void Renderer::Update(std::string& deltaTime)
 {
 	_player.Update();
-	_machine.Update();
 	testSprite.Update();
 
 	std::cout << deltaTime << std::endl;
 
+	if (glm::distance(_player.Position, _machine.Position) <= 10)
+	{
+		_player.inRangeOfMachineObject = true;
+
+		if (_player.hasLight && _machine.m_Lights.size() != 2)
+			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
+			{
+				_machine.AddLight(lights[_player.GetPickedLightIndex()]);
+				lights.erase(lights.begin() + _player.GetPickedLightIndex());
+				_player.hasLight = false;
+			}
+	}
+	else
+		_player.inRangeOfMachineObject = false;
+
+	_machine.Update();
 
 	//checks if the player has collided with a ground (cube) if so then this 
 	//loop will stop and the player will save the collided cube 
@@ -73,28 +88,11 @@ void Renderer::Update(std::string& deltaTime)
 				break;
 			}
 		}
-
 	//if the player has collided with a cube it will update the checker only 
 	//on this cube ! 
 	if (_player.grounded && _player.CollidedWithCube)
 		if (!_physics.CheckCollision(cubes[_player.GetCollidedCubeIndex()], _player))
 			_player.CollidedWithCube = false;
-
-	for (int i = 0; i < keys.size(); i++)
-	{
-		keys[i].Update();
-
-		if (_physics.IsCollided(keys[i].Position, _player.Position, glm::vec3(3, 3, 3)))
-		{
-			_player.inRangeOfKeyObject = true;
-			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
-			{
-				_player.inRangeOfKeyObject = false;
-				_player.NumberOfKeys += 1;
-				keys.erase(keys.begin() + i);
-			}
-		}
-	}
 
 	for (int i = 0; i < enemies.size(); i++)
 	{
@@ -104,7 +102,7 @@ void Renderer::Update(std::string& deltaTime)
 
 		for (int j = 0; j < lights.size(); j++)
 		{
-			if (enemies.size() > 0  && lights.size() > 0 && lights[j].isPushing)
+			if (enemies.size() > 0 && lights.size() > 0 && lights[j].isPushing)
 				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)))
 				{
 					enemies.erase(enemies.begin() + i);
@@ -123,10 +121,43 @@ void Renderer::Update(std::string& deltaTime)
 		//objectGenerator.GenerateLight(lights, lightShader);
 	}
 
+	for (int i = 0; i < keys.size(); i++)
+	{
+		keys[i].Update(_player, _window);
+
+		if (!_player.hasKey)
+			if (_physics.IsCollided(keys[i].Position, _player.Position, glm::vec3(3, 3, 3)))
+			{
+				_player.inRangeOfKeyObject = true;
+				if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
+				{
+					keys[i].isPickedUp = true;
+					_player.hasKey = true;
+					_player.inRangeOfKeyObject = false;
+					_player.NumberOfKeys += 1;
+					//keys.erase(keys.begin() + i);
+				}
+			}
+	}
+
 	for (int i = 0; i < lights.size(); i++)
 	{
 		// clean the code soon
-		_physics.CheckLightCollision(lights[i], _player);
+
+		if (!_player.hasLight)
+			if (glm::distance(lights[i].Position, _player.Position) <= 5)
+			{
+				if (!lights[i].isPushing && !lights[i].isPickedUp)
+					_player.inRangeOfLightObject = true;
+
+				if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && !_player.hasLight)
+				{
+					_player.hasLight = true;
+					lights[i].isPickedUp = true;
+					_player.AssignPickedLight(i);
+				}
+			}
+
 		lights[i].Update(_player, _window);
 
 		if (lights[i].isPushing)
@@ -221,6 +252,17 @@ void Renderer::Draw()
 	if (_player.inRangeOfLightObject)
 		font.Draw("Press 'E' to pick up", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
+	if (_player.inRangeOfMachineObject && !_player.hasLight)
+		font.Draw("You need light to use this machine", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+
+	if (_player.inRangeOfMachineObject && _player.hasLight)
+		font.Draw("Press 'E' to plug in the light", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+
+	if (_machine.MachineIsFull && _player.inRangeOfMachineObject)
+	{
+		font.Draw("The machine is full", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+		font.Draw("Press 'R' to reset the machine", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+	}
 
 	if (gameStarted == false)
 	{
@@ -229,7 +271,7 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader,_machine, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 	}
 	else

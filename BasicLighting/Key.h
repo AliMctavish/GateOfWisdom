@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseObject.h"
 #include "ModelLoader.h"
+#include "Player.h"
 
 
 
@@ -10,8 +11,10 @@ private :
 public : 
 	uint16_t inline GetTexutreIndex() { return m_TextureIndex; }
 	int objectId;
+	//bool isPickedUp = false;
+	glm::vec3 direction;
 	Key();
 	void Init();
-	void Update();
+	void Update(Player &player, GLFWwindow* window);
 	void Draw();
 };

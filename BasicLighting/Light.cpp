@@ -32,6 +32,14 @@ void Light::Push()
 	Position += 1.0f * direction;
 }
 
+
+void Light::Update()
+{
+	BaseObject::Update();
+	BaseObject::Rotate();
+}
+
+
 void Light::Update(Player& player, GLFWwindow* window)
 {
 	//there is an offset happening for the position of the player 
@@ -72,10 +80,13 @@ void Light::Update(Player& player, GLFWwindow* window)
 }
 
 
+
+
 void Light::Draw()
 {
 	m_Shader.SetMat4("model", m_Model);
 	UseColor("objectColor");
     m_ModelLoader.GetModel(ModelLoader::Type_Sphere).Draw(m_Shader);
 }
+
 

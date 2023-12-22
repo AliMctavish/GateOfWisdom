@@ -14,7 +14,7 @@ void Physics::SetVariables(GLFWwindow* window, Player& player)
 
 bool Physics::CheckCollision(Cube& cube, Player& player)
 {
-	if (IsCollided(cube.Position, player.Position, cube.Size))
+	if (IsCollided(cube.Position, player.Position, cube.Size + glm::vec3(0,2,0)))
 	{
 		float distance = player.Position.y - cube.Position.y;
 		player.Position.y = cube.Position.y + distance;
@@ -39,6 +39,7 @@ bool Physics::CheckLightCollision(Light& light, Player& player)
 		{
 			player.hasLight = true;
 			light.isPickedUp = true;
+
 			return false;
 		}
 		return true;

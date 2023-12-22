@@ -28,6 +28,16 @@ void Player::AssignCollidedCube(uint32_t cubeIndex)
 	CollidedWithCube = true;
 }
 
+void Player::AssignPickedLight(uint32_t lightIndex)
+{
+	m_LightIndex = lightIndex;
+}
+
+void Player::AssignPickedKey(uint32_t keyIndex)
+{
+	m_KeyIndex = keyIndex;
+}
+
 void Player::SetMatrix()
 {
 	glm::mat4 view;

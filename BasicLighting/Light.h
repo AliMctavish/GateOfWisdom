@@ -14,6 +14,7 @@ public:
 	void SetRandomColor();
 	void Push();
 	std::string GetName() { return _name; }
+	void Update();	
 	void Update(Player &player , GLFWwindow* window);
 	void Init();
 	void Draw();

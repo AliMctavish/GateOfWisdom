@@ -31,6 +31,7 @@ public :
 	Shader m_Shader;
 	bool isPickedUp = false;
 	glm::vec3 Position;
+	glm::vec3 Center;
 	glm::vec3 Size;
 	glm::mat4 m_Model;
 	std::string _name;

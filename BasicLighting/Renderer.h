@@ -60,6 +60,6 @@ public:
 	Renderer(GLFWwindow* window);
 	void Init();
 	void Initialize();
-	void Update();
+	void Update(std::string &deltaTime);
 	void Draw();
 };

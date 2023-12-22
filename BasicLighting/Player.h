@@ -8,7 +8,11 @@ private :
 	void MoveWithOscillation(float speedAmount, float oscTime);
 	void SetVariablesToDefault();
 	void OscillateOnMoving();
+	uint32_t m_CubeIndex = 0;
 public:
+	uint32_t inline GetCollidedCubeIndex() { return m_CubeIndex; }
+	void ResetCollisionDetection();
+	void AssignCollidedCube(uint32_t cubeIndex);
 	void SetMatrix();
 	int NumberOfKeys = 0;
 	float counter = 0;
@@ -16,6 +20,7 @@ public:
 	Player();
 	void Draw();
 	void Update();
+	bool CollidedWithCube = false;
 	bool hasAttachedObject = false;
 	bool inRangeOfKeyObject = false;
 	bool inRangeOfLightObject = false;

@@ -16,6 +16,18 @@ void Player::Update()
 }
 
 
+void Player::ResetCollisionDetection()
+{
+	m_CubeIndex = 0;
+	CollidedWithCube = false;
+}
+
+void Player::AssignCollidedCube(uint32_t cubeIndex)
+{
+	m_CubeIndex = cubeIndex;
+	CollidedWithCube = true;
+}
+
 void Player::SetMatrix()
 {
 	glm::mat4 view;

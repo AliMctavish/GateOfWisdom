@@ -28,8 +28,8 @@ void Game::Start()
 			deltaTime = 100000.0 / double(nbFrames);
 			nbFrames = 0;
 			lastTime = currentTime;
-
-			renderer.Update();
+			
+			renderer.Update(frames);
 		}
 		renderer.Draw();
 	}

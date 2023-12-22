@@ -29,6 +29,7 @@ void Renderer::Initialize()
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
 	modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
 
+
 	testSprite.SetTexture("Assests/aim.png");
 
 	vertexArray.Bind();
@@ -47,28 +48,45 @@ void Renderer::Initialize()
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, lightShader, shader, modelLoader, "Level1");
+	FileManager::LoadFile(lights, cubes, keys, enemies,lightShader, shader,modelShader,modelLoader, "Level1");
 }
 
-void Renderer::Update()
+void Renderer::Update(std::string& deltaTime)
 {
 	_player.Update();
 	testSprite.Update();
+
+	std::cout << deltaTime << std::endl;
 
 	for (Cube& cube : cubes)
 	{
 		cube.Update();
 
 		for (Light& light : lights)
-			if (_physics.IsCollidedTest(cube.Position,light.Position,cube.Size))
-				light.isPushing = false;
+			if (light.isPushing)
+				if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
+					light.isPushing = false;
+
 	}
 
-	for (Cube& cube : cubes)
-	{
-		if (_physics.CheckCollision(cube, _player))
-			break;
-	}
+
+	//checks if the player has collided with a ground (cube) if so then this 
+	//loop will stop and the player will save the collided cube 
+	if (!_player.CollidedWithCube)
+		for (int i = 0; i < cubes.size(); i++)
+		{
+			if (_physics.CheckCollision(cubes[i], _player))
+			{
+				_player.AssignCollidedCube(i);
+				break;
+			}
+		}
+
+	//if the player has collided with a cube it will update the checker only 
+	//on this cube ! 
+	if (_player.grounded && _player.CollidedWithCube)
+		if (!_physics.CheckCollision(cubes[_player.GetCollidedCubeIndex()], _player))
+			_player.CollidedWithCube = false;
 
 	for (int i = 0; i < keys.size(); i++)
 	{
@@ -94,8 +112,8 @@ void Renderer::Update()
 
 		for (int j = 0; j < lights.size(); j++)
 		{
-			if (enemies.size() > 0 && lights.size() > 0)
-				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)) && lights[j].isPushing)
+			if (enemies.size() > 0  && lights.size() > 0 && lights[j].isPushing)
+				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)))
 				{
 					enemies.erase(enemies.begin() + i);
 					lights.erase(lights.begin() + j);
@@ -106,9 +124,11 @@ void Renderer::Update()
 	if (gameStarted == true)
 	{
 		_physics.UpdateGravity(_player);
-		objectGenerator.SetModelLoader(modelLoader);
-		objectGenerator.GenerateEnemy(enemies, modelShader);
-		objectGenerator.GenerateLight(lights, lightShader);
+
+		//will stop the object generator only after i make a mode for waves 
+		//objectGenerator.SetModelLoader(modelLoader);
+		//objectGenerator.GenerateEnemy(enemies, modelShader);
+		//objectGenerator.GenerateLight(lights, lightShader);
 	}
 
 	for (int i = 0; i < lights.size(); i++)
@@ -138,27 +158,25 @@ void Renderer::Update()
 
 void Renderer::Draw()
 {
-	entityManager.SetEntities(enemies, cubes, keys, lights);
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	testSprite.Draw();
 
-	//why the fuck there is nothing showing on the screen ?????????????
-	//okay .... basically you should send the view matrix for the camera !!!-_-
-
 	modelShader.Bind();
 	modelShader.SetMat4("view", _player.View);
 	modelShader.SetMat4("projection", _player.Projection);
-	entityManager.DrawEnemies();
+
+	for (Enemy& enemy : enemies)
+		enemy.Draw();
+
 	modelShader.UnBind();
 
 	vertexArray.Bind();
 	shader.Bind();
 	_player.Draw();
-	//too many for loops for testing perposses idk how to write perpoesrpes
+
 	for (int i = 0; i < lights.size(); i++)
 	{
 		shader.setVec3("lightPos[" + std::to_string(i) + ']', lights[i].Position);
@@ -167,20 +185,26 @@ void Renderer::Draw()
 
 	shader.setInt("LightCount", lights.size());
 
-	entityManager.DrawCubes();
+	for (Cube& cube : cubes)
+		cube.Draw();
 
 	shader.UnBind();
 
 	lightShader.Bind();
 	lightShader.SetMat4("view", _player.View);
 	lightShader.SetMat4("projection", _player.Projection);
-	entityManager.DrawLights();
-	entityManager.DrawKeys();
+
+	for (Light& light : lights)
+		light.Draw();
+
+	for (Key& key : keys)
+		key.Draw();
 
 	lightShader.UnBind();
 
 	font.Draw("number of enemies : " + std::to_string(enemies.size()), -0.8, 0.8, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 	font.Draw("Number Of Keys Left : " + std::to_string(_player.NumberOfKeys) + "/" + std::to_string(keys.size()), -0.8, 0.9, 0.001f, glm::vec3(0.9, 0.9f, 0.1f));
+
 
 	if (_player.inRangeOfKeyObject)
 		font.Draw("Press 'E' to collect", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
@@ -198,26 +222,6 @@ void Renderer::Draw()
 
 		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
-
-
-		//for testing perposes
-		if (glfwGetKey(_window, GLFW_KEY_P) == GLFW_PRESS)
-		{
-			Cube cube;
-			cube.SetShader(shader);
-			cube.Position = _player.Position;
-			cube.SetName("test" + std::to_string(cubes.size()));
-			cube.SetTextureData(1);
-			cubes.push_back(cube);
-		}
-		if (glfwGetKey(_window, GLFW_KEY_L) == GLFW_PRESS)
-		{
-			Light light;
-			light.SetShader(lightShader);
-			light.Position = _player.Position;
-			light.SetName("test" + std::to_string(cubes.size()));
-			lights.push_back(light);
-		}
 	}
 	else
 	{
@@ -233,4 +237,3 @@ void Renderer::Draw()
 	/* Poll for and process events */
 	glfwPollEvents();
 }
-

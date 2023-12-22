@@ -7,6 +7,9 @@
 
 //enmey class that handles enemies :3 
 class Enemy : public BaseObject{
+private : 
+	glm::vec3 m_StartPosition;
+	bool m_HasStartPosition = false;
 public : 
 	unsigned int objectId;
 	Enemy();

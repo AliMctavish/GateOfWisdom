@@ -23,10 +23,23 @@ void Enemy::Update()
 
 void Enemy::MoveTowardsPlayer(Player& player)
 {
-	glm::vec3 direction = glm::normalize(Position - player.Position);
-	Position -= direction * 0.2f;
-	float angle = glm::atan(direction.x, direction.z);
+	if (!m_HasStartPosition)
+	{
+		// the 1.0f is added to prevent any zero or negetive number 
+		m_StartPosition = Position + 1.0f;
+		m_HasStartPosition = true;
+	}
 
+	glm::vec3 direction;
+
+	if(glm::distance(m_StartPosition , player.Position) <= 100)
+		direction = glm::normalize(Position - player.Position);
+	else
+		direction = glm::normalize(Position - m_StartPosition);
+
+	Position -= direction * 0.2f;
+
+	float angle = glm::atan(direction.x, direction.z);
 	m_Model = glm::rotate(m_Model, angle, glm::vec3(0, 1, 0));
 }
 

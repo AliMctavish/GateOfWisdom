@@ -12,6 +12,7 @@ float yaw = 1;
 float pitch = 1;
 float lastX = 400, lastY = 300;
 bool firstMouse = false;
+float speed = 1;
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
@@ -53,13 +54,13 @@ void processInput(GLFWwindow* window, Player& player)
 	const float cameraSpeed = 0.7; 
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
+		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * speed;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		player.Position += glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed;
+		player.Position += glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * speed;
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		player.Position -= glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
+		player.Position -= glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed * speed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		player.Position += glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed;
+		player.Position += glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) * cameraSpeed * speed;
 
 
 	if (player.grounded && glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || player.grounded && glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || player.grounded && glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || player.grounded && glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -76,11 +77,14 @@ void processInput(GLFWwindow* window, Player& player)
 	//nasty code in here :3 
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS )
 	{
-		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * 0.7f;
+		speed = 1.5f;
 		player.isRunning = true;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE || !player.grounded)
+	{
+		speed = 1;
 		player.isRunning = false;
+	}
 
 	if (pitch > 89.0f)
 		pitch = 89.0f;

@@ -271,12 +271,12 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 		if (ImGui::Button("Select", Button_Size))
 		{
-			FileManager::LoadFile(lights, cubes, keys,lightShader, shader,modelLoader, selectedMap);
+			FileManager::LoadFile(lights, cubes, keys, enemies,lightShader, shader,modelShader,modelLoader, selectedMap);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))
 		{
-			FileManager::SaveFile(lights, cubes,keys, selectedMap);
+			FileManager::SaveFile(lights, cubes,keys, enemies,selectedMap);
 			m_MapSelector = false;
 		}
 		End();

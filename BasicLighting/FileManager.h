@@ -5,6 +5,7 @@
 #include "Key.h"
 #include "Enemy.h"
 #include "Machine.h"
+#include "Gate.h"
 #define WallTexturePath 1
 #define GroundTexturePath 2
 #define BoxTexturePath 3
@@ -21,11 +22,11 @@ public :
 	~FileManager();
 	static void SaveFile(std::vector<Light> &lights ,
 		std::vector<Cube> &cubes ,std::vector<Key> &keys,
-		std::vector<Enemy> &enemies,Machine &machine ,std::string& fileName);
+		std::vector<Enemy> &enemies,Machine &machine ,Gate &gate,std::string& fileName);
 
 	static void LoadFile(std::vector<Light> &lights,
 		std::vector<Cube> &cubes , std::vector<Key>& keys
-		, std::vector<Enemy>& enemies, Machine& _machine, 
+		, std::vector<Enemy>& enemies, Machine& machine, Gate& gate,
 		Shader& lightShader, Shader& cubeShader , Shader& modelShader,
 		ModelLoader &modelLoader,std::string fileName);
 };

@@ -95,7 +95,7 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	std::vector<Enemy>& enemies, std::vector<Key>& keys, Shader& shader,
-	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& _machine,bool& gameStarted)
+	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine,Gate &gate,bool& gameStarted)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -121,15 +121,22 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	End();
 
 
-	Begin("Machine Coordinates");
-	ImGui::Text(_machine.GetName().c_str());
-	ImGui::PushID(_machine.objectId);
-	ImGui::ColorEdit3("Object Color", _machine.Color, 0);
-	ImGui::SliderFloat("Move On X", &_machine.Position.x, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Move On Y", &_machine.Position.y, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Move On Z", &_machine.Position.z, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Rotate On Y", &_machine.rotateY, -250, 250, "%.3f", 0);
-
+	Begin("State Coordinates");
+	ImGui::Text(machine.GetName().c_str());
+	ImGui::PushID(machine.objectId);
+	ImGui::ColorEdit3("Object Color", machine.Color, 0);
+	ImGui::SliderFloat("Move On X", &machine.Position.x, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move On Y", &machine.Position.y, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move On Z", &machine.Position.z, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Rotate On Y", &machine.rotateY, -250, 250, "%.3f", 0);
+	ImGui::PopID();
+	ImGui::Text(gate.GetName().c_str());
+	ImGui::PushID(gate.objectId);
+	ImGui::ColorEdit3("Object Color", gate.Color, 0);
+	ImGui::SliderFloat("Move On X", &gate.Position.x, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move On Y", &gate.Position.y, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move On Z", &gate.Position.z, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Rotate On Y", &gate.rotateY, -250, 250, "%.3f", 0);
 	ImGui::PopID();
 	End();
 
@@ -235,11 +242,11 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 	if (ImGui::Button("Create Machine", Button_Size))
 	{
-		Machine machine;
-		machine.SetShader(shader);
-		machine.SetModel(modelLoader);
-		machine.SetName("test" + std::to_string(cubes.size()));
-		_machine = machine;
+		Machine _machine;
+		_machine.SetShader(shader);
+		_machine.SetModel(modelLoader);
+		_machine.SetName("test" + std::to_string(cubes.size()));
+		machine = _machine;
 	}
 
 
@@ -293,12 +300,12 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 		if (ImGui::Button("Select", Button_Size))
 		{
-			FileManager::LoadFile(lights, cubes, keys, enemies, _machine,lightShader, shader, modelShader, modelLoader, selectedMap);
+			FileManager::LoadFile(lights, cubes, keys, enemies, machine,gate,lightShader, shader, modelShader, modelLoader, selectedMap);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))
 		{
-			FileManager::SaveFile(lights, cubes, keys, enemies, _machine,selectedMap);
+			FileManager::SaveFile(lights, cubes, keys, enemies, machine,gate,selectedMap);
 			m_MapSelector = false;
 		}
 		End();

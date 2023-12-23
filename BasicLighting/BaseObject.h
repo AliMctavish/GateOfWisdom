@@ -28,6 +28,7 @@ private:
 	float m_RotationAngleCounter = 0;
 public : 
 	ModelLoader m_ModelLoader;
+	float rotateY;
 	Shader m_Shader;
 	bool isPickedUp = false;
 	glm::vec3 Position;
@@ -47,4 +48,5 @@ public :
 	void SetName(std::string name);
 	void Resize();
 	void Rotate();
+	void RotateY();
 };

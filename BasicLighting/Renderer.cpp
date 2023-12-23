@@ -38,27 +38,30 @@ void Renderer::Initialize()
 
 	glEnable(GL_DEPTH_TEST);
 
-
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	_gui.Init();
 	_machine.SetShader(lightShader);
 	_machine.SetModel(modelLoader);
+	_gate.SetShader(lightShader);
+	_gate.SetModel(modelLoader);
 	font.SetView(_player.Projection);
 	_player.SetShader(shader);
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, enemies, _machine,lightShader, shader, modelShader, modelLoader, "Level1");
+	FileManager::LoadFile(lights, cubes, keys, enemies, _machine,_gate,lightShader, shader, modelShader, modelLoader, "Level1");
 }
 
 void Renderer::Update(std::string& deltaTime)
 {
 	_player.Update();
 	testSprite.Update();
+	_gate.Update();
 
-	std::cout << deltaTime << std::endl;
+	//not doing anything
+	//std::cout << deltaTime << std::endl;
 
 	if (glm::distance(_player.Position, _machine.Position) <= 10)
 	{
@@ -250,6 +253,7 @@ void Renderer::Draw()
 		light.Draw();
 
 	_machine.Draw();
+	_gate.Draw(modelLoader);
 
 
 	for (Key& key : keys)
@@ -289,7 +293,7 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine,_gate, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 	}
 	else

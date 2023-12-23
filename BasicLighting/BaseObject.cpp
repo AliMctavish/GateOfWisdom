@@ -60,3 +60,8 @@ void BaseObject::SetName(std::string name)
 {
 	_name = name;
 }
+
+void BaseObject::RotateY()
+{
+	m_Model = glm::rotate(m_Model, glm::radians(rotateY), glm::vec3(0, 1, 0));
+}

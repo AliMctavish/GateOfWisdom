@@ -12,7 +12,7 @@ FileManager::~FileManager()
 
 void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes
 	, std::vector<Key>& keys, std::vector<Enemy>& enemies,
-	Machine& machine, std::string& fileName)
+	Machine& machine, Gate& gate, std::string& fileName)
 {
 	std::ofstream newStream("Maps/" + fileName + ".txt");
 	newStream << "#Light_Coordinates" << std::endl;
@@ -82,35 +82,50 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes
 	newStream << machine.Position.x << " " <<
 		machine.Position.y << " " <<
 		machine.Position.z << " " <<
-		machine.rotateY << " " << 
+		machine.rotateY << " " <<
+		std::endl;
+
+	newStream << "#Gate_Coordinates" << std::endl;
+
+	newStream << gate.Position.x << " " <<
+		gate.Position.y << " " <<
+		gate.Position.z << " " <<
+		gate.rotateY << " " <<
 		std::endl;
 
 	newStream.close();
 }
 
-void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, Machine &_machine, Shader& lightShader, Shader& cubeShader, Shader& modelShader, ModelLoader& modelLoader, std::string fileName)
+void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, Machine& machine, Gate& gate, Shader& lightShader, Shader& cubeShader, Shader& modelShader, ModelLoader& modelLoader, std::string fileName)
 {
 	std::ifstream newStream("Maps/" + fileName + ".txt");
 	std::string line;
+	bool isLight = false;
 	bool isColors = false;
 	bool isCube = false;
 	bool isKey = false;
 	bool isEnemy = false;
 	bool isMachine = false;
+	bool isGate = false;
 
 	while (std::getline(newStream, line))
 	{
 		if (line.find("#Light_Coordinates") != std::string::npos)
+		{
+			isLight = true;
 			continue;
+		}
 
 		if (line.find("#Cube_Coordinates") != std::string::npos)
 		{
 			isCube = true;
+			isLight = false;
 			continue;
 		}
 		if (line.find("#Key_Coordinates") != std::string::npos)
 		{
 			isCube = false;
+			isLight = false;
 			isKey = true;
 			continue;
 		}
@@ -118,6 +133,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		{
 			isCube = false;
 			isKey = false;
+			isLight = false;
 			isEnemy = true;
 			continue;
 		}
@@ -126,7 +142,18 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			isCube = false;
 			isKey = false;
 			isEnemy = false;
+			isLight = false;
 			isMachine = true;
+			continue;
+		}
+		if (line.find("#Gate_Coordinates") != std::string::npos)
+		{
+			isCube = false;
+			isKey = false;
+			isEnemy = false;
+			isMachine = false;
+			isLight = false;
+			isGate = true;
 			continue;
 		}
 
@@ -144,7 +171,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		if (stringList.size() > 0)
 		{
 
-			if (!isCube && !isKey && !isEnemy && !isMachine)
+			if (isLight)
 			{
 				Light light;
 				light.SetShader(lightShader);
@@ -199,13 +226,28 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			}
 			else if (isMachine)
 			{
-				Machine machine;
-				machine.SetShader(lightShader);
-				machine.SetModel(modelLoader);
-				machine.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
-				machine.rotateY = std::stoi(stringList[3]);
-				_machine = machine;
+				Machine _machine;
+				_machine.SetShader(lightShader);
+				_machine.SetModel(modelLoader);
+				_machine.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
+				_machine.rotateY = std::stoi(stringList[3]);
+				machine = _machine;
 			}
+			else if (isGate)
+			{
+				Gate _gate;
+				_gate.SetShader(lightShader);
+				_gate.SetModel(modelLoader);
+				_gate.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
+				_gate.rotateY = std::stoi(stringList[3]);
+
+				for (Light& light : lights)
+				{
+					_gate.
+				}
+				gate = _gate;
+			}
+
 		}
 	}
 	newStream.close();

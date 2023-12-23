@@ -10,7 +10,9 @@ FileManager::~FileManager()
 
 // WARNING : code smell down here :D 
 
-void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, std::string& fileName)
+void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes
+	, std::vector<Key>& keys, std::vector<Enemy>& enemies,
+	Machine& machine, std::string& fileName)
 {
 	std::ofstream newStream("Maps/" + fileName + ".txt");
 	newStream << "#Light_Coordinates" << std::endl;
@@ -75,11 +77,18 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 		std::cout << "saving enemies data" << std::endl;
 	}
+	newStream << "#Machine_Coordinates" << std::endl;
+
+	newStream << machine.Position.x << " " <<
+		machine.Position.y << " " <<
+		machine.Position.z << " " <<
+		machine.rotateY << " " << 
+		std::endl;
 
 	newStream.close();
 }
 
-void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, Shader& lightShader, Shader& cubeShader,Shader& modelShader, ModelLoader& modelLoader, std::string fileName)
+void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, Machine &_machine, Shader& lightShader, Shader& cubeShader, Shader& modelShader, ModelLoader& modelLoader, std::string fileName)
 {
 	std::ifstream newStream("Maps/" + fileName + ".txt");
 	std::string line;
@@ -87,6 +96,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	bool isCube = false;
 	bool isKey = false;
 	bool isEnemy = false;
+	bool isMachine = false;
 
 	while (std::getline(newStream, line))
 	{
@@ -111,6 +121,14 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			isEnemy = true;
 			continue;
 		}
+		if (line.find("#Machine_Coordinates") != std::string::npos)
+		{
+			isCube = false;
+			isKey = false;
+			isEnemy = false;
+			isMachine = true;
+			continue;
+		}
 
 
 		std::stringstream subStream(line);
@@ -126,7 +144,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		if (stringList.size() > 0)
 		{
 
-			if (!isCube && !isKey && !isEnemy)
+			if (!isCube && !isKey && !isEnemy && !isMachine)
 			{
 				Light light;
 				light.SetShader(lightShader);
@@ -178,6 +196,15 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 				//cube.SetObjectColor();
 				enemy.SetName("test" + std::to_string(enemies.size()));
 				enemies.push_back(enemy);
+			}
+			else if (isMachine)
+			{
+				Machine machine;
+				machine.SetShader(lightShader);
+				machine.SetModel(modelLoader);
+				machine.Position = glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2]));
+				machine.rotateY = std::stoi(stringList[3]);
+				_machine = machine;
 			}
 		}
 	}

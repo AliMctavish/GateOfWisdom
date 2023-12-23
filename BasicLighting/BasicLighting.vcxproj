@@ -158,6 +158,7 @@
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Gate.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GuiDebugger.cpp" />
     <ClCompile Include="Key.cpp" />
@@ -221,6 +222,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="Gate.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Machine.h" />
     <ClInclude Include="Map.h" />

@@ -35,6 +35,6 @@ public :
 	void End();
 	void Debugger(std::vector<Light> &lights , std::vector<Cube> &cubes,std::vector<Enemy> &enemies,std::vector<Key> &keys,
 		Shader &shader , Shader &lightShader , Shader& modelShader
-		, ModelLoader& modelLoader,Machine &machine,bool &gameStarted);
+		, ModelLoader& modelLoader,Machine &_machine,bool &gameStarted);
 	void Display();
 };

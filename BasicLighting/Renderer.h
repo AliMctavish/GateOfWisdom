@@ -18,6 +18,7 @@
 #include "Font.h"
 #include "Key.h"
 #include "Machine.h"
+#include "Gate.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -31,6 +32,7 @@ private:
 	Physics _physics;
 	Player _player;
 	Machine _machine;
+	Gate _gate;
 
 	Shader shader;
 	Shader lightShader;

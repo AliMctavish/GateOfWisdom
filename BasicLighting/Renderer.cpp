@@ -50,7 +50,7 @@ void Renderer::Initialize()
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, enemies, lightShader, shader, modelShader, modelLoader, "Level1");
+	FileManager::LoadFile(lights, cubes, keys, enemies, _machine,lightShader, shader, modelShader, modelLoader, "Level1");
 }
 
 void Renderer::Update(std::string& deltaTime)
@@ -77,7 +77,8 @@ void Renderer::Update(std::string& deltaTime)
 			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
 			{
 				_machine.AssignToKey(keys[_player.GetPickedKeyIndex()]);
-			}
+			}		
+
 
 		if (glfwGetKey(_window, GLFW_KEY_R) == GLFW_PRESS && !_player.hasKey)
 			_machine.ResetLights();

@@ -10,6 +10,7 @@ void Key::Init()
 	objectId = CUBEID;
 	Position = glm::vec3(0, 0, 0);
 	Size = glm::vec3(1, 1, 1);
+	SetObjectColor(0, 1, 1);
 	CUBEID++;
 }
 
@@ -27,7 +28,7 @@ void Key::Update(Player& player, GLFWwindow* window)
 			player.hasKey = false;
 			isPickedUp = false;
 			player.AssignPickedKey(0);
-			Position = player.Position;
+			Position = player.Position + glm::vec3(1,-1,1);
 		}
 	}
 

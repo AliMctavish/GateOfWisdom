@@ -243,7 +243,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 				for (Light& light : lights)
 				{
-					_gate.
+					_gate.ProcessColor(light.Color[0], light.Color[1], light.Color[2]);
 				}
 				gate = _gate;
 			}

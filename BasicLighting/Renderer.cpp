@@ -51,7 +51,7 @@ void Renderer::Initialize()
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, enemies, _machine,_gate,lightShader, shader, modelShader, modelLoader, "Level1");
+	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, "Level1");
 }
 
 void Renderer::Update(std::string& deltaTime)
@@ -62,6 +62,29 @@ void Renderer::Update(std::string& deltaTime)
 
 	//not doing anything
 	//std::cout << deltaTime << std::endl;
+
+
+	if (glm::distance(_player.Position, _gate.Position) <= 10)
+	{
+		_player.inRangeOfGateObject = true;
+		if (_player.hasKey)
+			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
+			{
+				Key IndexedKey = keys[_player.GetPickedKeyIndex()];
+				if (_gate.CheckKeyColor(IndexedKey.Color[0], IndexedKey.Color[1], IndexedKey.Color[2]))
+				{
+					_player.NumberOfKeys -= 1;
+					_player.hasKey = false;
+					keys.erase(keys.begin() + _player.GetPickedKeyIndex());
+				}
+				else
+					_player.isPickedKeyValid = false;
+			}
+	}
+	else {
+		_player.inRangeOfGateObject = false;
+		_player.isPickedKeyValid = true;
+	}
 
 	if (glm::distance(_player.Position, _machine.Position) <= 10)
 	{
@@ -80,7 +103,7 @@ void Renderer::Update(std::string& deltaTime)
 			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
 			{
 				_machine.AssignToKey(keys[_player.GetPickedKeyIndex()]);
-			}		
+			}
 
 
 		if (glfwGetKey(_window, GLFW_KEY_R) == GLFW_PRESS && !_player.hasKey)
@@ -148,9 +171,7 @@ void Renderer::Update(std::string& deltaTime)
 					keys[i].isPickedUp = true;
 					_player.hasKey = true;
 					_player.inRangeOfKeyObject = false;
-					_player.NumberOfKeys += 1;
 					_player.AssignPickedKey(i);
-					//keys.erase(keys.begin() + i);
 				}
 			}
 	}
@@ -268,13 +289,25 @@ void Renderer::Draw()
 	if (_player.inRangeOfKeyObject)
 		font.Draw("Press 'E' to collect", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
+	if (_player.inRangeOfGateObject)
+	{
+		if (!_player.hasKey)
+			font.Draw("You should provide a key to open the gate", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+		else if(_player.hasKey && _player.isPickedKeyValid)
+			font.Draw("Press 'E' to put the key", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+
+		if(!_player.isPickedKeyValid)
+			font.Draw("Key color not match !", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+	}
+
+
 	if (_player.inRangeOfLightObject)
 		font.Draw("Press 'E' to pick up", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
 	if (_player.inRangeOfMachineObject && !_player.hasLight && _machine.m_Lights.size() == 0)
 		font.Draw("You need light to use this machine", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
-	if(_player.inRangeOfMachineObject && _player.hasKey)
+	if (_player.inRangeOfMachineObject && _player.hasKey)
 		font.Draw("Press 'E' to modify key color", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
 	if (_player.inRangeOfMachineObject && _player.hasLight)
@@ -293,7 +326,7 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine,_gate, gameStarted);
+		_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine, _gate, gameStarted);
 		_gui.SetupImGuiStyle(true, 1);
 	}
 	else

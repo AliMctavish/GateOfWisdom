@@ -79,9 +79,16 @@ void Machine::AssignToKey(Key& key)
 
 void Machine::CalculateColorValue(float x, float y, float z, float x1, float y1, float z1)
 {
+	if (x1 == 0 && y1 == 0 && z1 == 0) {
+		m_ResultantColor[0] = x;
+		m_ResultantColor[1] = y;
+		m_ResultantColor[2] = z;
+	}
+	else {
 	m_ResultantColor[0] = (x + x1) * 0.5f;
 	m_ResultantColor[1] = (y + y1) * 0.5f;
 	m_ResultantColor[2] = (z + z1) * 0.5f;
+	}
 }
 
 void Machine::Update()

@@ -19,7 +19,7 @@ public:
 	void ResetCollisionDetection();
 	void AssignCollidedCube(uint32_t cubeIndex);
 	void AssignPickedLight(uint32_t lightIndex);
-	void AssignPickedKey(uint32_t lightIndex);
+	void AssignPickedKey(uint32_t keyIndex);
 	void SetMatrix();
 	int NumberOfKeys = 0;
 	float counter = 0;

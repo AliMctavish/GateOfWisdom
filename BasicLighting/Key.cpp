@@ -26,6 +26,7 @@ void Key::Update(Player& player, GLFWwindow* window)
 		{
 			player.hasKey = false;
 			isPickedUp = false;
+			player.AssignPickedKey(0);
 			Position = player.Position;
 		}
 	}

@@ -63,14 +63,24 @@ void Renderer::Update(std::string& deltaTime)
 	if (glm::distance(_player.Position, _machine.Position) <= 10)
 	{
 		_player.inRangeOfMachineObject = true;
-
 		if (_player.hasLight && _machine.m_Lights.size() != 2)
+		{
 			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
 			{
 				_machine.AddLight(lights[_player.GetPickedLightIndex()]);
 				lights.erase(lights.begin() + _player.GetPickedLightIndex());
 				_player.hasLight = false;
 			}
+		}
+
+		if (_player.hasKey)
+			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
+			{
+				_machine.AssignToKey(keys[_player.GetPickedKeyIndex()]);
+			}
+
+		if (glfwGetKey(_window, GLFW_KEY_R) == GLFW_PRESS && !_player.hasKey)
+			_machine.ResetLights();
 	}
 	else
 		_player.inRangeOfMachineObject = false;
@@ -135,6 +145,7 @@ void Renderer::Update(std::string& deltaTime)
 					_player.hasKey = true;
 					_player.inRangeOfKeyObject = false;
 					_player.NumberOfKeys += 1;
+					_player.AssignPickedKey(i);
 					//keys.erase(keys.begin() + i);
 				}
 			}
@@ -145,7 +156,7 @@ void Renderer::Update(std::string& deltaTime)
 		// clean the code soon
 
 		if (!_player.hasLight)
-			if (glm::distance(lights[i].Position, _player.Position) <= 5)
+			if (glm::distance(lights[i].Position, _player.Position) <= 10)
 			{
 				if (!lights[i].isPushing && !lights[i].isPickedUp)
 					_player.inRangeOfLightObject = true;
@@ -184,7 +195,10 @@ void Renderer::Update(std::string& deltaTime)
 		for (Light& light : lights)
 			if (light.isPushing)
 				if (_physics.IsCollidedTest(cube.Position, light.Position, cube.Size))
+				{
 					light.isPushing = false;
+					light.isPickedUp = false;
+				}
 
 	}
 
@@ -252,16 +266,19 @@ void Renderer::Draw()
 	if (_player.inRangeOfLightObject)
 		font.Draw("Press 'E' to pick up", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
-	if (_player.inRangeOfMachineObject && !_player.hasLight)
+	if (_player.inRangeOfMachineObject && !_player.hasLight && _machine.m_Lights.size() == 0)
 		font.Draw("You need light to use this machine", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+
+	if(_player.inRangeOfMachineObject && _player.hasKey)
+		font.Draw("Press 'E' to modify key color", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
 	if (_player.inRangeOfMachineObject && _player.hasLight)
 		font.Draw("Press 'E' to plug in the light", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
-	if (_machine.MachineIsFull && _player.inRangeOfMachineObject)
+	if (_machine.m_Lights.size() == 2 && _player.inRangeOfMachineObject && !_player.hasKey)
 	{
 		font.Draw("The machine is full", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
-		font.Draw("Press 'R' to reset the machine", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+		font.Draw("Press 'R' to reset the machine", -0.4, 0.6, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 	}
 
 	if (gameStarted == false)

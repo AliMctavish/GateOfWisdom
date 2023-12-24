@@ -6,12 +6,14 @@ private:
 	Model Enemy;
 	Model Key;
 	Model Machine;
+	Model Gate;
 public:
 	enum Type {
 		Type_Sphere = 0,
 		Type_Enemy = 1,
 		Type_Key = 2,
 		Type_Machine = 3,
+		Type_Gate = 4,
 	};
 	void InitializeModels()
 	{
@@ -19,6 +21,7 @@ public:
 		Enemy = Model("Models/Enemy/Enemy.obj");
 		Key = Model("Models/Objects/Key/key.obj");
 		Machine = Model("Models/Objects/Machine/Machine.obj");
+		Gate = Model("Models/Objects/Gate/Gate.obj");
 	}
 
 	Model GetModel(Type type)
@@ -37,6 +40,10 @@ public:
 			break;
 		case ModelLoader::Type_Machine:
 			selectedModel = Machine;
+			break;
+		case ModelLoader::Type_Gate:
+			selectedModel = Gate;
+			break;
 		default:
 			break;
 		}

@@ -7,7 +7,6 @@
 
 class Light :public BaseObject{
 public:
-	bool isPushing = false;
 	int objectId;
 	glm::vec3 direction;
 	void SetRandomLocation();

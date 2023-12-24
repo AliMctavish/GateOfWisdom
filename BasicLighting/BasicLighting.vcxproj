@@ -177,6 +177,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RawVertexData.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RequiredColor.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="RawVertexData.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RequiredColor.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stb_image.h" />

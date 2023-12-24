@@ -132,11 +132,11 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	ImGui::PopID();
 	ImGui::Text(gate.GetName().c_str());
 	ImGui::PushID(gate.objectId);
-	ImGui::ColorEdit3("Object Color", gate.Color, 0);
-	ImGui::SliderFloat("Move On X", &gate.Position.x, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Move On Y", &gate.Position.y, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Move On Z", &gate.Position.z, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Rotate On Y", &gate.rotateY, -250, 250, "%.3f", 0);
+	ImGui::ColorEdit3("Object2 Color", gate.Color, 0);
+	ImGui::SliderFloat("Move2 On X", &gate.Position.x, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move2 On Y", &gate.Position.y, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Move2 On Z", &gate.Position.z, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Rotate2 On Y", &gate.rotateY, -250, 250, "%.3f", 0);
 	ImGui::PopID();
 	End();
 

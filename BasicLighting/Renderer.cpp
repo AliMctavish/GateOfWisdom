@@ -29,7 +29,6 @@ void Renderer::Initialize()
 	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
 	modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
 
-
 	testSprite.SetTexture("Assests/aim.png");
 
 	vertexArray.Bind();
@@ -64,7 +63,7 @@ void Renderer::Update(std::string& deltaTime)
 	//std::cout << deltaTime << std::endl;
 
 
-	if (glm::distance(_player.Position, _gate.Position) <= 10)
+	if (glm::distance(_player.Position, _gate.Position) <= 20)
 	{
 		_player.inRangeOfGateObject = true;
 		if (_player.hasKey)
@@ -73,17 +72,19 @@ void Renderer::Update(std::string& deltaTime)
 				Key IndexedKey = keys[_player.GetPickedKeyIndex()];
 				if (_gate.CheckKeyColor(IndexedKey.Color[0], IndexedKey.Color[1], IndexedKey.Color[2]))
 				{
-					_player.NumberOfKeys -= 1;
+					_player.NumberOfKeys+=1;
 					_player.hasKey = false;
+					_player.CorrectKey = true;
 					keys.erase(keys.begin() + _player.GetPickedKeyIndex());
 				}
 				else
-					_player.isPickedKeyValid = false;
+					_player.MaybePickedKeyValid = false;
 			}
 	}
 	else {
 		_player.inRangeOfGateObject = false;
-		_player.isPickedKeyValid = true;
+		_player.CorrectKey = false;
+		_player.MaybePickedKeyValid = true;
 	}
 
 	if (glm::distance(_player.Position, _machine.Position) <= 10)
@@ -94,7 +95,8 @@ void Renderer::Update(std::string& deltaTime)
 			if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS)
 			{
 				_machine.AddLight(lights[_player.GetPickedLightIndex()]);
-				lights.erase(lights.begin() + _player.GetPickedLightIndex());
+				lights[_player.GetPickedLightIndex()].ResetValues();
+				//lights.erase(lights.begin() + _player.GetPickedLightIndex());
 				_player.hasLight = false;
 			}
 		}
@@ -143,7 +145,8 @@ void Renderer::Update(std::string& deltaTime)
 				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)))
 				{
 					enemies.erase(enemies.begin() + i);
-					lights.erase(lights.begin() + j);
+					lights[i].ResetValues();
+					//lights.erase(lights.begin() + j);
 				}
 		}
 	}
@@ -201,7 +204,7 @@ void Renderer::Update(std::string& deltaTime)
 			lights[i].Push();
 			if (glm::distance(lights[i].Position, _player.Position) > 300)
 			{
-				lights.erase(lights.begin() + i);
+				lights[i].ResetValues();
 				continue;
 			}
 		}
@@ -273,17 +276,17 @@ void Renderer::Draw()
 	for (Light& light : lights)
 		light.Draw();
 
+	_gate.Draw();
 	_machine.Draw();
-	_gate.Draw(modelLoader);
-
 
 	for (Key& key : keys)
 		key.Draw();
 
+
 	lightShader.UnBind();
 
 	font.Draw("number of enemies : " + std::to_string(enemies.size()), -0.8, 0.8, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
-	font.Draw("Number Of Keys Left : " + std::to_string(_player.NumberOfKeys) + "/" + std::to_string(keys.size()), -0.8, 0.9, 0.001f, glm::vec3(0.9, 0.9f, 0.1f));
+	font.Draw("Number Of Keys Left : " + std::to_string(_gate.RequiredColors.size()) , -0.8, 0.9, 0.001f, glm::vec3(0.9, 0.9f, 0.1f));
 
 
 	if (_player.inRangeOfKeyObject)
@@ -291,13 +294,19 @@ void Renderer::Draw()
 
 	if (_player.inRangeOfGateObject)
 	{
-		if (!_player.hasKey)
+		if (!_player.hasKey && !_player.CorrectKey)
 			font.Draw("You should provide a key to open the gate", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
-		else if(_player.hasKey && _player.isPickedKeyValid)
+		else if(_player.hasKey && _player.MaybePickedKeyValid)
 			font.Draw("Press 'E' to put the key", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
-		if(!_player.isPickedKeyValid)
+		if(!_player.MaybePickedKeyValid)
 			font.Draw("Key color not match !", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+
+		if (_player.CorrectKey)
+		{
+			font.Draw("Well Done!", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
+			font.Draw(" ' " + std::to_string(_gate.RequiredColors.size()) + " ' " + " keys left !", -0.4, 0.6, 0.001f, glm::vec3(0.1, 0.8f, 0.2f));
+		}
 	}
 
 

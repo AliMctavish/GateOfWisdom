@@ -19,6 +19,7 @@
 #include "Key.h"
 #include "Machine.h"
 #include "Gate.h"
+#include "RequiredColor.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
@@ -37,6 +38,7 @@ private:
 	Shader shader;
 	Shader lightShader;
 	Shader modelShader;
+
 
 
 	ModelLoader modelLoader;

@@ -9,7 +9,7 @@ void Gate::Init()
 {
 	objectId = CUBEID;
 	Position = glm::vec3(0, 0, 0);
-	Size = glm::vec3(1, 1, 1);
+	Size = glm::vec3(7, 7, 7);
 	SetObjectColor(1, 1, 1);
 	CUBEID++;
 }
@@ -22,6 +22,7 @@ bool Gate::CheckKeyColor(float r, float g, float b)
 		{
 			NumberOfKeysLeft -= 1;
 			m_Colors.erase(m_Colors.begin() + i);
+			RequiredColors.erase(RequiredColors.begin() + i);
 			return true;
 		}
 	}
@@ -66,20 +67,27 @@ void Gate::Update()
 {
 	BaseObject::Update();
 	BaseObject::RotateY();
+	BaseObject::Resize();
+
+	for (RequiredColor& req : RequiredColors)
+	{
+		req.m_Model = glm::mat4(1.0f);
+		req.Rotate360OnY();
+		req.m_Model = glm::translate(req.m_Model, req.Position);
+		req.Resize();
+	}
 }
 
-void Gate::Draw(ModelLoader& modelLoader)
+void Gate::Draw()
 {
 	m_Shader.SetMat4("model", m_Model);
 	BaseObject::UseColor("objectColor");
 
 	//for now
 	//BaseObject::Draw();
-	modelLoader.GetModel(ModelLoader::Type_Machine).Draw(m_Shader);
-}
+	m_ModelLoader.GetModel(ModelLoader::Type_Gate).Draw(m_Shader);
 
-void Gate::Draw()
-{
-	BaseObject::Draw();
+	for (RequiredColor& req : RequiredColors)
+		req.Draw();
 }
 

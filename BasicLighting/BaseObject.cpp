@@ -6,9 +6,9 @@ void BaseObject::Update()
 	m_Model = glm::translate(m_Model, Position);
 }
 
+
 void BaseObject::Draw()
 {
-	
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
@@ -25,9 +25,23 @@ void BaseObject::Resize()
 	m_Model = glm::scale(m_Model, glm::vec3(Size));
 }
 
+void BaseObject::ResetValues()
+{
+	Position = Origin;
+	isPushing = false;
+	isPickedUp = false;
+}
+
 void BaseObject::Rotate()
 {
 	m_Model = glm::rotate(m_Model, glm::radians(m_RotationAngleCounter++), glm::vec3(1, 1, 0));
+	if (m_RotationAngleCounter > 360)
+		m_RotationAngleCounter = 0;
+}
+
+void BaseObject::Rotate360OnY()
+{
+	m_Model = glm::rotate(m_Model, glm::radians(m_RotationAngleCounter+=.2), glm::vec3(0, 1, 0));
 	if (m_RotationAngleCounter > 360)
 		m_RotationAngleCounter = 0;
 }
@@ -40,6 +54,12 @@ void BaseObject::SetShader(Shader &shader)
 void BaseObject::SetModel(ModelLoader& modelLoader)
 {
 	m_ModelLoader = modelLoader;
+}
+
+void BaseObject::SetPosition(glm::vec3 position)
+{
+	Position = position;
+	Origin = position;
 }
 
 

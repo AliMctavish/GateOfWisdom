@@ -29,16 +29,21 @@ private:
 public : 
 	ModelLoader m_ModelLoader;
 	float rotateY;
+	void Rotate360OnY();
 	Shader m_Shader;
 	bool isPickedUp = false;
+	bool isPushing = false;
 	glm::vec3 Position;
+	glm::vec3 Origin;
 	glm::vec3 Center;
 	glm::vec3 Size;
 	glm::mat4 m_Model;
 	std::string _name;
 	float Color[3] = { 0.5,0.5,0.5 };
 	void Update();
+	void SetPosition(glm::vec3 position);
 	void Draw();
+	void ResetValues();
 	void SinMove();
 	void SetShader(Shader &shader);
 	void SetModel(ModelLoader& modelLoader);

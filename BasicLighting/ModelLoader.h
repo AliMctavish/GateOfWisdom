@@ -17,7 +17,7 @@ public:
 	};
 	void InitializeModels()
 	{
-		Sphere = Model("Models/Test/dot.obj");
+		Sphere = Model("Models/Test/ball.obj");
 		Enemy = Model("Models/Enemy/Enemy.obj");
 		Key = Model("Models/Objects/Key/key.obj");
 		Machine = Model("Models/Objects/Machine/Machine.obj");

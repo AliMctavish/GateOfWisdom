@@ -98,7 +98,6 @@ void Machine::Update()
 
 	//BaseObject::Update();
 	m_Model = glm::mat4(1.0f);
-	//RotateOnY(m_Angle);
 	m_Model = glm::translate(m_Model, Position);
 	m_Model = glm::rotate(m_Model, rotateY, glm::vec3(0, 1, 0));
 	BaseObject::Resize();
@@ -107,10 +106,6 @@ void Machine::Update()
 		UpdateLightsPosition();
 }
 
-void Machine::RotateOnY(float angle)
-{
-	m_Model = glm::rotate(m_Model, rotateY, glm::vec3(0, 1, 0));
-}
 
 void Machine::Draw(ModelLoader& modelLoader)
 {

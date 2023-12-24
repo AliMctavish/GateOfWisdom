@@ -10,6 +10,7 @@ class Enemy : public BaseObject{
 private : 
 	glm::vec3 m_StartPosition;
 	bool m_HasStartPosition = false;
+	bool m_HasStoppedFromMoving = true;
 public : 
 	unsigned int objectId;
 	Enemy();

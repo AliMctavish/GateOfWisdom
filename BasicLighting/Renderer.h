@@ -27,6 +27,8 @@ class Renderer {
 private:
 	bool gameStarted = false;
 
+	std::string level = "level1";
+
 	GLFWwindow* _window;
 	GuiDebugger _gui;
 	Physics _physics;
@@ -38,11 +40,7 @@ private:
 	Shader lightShader;
 	Shader modelShader;
 
-
-
 	ModelLoader modelLoader;
-	
-	
 
 	std::vector<Light> lights;
 	std::vector<Cube> cubes;

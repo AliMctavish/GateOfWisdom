@@ -222,7 +222,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 				_machine.SetShader(lightShader);
 				//_machine.SetModel(modelLoader);
 				_machine.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
-				_machine.rotateY = std::stoi(stringList[3]);
+				_machine.rotateY = std::stof(stringList[3]);
 				machine = _machine;
 			}
 			else if (isGate)

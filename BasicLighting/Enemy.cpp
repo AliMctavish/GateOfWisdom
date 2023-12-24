@@ -32,15 +32,24 @@ void Enemy::MoveTowardsPlayer(Player& player)
 
 	glm::vec3 direction;
 
-	if(glm::distance(m_StartPosition , player.Position) <= 100)
+	if (glm::distance(m_StartPosition, player.Position) <= 100)
+	{
 		direction = glm::normalize(Position - player.Position);
+		m_HasStoppedFromMoving = false;
+	}
 	else
-		direction = glm::normalize(Position - m_StartPosition);
+	{
+		if (!m_HasStoppedFromMoving)
+			direction = glm::normalize(Position - m_StartPosition);
+		if (glm::distance(m_StartPosition , Position) <= 5)
+			m_HasStoppedFromMoving = true;
+	}
 
 	Position -= direction * 0.2f;
 
 	float angle = glm::atan(direction.x, direction.z);
 	m_Model = glm::rotate(m_Model, angle, glm::vec3(0, 1, 0));
+	Rotate360OnX();
 }
 
 

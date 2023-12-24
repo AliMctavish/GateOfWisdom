@@ -128,7 +128,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	ImGui::SliderFloat("Move On X", &machine.Position.x, -250, 250, "%.3f", 0);
 	ImGui::SliderFloat("Move On Y", &machine.Position.y, -250, 250, "%.3f", 0);
 	ImGui::SliderFloat("Move On Z", &machine.Position.z, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Rotate On Y", &machine.rotateY, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Rotate On Y", &machine.rotateY, -10, 10, "%.3f", 0);
 	ImGui::PopID();
 	ImGui::Text(gate.GetName().c_str());
 	ImGui::PushID(gate.objectId);
@@ -136,7 +136,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	ImGui::SliderFloat("Move2 On X", &gate.Position.x, -250, 250, "%.3f", 0);
 	ImGui::SliderFloat("Move2 On Y", &gate.Position.y, -250, 250, "%.3f", 0);
 	ImGui::SliderFloat("Move2 On Z", &gate.Position.z, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Rotate2 On Y", &gate.rotateY, -250, 250, "%.3f", 0);
+	ImGui::SliderFloat("Rotate2 On Y", &gate.rotateY, -50, 50, "%.3f", 0);
 	ImGui::PopID();
 	End();
 
@@ -300,6 +300,10 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 		if (ImGui::Button("Select", Button_Size))
 		{
+			lights.clear();
+			cubes.clear();
+			keys.clear();
+			enemies.clear();
 			FileManager::LoadFile(lights, cubes, keys, enemies, machine,gate,lightShader, shader, modelShader, modelLoader, selectedMap);
 			m_MapSelector = false;
 		}

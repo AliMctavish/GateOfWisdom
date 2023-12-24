@@ -3,6 +3,7 @@
 Player::Player()
 {
 	Position = glm::vec3(0.0f, 0.0f, 0.0f);
+	Origin = Position;
 	CameraFront = glm::vec3(0.0f, 0.0f, 1.0f);
 	CameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	CameraRight = glm::vec3(1.0f, 0.0f, 0.0f);

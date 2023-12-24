@@ -41,7 +41,6 @@ public:
 	bool isWalking = false;
 	bool hasLight = false;
 	bool hasKey = false;
-	glm::vec3 Position;
 	glm::vec3 CameraFront;
 	glm::vec3 CameraUp;
 	glm::vec3 CameraRight;

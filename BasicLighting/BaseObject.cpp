@@ -46,6 +46,13 @@ void BaseObject::Rotate360OnY()
 		m_RotationAngleCounter = 0;
 }
 
+void BaseObject::Rotate360OnX()
+{
+	m_Model = glm::rotate(m_Model, glm::radians(m_RotationAngleCounter += .2), glm::vec3(0, 0, 1));
+	if (m_RotationAngleCounter > 360)
+		m_RotationAngleCounter = 0;
+}
+
 void BaseObject::SetShader(Shader &shader)
 {
 	m_Shader = shader;

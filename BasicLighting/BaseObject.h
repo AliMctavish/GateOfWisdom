@@ -30,6 +30,7 @@ public :
 	//ModelLoader m_ModelLoader;
 	float rotateY;
 	void Rotate360OnY();
+	void Rotate360OnX();
 	Shader m_Shader;
 	bool isPickedUp = false;
 	bool isPushing = false;

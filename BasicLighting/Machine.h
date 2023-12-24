@@ -19,7 +19,6 @@ public:
 	std::vector<Light> m_Lights;
 	uint16_t inline GetTexutreIndex() { return m_TextureIndex; }
 	int objectId;
-	float rotateY,angle;
 	bool MachineIsFull = false;
 	Machine();
 	void ResetLights();
@@ -28,6 +27,5 @@ public:
 	void AssignToKey(Key &key);
 	void CalculateColorValue(float x,float y, float z,float x1 , float y1 , float z1);
 	void Update();
-	void RotateOnY(float angle);
 	void Draw(ModelLoader& modelLoader);
 };

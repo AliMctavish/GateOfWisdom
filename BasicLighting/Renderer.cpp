@@ -50,7 +50,7 @@ void Renderer::Initialize()
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, "Level1");
+	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
 }
 
 void Renderer::Update(std::string& deltaTime)
@@ -155,6 +155,16 @@ void Renderer::Update(std::string& deltaTime)
 	{
 		_physics.UpdateGravity(_player);
 
+		if (_player.Position.y < -100)
+		{
+			lights.clear();
+			cubes.clear();
+			keys.clear();
+			enemies.clear();
+			_player.ResetValues();
+			FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
+		}
+
 		//will stop the object generator only after i make a mode for waves 
 		//objectGenerator.SetModelLoader(modelLoader);
 		//objectGenerator.GenerateEnemy(enemies, modelShader);
@@ -165,7 +175,7 @@ void Renderer::Update(std::string& deltaTime)
 	{
 		keys[i].Update(_player, _window);
 
-		if (!_player.hasKey)
+		if (!_player.hasKey && !_player.hasLight)
 			if (_physics.IsCollided(keys[i].Position, _player.Position, glm::vec3(3, 3, 3)))
 			{
 				_player.inRangeOfKeyObject = true;
@@ -183,7 +193,7 @@ void Renderer::Update(std::string& deltaTime)
 	{
 		// clean the code soon
 
-		if (!_player.hasLight)
+		if (!_player.hasLight && !_player.hasKey)
 			if (glm::distance(lights[i].Position, _player.Position) <= 10)
 			{
 				if (!lights[i].isPushing && !lights[i].isPickedUp)
@@ -313,7 +323,7 @@ void Renderer::Draw()
 	if (_player.inRangeOfMachineObject && !_player.hasLight && _machine.m_Lights.size() == 0)
 		font.Draw("You need light to use this machine", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
-	if (_player.inRangeOfMachineObject && _player.hasKey)
+	if (_player.inRangeOfMachineObject && _player.hasKey && _machine.m_Lights.size() > 0)
 		font.Draw("Press 'E' to modify key color", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
 	if (_player.inRangeOfMachineObject && _player.hasLight)
@@ -343,6 +353,9 @@ void Renderer::Draw()
 		if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			gameStarted = false;
 		//glfwSetWindowShouldClose(window, true);
+
+		//if (_player.NumberOfKeys <= 0)
+			//level = "level2";
 	}
 	/* Swap front and back buffers */
 	glfwSwapBuffers(_window);

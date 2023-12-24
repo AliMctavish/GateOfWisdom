@@ -16,6 +16,6 @@ public:
 	void Update();	
 	void Update(Player &player , GLFWwindow* window);
 	void Init();
-	void Draw();
+	void Draw(ModelLoader& modelLoader);
 	Light();
 };

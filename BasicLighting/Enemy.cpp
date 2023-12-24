@@ -45,8 +45,8 @@ void Enemy::MoveTowardsPlayer(Player& player)
 
 
 
-void Enemy::Draw()
+void Enemy::Draw(ModelLoader& modelLoader)
 {
 	m_Shader.SetMat4("model", m_Model);
-	m_ModelLoader.GetModel(ModelLoader::Type_Enemy).Draw(m_Shader);
+	modelLoader.GetModel(ModelLoader::Type_Enemy).Draw(m_Shader);
 }

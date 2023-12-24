@@ -10,7 +10,6 @@ Player::Player()
 
 void Player::Update()
 {
-	OscillateOnMoving();
 	SetMatrix();
 	SetVariablesToDefault();
 }
@@ -55,13 +54,6 @@ void Player::SetVariablesToDefault()
 {
 	inRangeOfKeyObject = false;
 	inRangeOfLightObject = false;
-}
-
-void Player::OscillateOnMoving()
-{
-	//do it in cenratain amount of Oscillation ?
-	if (isRunning)
-		MoveWithOscillation(3.f, 0.20f);
 }
 
 

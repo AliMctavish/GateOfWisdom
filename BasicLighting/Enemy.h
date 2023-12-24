@@ -14,7 +14,7 @@ public :
 	unsigned int objectId;
 	Enemy();
 	void SetRandomLocation();
-	void Draw();
+	void Draw(ModelLoader& modelLoader);
 	void Update();
 	void MoveTowardsPlayer(Player &player);
 };

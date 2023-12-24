@@ -51,10 +51,10 @@ void BaseObject::SetShader(Shader &shader)
 	m_Shader = shader;
 }
 
-void BaseObject::SetModel(ModelLoader& modelLoader)
-{
-	m_ModelLoader = modelLoader;
-}
+//void BaseObject::SetModel(ModelLoader& modelLoader)
+//{
+//	m_ModelLoader = modelLoader;
+//}
 
 void BaseObject::SetPosition(glm::vec3 position)
 {

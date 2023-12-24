@@ -176,7 +176,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 				light.SetShader(lightShader);
 				light.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
 				light.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
-				light.SetModel(modelLoader);
+				//light.SetModel(modelLoader);
 				light.SetName("test" + std::to_string(lights.size()));
 				lights.push_back(light);
 			}
@@ -198,7 +198,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			{
 				Key key;
 				key.SetShader(lightShader);
-				key.SetModel(modelLoader);
+				//key.SetModel(modelLoader);
 				key.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
 				key.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
 				//cube.SetObjectColor();
@@ -209,7 +209,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			{
 				Enemy enemy;
 				enemy.SetShader(modelShader);
-				enemy.SetModel(modelLoader);
+				//enemy.SetModel(modelLoader);
 				enemy.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
 				enemy.SetObjectColor(std::stof(stringList[3]), std::stof(stringList[4]), std::stof(stringList[5]));
 				//cube.SetObjectColor();
@@ -220,7 +220,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			{
 				Machine _machine;
 				_machine.SetShader(lightShader);
-				_machine.SetModel(modelLoader);
+				//_machine.SetModel(modelLoader);
 				_machine.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
 				_machine.rotateY = std::stoi(stringList[3]);
 				machine = _machine;
@@ -229,7 +229,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			{
 				Gate _gate;
 				_gate.SetShader(lightShader);
-				_gate.SetModel(modelLoader);
+				//_gate.SetModel(modelLoader);
 				_gate.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
 				_gate.rotateY = std::stoi(stringList[3]);
 

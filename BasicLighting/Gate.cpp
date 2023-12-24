@@ -78,14 +78,11 @@ void Gate::Update()
 	}
 }
 
-void Gate::Draw()
+void Gate::Draw(ModelLoader& modelLoader)
 {
 	m_Shader.SetMat4("model", m_Model);
 	BaseObject::UseColor("objectColor");
-
-	//for now
-	//BaseObject::Draw();
-	m_ModelLoader.GetModel(ModelLoader::Type_Gate).Draw(m_Shader);
+	modelLoader.GetModel(ModelLoader::Type_Gate).Draw(m_Shader);
 
 	for (RequiredColor& req : RequiredColors)
 		req.Draw();

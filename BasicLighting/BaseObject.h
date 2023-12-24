@@ -27,7 +27,7 @@ private:
 	double sineValue = 50;
 	float m_RotationAngleCounter = 0;
 public : 
-	ModelLoader m_ModelLoader;
+	//ModelLoader m_ModelLoader;
 	float rotateY;
 	void Rotate360OnY();
 	Shader m_Shader;
@@ -46,7 +46,7 @@ public :
 	void ResetValues();
 	void SinMove();
 	void SetShader(Shader &shader);
-	void SetModel(ModelLoader& modelLoader);
+	//void SetModel(ModelLoader& modelLoader);
 	std::string inline GetName() { return _name; }
 	void UseColor(const char* name);
 	void SetObjectColor(float x, float y, float z);

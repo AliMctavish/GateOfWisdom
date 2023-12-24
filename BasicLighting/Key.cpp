@@ -44,9 +44,9 @@ void Key::Update(Player& player, GLFWwindow* window)
 	BaseObject::Rotate();
 }
 
-void Key::Draw()
+void Key::Draw(ModelLoader& modelLoader)
 {
 	m_Shader.SetMat4("model", m_Model);
 	BaseObject::UseColor("objectColor");
-	m_ModelLoader.GetModel(ModelLoader::Type_Key).Draw(m_Shader);
+	modelLoader.GetModel(ModelLoader::Type_Key).Draw(m_Shader);
 }

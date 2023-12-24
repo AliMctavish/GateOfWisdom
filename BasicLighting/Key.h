@@ -16,5 +16,5 @@ public :
 	Key();
 	void Init();
 	void Update(Player &player, GLFWwindow* window);
-	void Draw();
+	void Draw(ModelLoader &modelLoader);
 };

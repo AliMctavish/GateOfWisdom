@@ -20,5 +20,5 @@ public :
 	void Init();
 	void Update();
 	void ProcessColor(float r , float g, float b);
-	void Draw();
+	void Draw(ModelLoader& modelLoader);
 };

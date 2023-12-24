@@ -42,9 +42,9 @@ void Renderer::Initialize()
 
 	_gui.Init();
 	_machine.SetShader(lightShader);
-	_machine.SetModel(modelLoader);
+	//_machine.SetModel(modelLoader);
 	_gate.SetShader(lightShader);
-	_gate.SetModel(modelLoader);
+	//_gate.SetModel(modelLoader);
 	font.SetView(_player.Projection);
 	_player.SetShader(shader);
 
@@ -230,7 +230,6 @@ void Renderer::Update(std::string& deltaTime)
 
 	}
 
-
 	processInput(_window, _player);
 }
 
@@ -248,7 +247,7 @@ void Renderer::Draw()
 
 
 	for (Enemy& enemy : enemies)
-		enemy.Draw();
+		enemy.Draw(modelLoader);
 
 	modelShader.UnBind();
 
@@ -274,14 +273,13 @@ void Renderer::Draw()
 	lightShader.SetMat4("projection", _player.Projection);
 
 	for (Light& light : lights)
-		light.Draw();
+		light.Draw(modelLoader);
 
-	_gate.Draw();
-	_machine.Draw();
+	_gate.Draw(modelLoader);
+	_machine.Draw(modelLoader);
 
 	for (Key& key : keys)
-		key.Draw();
-
+		key.Draw(modelLoader);
 
 	lightShader.UnBind();
 
@@ -308,7 +306,6 @@ void Renderer::Draw()
 			font.Draw(" ' " + std::to_string(_gate.RequiredColors.size()) + " ' " + " keys left !", -0.4, 0.6, 0.001f, glm::vec3(0.1, 0.8f, 0.2f));
 		}
 	}
-
 
 	if (_player.inRangeOfLightObject)
 		font.Draw("Press 'E' to pick up", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));

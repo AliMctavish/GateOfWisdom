@@ -16,7 +16,7 @@ public :
 		{
 			Enemy enemy;
 			enemy.SetShader(shader);
-			enemy.SetModel(m_ModelLoader);
+			//enemy.SetModel(m_ModelLoader);
 			enemy.SetRandomLocation();
 			enemy.SetName("enemy" + std::to_string(enemies.size()));
 			enemies.push_back(enemy);
@@ -30,7 +30,7 @@ public :
 		{
 			Light light;
 			light.SetShader(shader);
-			light.SetModel(m_ModelLoader);
+			//light.SetModel(m_ModelLoader);
 			light.SetRandomLocation();
 			light.SetRandomColor();
 			light.SetName("light" + std::to_string(lights.size()));

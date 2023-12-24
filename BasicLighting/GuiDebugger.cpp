@@ -244,7 +244,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Machine _machine;
 		_machine.SetShader(shader);
-		_machine.SetModel(modelLoader);
+		//_machine.SetModel(modelLoader);
 		_machine.SetName("test" + std::to_string(cubes.size()));
 		machine = _machine;
 	}
@@ -254,7 +254,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Light light;
 		light.SetShader(lightShader);
-		light.SetModel(modelLoader);
+		//light.SetModel(modelLoader);
 		light.SetName("object" + std::to_string(cubes.size()));
 		lights.push_back(light);
 	}
@@ -263,7 +263,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Enemy enemy;
 		enemy.SetShader(modelShader);
-		enemy.SetModel(modelLoader);
+		//enemy.SetModel(modelLoader);
 		enemy.SetName("enemy" + std::to_string(enemies.size()));
 		enemies.push_back(enemy);
 	}
@@ -271,7 +271,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Key key;
 		key.SetShader(lightShader);
-		key.SetModel(modelLoader);
+		//key.SetModel(modelLoader);
 		key.SetName("key" + std::to_string(keys.size()));
 		keys.push_back(key);
 	}

@@ -29,5 +29,5 @@ public:
 	void CalculateColorValue(float x,float y, float z,float x1 , float y1 , float z1);
 	void Update();
 	void RotateOnY(float angle);
-	void Draw();
+	void Draw(ModelLoader& modelLoader);
 };

@@ -112,12 +112,12 @@ void Machine::RotateOnY(float angle)
 	m_Model = glm::rotate(m_Model, rotateY, glm::vec3(0, 1, 0));
 }
 
-void Machine::Draw()
+void Machine::Draw(ModelLoader& modelLoader)
 {
 	m_Shader.SetMat4("model", m_Model);
 	BaseObject::UseColor("objectColor");
-	m_ModelLoader.GetModel(ModelLoader::Type_Machine).Draw(m_Shader);
+	modelLoader.GetModel(ModelLoader::Type_Machine).Draw(m_Shader);
 
 	for (Light& light : m_Lights)
-		light.Draw();
+		light.Draw(modelLoader);
 }

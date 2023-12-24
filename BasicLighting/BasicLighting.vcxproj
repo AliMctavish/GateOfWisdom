@@ -146,7 +146,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\pc\source\repos\AliMctavish\BasicLighting\BasicLighting\Libraries\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;assimp.lib;opengl32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;assimp.lib;opengl32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -154,7 +154,6 @@
     <ClCompile Include="BasicLighting.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -221,7 +220,6 @@
     <ClInclude Include="Controllers.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Gate.h" />
     <ClInclude Include="Key.h" />

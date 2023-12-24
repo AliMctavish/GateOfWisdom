@@ -16,6 +16,48 @@ void Player::Update()
 }
 
 
+void Player::ResetPointOfView()
+{
+	m_Pov--;
+	if (m_Pov <= 75)
+		m_Pov = 75;
+}
+
+void Player::SetPointOfView()
+{
+	m_Pov++;
+	if (m_Pov >= 90)
+		m_Pov = 90;
+
+}
+
+void Player::ResetValues()
+{
+	BaseObject::ResetValues();
+	NumberOfKeys = 0;
+	NumberOfKeys = 0;
+	counter = 0;
+	speedAmount = 0;
+	MaybePickedKeyValid = true;
+	CollidedWithCube = false;
+	hasAttachedObject = false;
+	inRangeOfKeyObject = false;
+	inRangeOfLightObject = false;
+	inRangeOfMachineObject = false;
+	inRangeOfGateObject = false;
+	CorrectKey = false;
+	grounded = false;
+	isJumping = false;
+	isRunning = false;
+	isWalking = false;
+	hasLight = false;
+	hasKey = false;
+	m_CubeIndex = 0;
+	m_LightIndex = 0;
+	m_KeyIndex = 0;
+
+}
+
 void Player::ResetCollisionDetection()
 {
 	m_CubeIndex = 0;

@@ -72,7 +72,7 @@ void Renderer::Update(std::string& deltaTime)
 				Key IndexedKey = keys[_player.GetPickedKeyIndex()];
 				if (_gate.CheckKeyColor(IndexedKey.Color[0], IndexedKey.Color[1], IndexedKey.Color[2]))
 				{
-					_player.NumberOfKeys+=1;
+					_player.NumberOfKeys += 1;
 					_player.hasKey = false;
 					_player.CorrectKey = true;
 					keys.erase(keys.begin() + _player.GetPickedKeyIndex());
@@ -137,18 +137,30 @@ void Renderer::Update(std::string& deltaTime)
 	{
 		enemies[i].Update();
 		if (gameStarted)
-			enemies[i].MoveTowardsPlayer(_player);
-
-		for (int j = 0; j < lights.size(); j++)
 		{
-			if (enemies.size() > 0 && lights.size() > 0 && lights[j].isPushing)
-				if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)))
-				{
-					enemies.erase(enemies.begin() + i);
-					lights[i].ResetValues();
-					//lights.erase(lights.begin() + j);
-				}
+			enemies[i].MoveTowardsPlayer(_player);
+			if (glm::distance(enemies[i].Position, _player.Position) <= 10)
+			{
+				enemies[i].InRangeWithPlayerPosition = true;
+				keys[_player.GetPickedKeyIndex()].SetObjectColor(1, 1, 1);
+			}
+			else
+				enemies[i].InRangeWithPlayerPosition = false;
 		}
+
+		//maybe without killing the enemy will be more fun ? 
+		// 
+		//for (int j = 0; j < lights.size(); j++)
+		//{
+		//	if (enemies.size() > 0 && lights.size() > 0 && lights[j].isPushing)
+		//		if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)))
+		//		{
+		//			//enemies.erase(enemies.begin() + i);
+		//			//lights[i].ResetValues();
+		//			break;
+		//			//lights.erase(lights.begin() + j);
+		//		}
+		//}
 	}
 
 	if (gameStarted == true)
@@ -162,6 +174,17 @@ void Renderer::Update(std::string& deltaTime)
 			keys.clear();
 			enemies.clear();
 			_player.ResetValues();
+			FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
+		}
+
+		if (_gate.m_Colors.size() <= 0)
+		{
+			lights.clear();
+			cubes.clear();
+			keys.clear();
+			enemies.clear();
+			_player.ResetValues();
+			level.back()++;
 			FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
 		}
 
@@ -192,7 +215,6 @@ void Renderer::Update(std::string& deltaTime)
 	for (int i = 0; i < lights.size(); i++)
 	{
 		// clean the code soon
-
 		if (!_player.hasLight && !_player.hasKey)
 			if (glm::distance(lights[i].Position, _player.Position) <= 10)
 			{
@@ -294,7 +316,7 @@ void Renderer::Draw()
 	lightShader.UnBind();
 
 	font.Draw("number of enemies : " + std::to_string(enemies.size()), -0.8, 0.8, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
-	font.Draw("Number Of Keys Left : " + std::to_string(_gate.RequiredColors.size()) , -0.8, 0.9, 0.001f, glm::vec3(0.9, 0.9f, 0.1f));
+	font.Draw("Number Of Keys Left : " + std::to_string(_gate.RequiredColors.size()), -0.8, 0.9, 0.001f, glm::vec3(0.9, 0.9f, 0.1f));
 
 
 	if (_player.inRangeOfKeyObject)
@@ -304,10 +326,10 @@ void Renderer::Draw()
 	{
 		if (!_player.hasKey && !_player.CorrectKey)
 			font.Draw("You should provide a key to open the gate", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
-		else if(_player.hasKey && _player.MaybePickedKeyValid)
+		else if (_player.hasKey && _player.MaybePickedKeyValid)
 			font.Draw("Press 'E' to put the key", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
-		if(!_player.MaybePickedKeyValid)
+		if (!_player.MaybePickedKeyValid)
 			font.Draw("Key color not match !", -0.4, 0.4, 0.001f, glm::vec3(0.5, 0.8f, 0.2f));
 
 		if (_player.CorrectKey)
@@ -353,9 +375,6 @@ void Renderer::Draw()
 		if (glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			gameStarted = false;
 		//glfwSetWindowShouldClose(window, true);
-
-		//if (_player.NumberOfKeys <= 0)
-			//level = "level2";
 	}
 	/* Swap front and back buffers */
 	glfwSwapBuffers(_window);

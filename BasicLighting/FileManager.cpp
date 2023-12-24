@@ -231,6 +231,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 				_gate.SetShader(lightShader);
 				//_gate.SetModel(modelLoader);
 				_gate.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
+				_gate.SetObjectColor(0.2, 0.2, 0.2);
 				_gate.rotateY = std::stoi(stringList[3]);
 
 				for (Light& light : lights)

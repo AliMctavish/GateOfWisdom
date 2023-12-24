@@ -8,10 +8,11 @@
 //enmey class that handles enemies :3 
 class Enemy : public BaseObject{
 private : 
-	glm::vec3 m_StartPosition;
 	bool m_HasStartPosition = false;
 	bool m_HasStoppedFromMoving = true;
 public : 
+	bool InRangeWithPlayerPosition = false;
+	glm::vec3 m_StartPosition;
 	unsigned int objectId;
 	Enemy();
 	void SetRandomLocation();

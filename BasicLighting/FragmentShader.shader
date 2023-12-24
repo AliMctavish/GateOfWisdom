@@ -68,7 +68,7 @@ vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
 void main()
 {
 	vec3 result;
-	vec3 ambient = (light.ambiant) * Texture(texture0);
+	vec3 ambient = (light.ambiant) * Texture(texture0) * 2;
 	for (int i = 0; i < LightCount; i++)
 	{
 	//ambient *= lightColor[i];

@@ -49,9 +49,9 @@ void processInput(GLFWwindow* window, Player& player)
 	direction.y = sin(glm::radians(pitch));
 	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	player.CameraFront = glm::normalize(direction);
-	player.CameraRight = glm::normalize(glm::cross(player.CameraFront, player.CameraUp)) ;
+	player.CameraRight = glm::normalize(glm::cross(player.CameraFront, player.CameraUp));
 
-	const float cameraSpeed = 0.7; 
+	const float cameraSpeed = 0.7;
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		player.Position -= glm::normalize(glm::cross(player.CameraRight, player.CameraUp)) * cameraSpeed * speed;
@@ -75,14 +75,16 @@ void processInput(GLFWwindow* window, Player& player)
 		player.Position -= player.CameraUp * cameraSpeed;
 
 	//nasty code in here :3 
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS )
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
 		speed = 1.5f;
+		player.SetPointOfView();
 		player.isRunning = true;
 	}
-	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE || !player.grounded)
+	else
 	{
 		speed = 1;
+		player.ResetPointOfView();
 		player.isRunning = false;
 	}
 

@@ -45,7 +45,10 @@ void Enemy::MoveTowardsPlayer(Player& player)
 			m_HasStoppedFromMoving = true;
 	}
 
-	Position -= direction * 0.2f;
+	if (!InRangeWithPlayerPosition)
+		Position -= direction * 0.2f;
+	else
+		Position = Position;
 
 	float angle = glm::atan(direction.x, direction.z);
 	m_Model = glm::rotate(m_Model, angle, glm::vec3(0, 1, 0));

@@ -7,7 +7,6 @@ private :
 	glm::vec3 m_OscillationAngle = glm::vec3(0,0,0);
 	void MoveWithOscillation(float speedAmount, float oscTime);
 	void SetVariablesToDefault();
-	void OscillateOnMoving();
 	//assinging the object to the player 
 	uint32_t m_CubeIndex = 0;
 	uint32_t m_LightIndex = 0;
@@ -16,6 +15,9 @@ public:
 	uint32_t inline GetCollidedCubeIndex() { return m_CubeIndex; }
 	uint32_t inline GetPickedLightIndex() { return m_LightIndex; }
 	uint32_t inline GetPickedKeyIndex() { return m_KeyIndex; }
+	void SetPointOfView();
+	void ResetPointOfView();
+	void ResetValues();
 	void ResetCollisionDetection();
 	void AssignCollidedCube(uint32_t cubeIndex);
 	void AssignPickedLight(uint32_t lightIndex);

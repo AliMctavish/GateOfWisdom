@@ -142,7 +142,8 @@ void Renderer::Update(std::string& deltaTime)
 			if (glm::distance(enemies[i].Position, _player.Position) <= 10)
 			{
 				enemies[i].InRangeWithPlayerPosition = true;
-				keys[_player.GetPickedKeyIndex()].SetObjectColor(1, 1, 1);
+				if (_player.hasKey)
+					keys[_player.GetPickedKeyIndex()].SetObjectColor(1, 1, 1);
 			}
 			else
 				enemies[i].InRangeWithPlayerPosition = false;

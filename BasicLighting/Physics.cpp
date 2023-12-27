@@ -14,7 +14,7 @@ void Physics::SetVariables(GLFWwindow* window, Player& player)
 
 bool Physics::CheckCollision(Cube& cube, Player& player)
 {
-	if (IsCollided(cube.Position, player.Position, cube.Size + glm::vec3(0,2,0)))
+	if (IsCollided(cube.Position, player.Position, cube.Size + glm::vec3(0, 2, 0)))
 	{
 		float distance = player.Position.y - cube.Position.y;
 		player.Position.y = cube.Position.y + distance;
@@ -28,30 +28,13 @@ bool Physics::CheckCollision(Cube& cube, Player& player)
 	else
 		return player.grounded = false;
 }
-bool Physics::CheckLightCollision(Light& light, Player& player)
-{
-	if (IsCollided(light.Position, player.Position, light.Size))
-	{
-		if (!light.isPushing && !light.isPickedUp)
-			player.inRangeOfLightObject = true;
-
-		if (glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS && !player.hasLight)
-		{
-			player.hasLight = true;
-			light.isPickedUp = true;
-
-			return false;
-		}
-		return true;
-	}
-}
 
 void Physics::UpdateGravity(Player& player)
 {
 	if (glfwGetKey(_window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		player.isJumping = true;
 
-	if (!player.grounded)
+	if (!player.grounded && !player.isJumping)
 	{
 		player.Position -= player.CameraUp;
 
@@ -59,10 +42,12 @@ void Physics::UpdateGravity(Player& player)
 		player.SetMatrix();
 	}
 
+
+
 	if (player.isJumping)
 	{
 		player.Position += player.CameraUp * acceleration;
-		acceleration -= 0.05f;
+		acceleration -= 0.08f;
 
 		//basically this is a silly solution 
 		//the problem is with the matrix of the player translations

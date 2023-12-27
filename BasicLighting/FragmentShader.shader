@@ -11,8 +11,6 @@ uniform int LightCount;
 uniform vec3 lightColor[40];
 uniform vec3 lightPos[40];
 
-
-
 struct Effect {
 	vec3 DiffuseSurface;
 };
@@ -45,7 +43,6 @@ uniform Effect effect;
 
 vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
 {
-
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - FragPos);
 
@@ -68,7 +65,7 @@ vec3 CalculateFragment(vec3 lightPos, vec3 lightColor)
 void main()
 {
 	vec3 result;
-	vec3 ambient = (light.ambiant) * Texture(texture0) * 2;
+	vec3 ambient = (light.ambiant) * Texture(texture0) * 4;
 	for (int i = 0; i < LightCount; i++)
 	{
 	//ambient *= lightColor[i];

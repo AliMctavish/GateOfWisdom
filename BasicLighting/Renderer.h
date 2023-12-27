@@ -19,15 +19,14 @@
 #include "Machine.h"
 #include "Gate.h"
 #include "RequiredColor.h"
+#include "GameState.h"
 
 #define WINDOW_HEIGHT 800
 #define WINDOW_WIDTH  1200
 
 class Renderer {
 private:
-	bool gameStarted = false;
-
-	std::string level = "level1";
+	std::string level = "Level0";
 
 	GLFWwindow* _window;
 	GuiDebugger _gui;
@@ -35,6 +34,7 @@ private:
 	Player _player;
 	Machine _machine;
 	Gate _gate;
+	GameState _gameState;
 
 	Shader shader;
 	Shader lightShader;
@@ -54,6 +54,7 @@ private:
 
 	Sprite testSprite;
 	Font font;
+	
 
 	//VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Surface_Type);
 
@@ -64,4 +65,6 @@ public:
 	void Initialize();
 	void Update(std::string &deltaTime);
 	void Draw();
+	void Clear();
+	void NextLevel();
 };

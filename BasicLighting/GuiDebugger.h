@@ -9,6 +9,7 @@
 #include "Key.h"
 #include "Machine.h"
 #include "Gate.h"
+#include "GameState.h"
 
 
 
@@ -36,6 +37,6 @@ public :
 	void End();
 	void Debugger(std::vector<Light> &lights , std::vector<Cube> &cubes,std::vector<Enemy> &enemies,std::vector<Key> &keys,
 		Shader &shader , Shader &lightShader , Shader& modelShader
-		, ModelLoader& modelLoader,Machine &machine,Gate &gate,bool &gameStarted);
+		, ModelLoader& modelLoader,Machine &machine,Gate &gate,GameState& gameState);
 	void Display();
 };

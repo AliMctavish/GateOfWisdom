@@ -42,7 +42,11 @@ void Gate::ProcessColor(float r, float g, float b)
 {
 	if (m_IsColorMix)
 	{
-		std::array<float, 3> lastColor = m_Colors[m_Colors.size() - 1];
+		std::array<float, 3> lastColor = {0,0,0};
+
+		if (m_Colors.size() > 0)
+			lastColor = m_Colors[m_Colors.size() - 1];
+
 		m_Colors.push_back(CalculateColorValues(r, g, b, lastColor[0], lastColor[1], lastColor[2]));
 		m_IsColorMix = false;
 	}

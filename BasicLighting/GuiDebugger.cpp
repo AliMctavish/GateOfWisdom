@@ -95,7 +95,7 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	std::vector<Enemy>& enemies, std::vector<Key>& keys, Shader& shader,
-	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine,Gate &gate,bool& gameStarted)
+	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine,Gate &gate,GameState &gameState)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -239,17 +239,6 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		cubes.push_back(cube);
 	}
 
-
-	if (ImGui::Button("Create Machine", Button_Size))
-	{
-		Machine _machine;
-		_machine.SetShader(shader);
-		//_machine.SetModel(modelLoader);
-		_machine.SetName("test" + std::to_string(cubes.size()));
-		machine = _machine;
-	}
-
-
 	if (ImGui::Button("Create Light", Button_Size))
 	{
 		Light light;
@@ -277,8 +266,24 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	}
 
 	if (ImGui::Button("Start Game", Button_Size))
-		gameStarted = true;
+	{
+		gate.m_Colors.clear();
 
+		for (Light& light : lights)
+			gate.ProcessColor(light.Color[0], light.Color[1], light.Color[2]);
+
+		float offset = 0;
+		for (int i = 0; i < gate.m_Colors.size(); i++) {
+			RequiredColor requiredColor;
+			requiredColor.SetShader(lightShader);
+			if (i < gate.m_Colors.size())
+				requiredColor.SetObjectColor(gate.m_Colors[i][0], gate.m_Colors[i][1], gate.m_Colors[i][2]);
+			requiredColor.SetPosition(gate.Position + 10.f + offset + glm::vec3(0, 30, 0));
+			gate.RequiredColors.push_back(requiredColor);
+			offset += 10;
+		}
+		gameState.Started = true;
+	}	
 
 	if (ImGui::Button("Select Map", Button_Size))
 	{
@@ -287,6 +292,8 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	if (m_MapSelector)
 	{
 		Begin("Select Map");
+		if (ImGui::Selectable("Level0", false, 0, Selector_Size))
+			selectedMap = "Level0";	
 		if (ImGui::Selectable("Level1", false, 0, Selector_Size))
 			selectedMap = "Level1";
 		else if (ImGui::Selectable("Level2", false, 0, Selector_Size))
@@ -296,7 +303,15 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		else if (ImGui::Selectable("Level4", false, 0, Selector_Size))
 			selectedMap = "Level4";
 		else if (ImGui::Selectable("Level5", false, 0, Selector_Size))
-			selectedMap = "Level5";
+			selectedMap = "Level5";	
+		else if (ImGui::Selectable("Level6", false, 0, Selector_Size))
+			selectedMap = "Level6";	
+		else if (ImGui::Selectable("Level7", false, 0, Selector_Size))
+			selectedMap = "Level7";
+		else if (ImGui::Selectable("Level8", false, 0, Selector_Size))
+			selectedMap = "Level8";
+		else if (ImGui::Selectable("Level9", false, 0, Selector_Size))
+			selectedMap = "Level9";
 
 		if (ImGui::Button("Select", Button_Size))
 		{
@@ -314,6 +329,30 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		}
 		End();
 	}
+
+	if (ImGui::Button("Exit", Button_Size))
+	{
+		gate.m_Colors.clear();
+
+		for (Light& light : lights)
+			gate.ProcessColor(light.Color[0], light.Color[1], light.Color[2]);
+
+		float offset = 0;
+		for (int i = 0; i < gate.m_Colors.size(); i++) {
+			RequiredColor requiredColor;
+			requiredColor.SetShader(lightShader);
+			if (i < gate.m_Colors.size())
+				requiredColor.SetObjectColor(gate.m_Colors[i][0], gate.m_Colors[i][1], gate.m_Colors[i][2]);
+			requiredColor.SetPosition(gate.Position + 10.f + offset + glm::vec3(0, 30, 0));
+			gate.RequiredColors.push_back(requiredColor);
+			offset += 10;
+		}
+		gameState.EditMode = false;
+		gameState.Started = false;
+	}
+
+
+
 	ImGui::ColorEdit3("BackgroundColor", bgColor, 0);
 	End();
 	EndFrames();
@@ -363,6 +402,6 @@ void GuiDebugger::End()
 
 void GuiDebugger::Display()
 {
-	ImGui::Text("this is a text inside opengl");
+
 }
 

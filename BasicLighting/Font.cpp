@@ -40,7 +40,7 @@ void Font::Init()
 		return;
 	}
 
-	if (FT_New_Face(m_FreeType, "Fonts/arialbi.ttf", 0, &m_Face))
+	if (FT_New_Face(m_FreeType, "Fonts/arial.ttf", 0, &m_Face))
 	{
 		std::cout << "Failed to load font" << std::endl;
 		return;

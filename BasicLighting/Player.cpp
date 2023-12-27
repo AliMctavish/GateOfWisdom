@@ -55,7 +55,6 @@ void Player::ResetValues()
 	m_CubeIndex = 0;
 	m_LightIndex = 0;
 	m_KeyIndex = 0;
-
 }
 
 void Player::ResetCollisionDetection()

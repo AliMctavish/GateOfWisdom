@@ -21,7 +21,6 @@ public:
 	void SetVariables(GLFWwindow* window, Player &player);
 	void UpdateGravity(Player &player);
 	bool CheckCollision(Cube& cube , Player &player);
-	bool CheckLightCollision(Light& light, Player &player);
 };
 
 

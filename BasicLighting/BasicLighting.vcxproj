@@ -221,6 +221,7 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Gate.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Machine.h" />

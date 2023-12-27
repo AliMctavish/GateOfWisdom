@@ -95,7 +95,7 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	std::vector<Enemy>& enemies, std::vector<Key>& keys, Shader& shader,
-	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine,Gate &gate,GameState &gameState)
+	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine, Gate& gate, GameState& gameState)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -211,32 +211,35 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	End();
 
-	Begin("Select Cube Texture");
-
-	if (ImGui::Button("Wall", Button_Size))
-		selectedTexture = WallTexturePath;
-	else if (ImGui::Button("Ground", Button_Size))
-		selectedTexture = GroundTexturePath;
-	else if (ImGui::Button("Box", Button_Size))
-		selectedTexture = BoxTexturePath;
-	else if (ImGui::Button("Artifact", Button_Size))
-		selectedTexture = IMAGE_TEXTRUE_PATH_0;
-	else if (ImGui::Button("Artifact2", Button_Size))
-		selectedTexture = IMAGE_TEXTRUE_PATH_1;
-
-
-	End();
 	Begin("World Settings");
 
-	//ImGui::Text(frames.c_str());
+
+	if (m_TextureSelector)
+	{
+		Begin("Select Texture");
+		ImGui::Text("Select your texture file name");
+		ImGui::Text("Texture should be saved in 'Assests' folder");
+		ImGui::Text("so you can just type the name of the file you saved");
+		ImGui::Text("Note : only JPG files");
+		ImGui::InputText(" FileName ", selectedTexture, IM_ARRAYSIZE(selectedTexture));
+		if (ImGui::Button("Create", Button_Size))
+		{
+			Cube cube;
+			cube.SetShader(shader);
+			cube.SetName("object" + std::to_string(cubes.size()));
+			std::string str = selectedTexture;
+			cube.SetTextureData("Assests/" + str);
+			cubes.push_back(cube);
+			m_TextureSelector = false;
+			gameState.TextMode = false;
+		}
+		End();
+	}
 
 	if (ImGui::Button("Create Cube", Button_Size))
 	{
-		Cube cube;
-		cube.SetShader(shader);
-		cube.SetName("test" + std::to_string(cubes.size()));
-		cube.SetTextureData(selectedTexture);
-		cubes.push_back(cube);
+		m_TextureSelector = true;
+		gameState.TextMode = true;
 	}
 
 	if (ImGui::Button("Create Light", Button_Size))
@@ -283,7 +286,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			offset += 10;
 		}
 		gameState.Started = true;
-	}	
+	}
 
 	if (ImGui::Button("Select Map", Button_Size))
 	{
@@ -293,7 +296,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Begin("Select Map");
 		if (ImGui::Selectable("Level0", false, 0, Selector_Size))
-			selectedMap = "Level0";	
+			selectedMap = "Level0";
 		if (ImGui::Selectable("Level1", false, 0, Selector_Size))
 			selectedMap = "Level1";
 		else if (ImGui::Selectable("Level2", false, 0, Selector_Size))
@@ -303,9 +306,9 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		else if (ImGui::Selectable("Level4", false, 0, Selector_Size))
 			selectedMap = "Level4";
 		else if (ImGui::Selectable("Level5", false, 0, Selector_Size))
-			selectedMap = "Level5";	
+			selectedMap = "Level5";
 		else if (ImGui::Selectable("Level6", false, 0, Selector_Size))
-			selectedMap = "Level6";	
+			selectedMap = "Level6";
 		else if (ImGui::Selectable("Level7", false, 0, Selector_Size))
 			selectedMap = "Level7";
 		else if (ImGui::Selectable("Level8", false, 0, Selector_Size))
@@ -319,12 +322,12 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			cubes.clear();
 			keys.clear();
 			enemies.clear();
-			FileManager::LoadFile(lights, cubes, keys, enemies, machine,gate,lightShader, shader, modelShader, modelLoader, selectedMap);
+			FileManager::LoadFile(lights, cubes, keys, enemies, machine, gate, lightShader, shader, modelShader, modelLoader, selectedMap);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))
 		{
-			FileManager::SaveFile(lights, cubes, keys, enemies, machine,gate,selectedMap);
+			FileManager::SaveFile(lights, cubes, keys, enemies, machine, gate, selectedMap);
 			m_MapSelector = false;
 		}
 		End();

@@ -39,7 +39,7 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes
 			cube.Size.x << " " <<
 			cube.Size.y << " " <<
 			cube.Size.z << " " <<
-			cube.GetTexutreIndex() <<
+			cube.GetTexutrePath() <<
 			std::endl;
 
 		std::cout << "saving object data" << std::endl;
@@ -189,7 +189,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 				cube.Size.x = std::stof(stringList[6]);
 				cube.Size.y = std::stof(stringList[7]);
 				cube.Size.z = std::stof(stringList[8]);
-				cube.SetTextureData(std::stoi(stringList[9]));
+				cube.SetTextureData(stringList[9]);
 				//cube.SetObjectColor();
 				cube.SetName("test" + std::to_string(cubes.size()));
 				cubes.push_back(cube);

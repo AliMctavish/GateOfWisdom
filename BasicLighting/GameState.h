@@ -6,4 +6,5 @@ struct GameState {
 	bool Started = false;
 	bool EditMode = false;
 	bool About = false;
+	bool TextMode = false;
 };

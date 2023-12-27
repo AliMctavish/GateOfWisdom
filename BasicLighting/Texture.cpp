@@ -67,19 +67,3 @@ void Texture::SetTexture(const char* textureFile, int num)
 	stbi_image_free(data);
 	UnBind();
 }
-
-void Texture::SetTexutreType(uint16_t textureIndex)
-{
-	if (textureIndex == 1)
-		SetTexture("Assests/wall.jpg", 1);
-	else if (textureIndex == 2)
-		SetTexture("Assests/grd.jpg", 1);
-	else if (textureIndex == 3)
-		SetTexture("Assests/box.png", 0);
-	else if (textureIndex == 4)
-		SetTexture("Assests/artifact.jpg", 1);
-	else if (textureIndex == 5)
-		SetTexture("Assests/artifact2.jpg", 1);
-	//else if(textureIndex == 6)
-		//SetTexture("")
-}

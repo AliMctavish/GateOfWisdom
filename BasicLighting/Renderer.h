@@ -54,16 +54,12 @@ private:
 
 	Sprite testSprite;
 	Font font;
-	
 
-	//VertexBuffer vertexBuffer2 = VertexBuffer(VertexType::Surface_Type);
-
-	//Controllers controllers;
 public:
 	Renderer(GLFWwindow* window);
 	void Init();
 	void Initialize();
-	void Update(std::string &deltaTime);
+	void Update();
 	void Draw();
 	void Clear();
 	void NextLevel();

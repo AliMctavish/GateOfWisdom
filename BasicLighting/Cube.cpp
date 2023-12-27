@@ -31,10 +31,10 @@ void Cube::Draw()
 	texture.UnBind();
 }
 
-void Cube::SetTextureData(uint16_t textureIndex)
+void Cube::SetTextureData(std::string fileName)
 {
-	m_TextureIndex = textureIndex;
-	texture.SetTexutreType(m_TextureIndex);
+	m_TexutrePath = fileName;
+	texture.SetTexture(fileName.c_str(),1);
 }
 
 

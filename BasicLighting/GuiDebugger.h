@@ -11,8 +11,6 @@
 #include "Gate.h"
 #include "GameState.h"
 
-
-
 #define Button_Size ImVec2(121,20)
 #define Selector_Size ImVec2(130,10)
 
@@ -22,9 +20,10 @@ private :
 	GLFWwindow* m_Window;
 
 	FileManager fileManager;
-	uint16_t selectedTexture = 0;
+	char selectedTexture[128] = "filename.jpg";
 	std::string selectedMap = " ";
 	bool m_MapSelector = false;
+	bool m_TextureSelector = false;
 public :
 	GuiDebugger();
 	~GuiDebugger();

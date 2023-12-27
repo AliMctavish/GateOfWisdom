@@ -28,8 +28,7 @@ void Game::Start()
             frames = " FPS : " + std::to_string(1.0 / deltaTime);
             nbFrames = 0;
             lastTime = currentTime;
-           // std::cout << deltaTime << std::endl;
-            renderer.Update(frames);
+            renderer.Update();
         }
 
         renderer.Draw();

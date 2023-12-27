@@ -11,6 +11,7 @@ class Cube : public BaseObject{
 private: 
 	void Init();
 	uint16_t m_TextureIndex;
+	std::string m_TexutrePath;
 public : 
 	Material material;
 	Texture texture;
@@ -22,11 +23,11 @@ public :
 	float rotateX,rotateY,rotateZ;
 	Cube();
 	~Cube();
-	uint16_t inline GetTexutreIndex() { return m_TextureIndex; }
+	std::string inline GetTexutrePath() { return m_TexutrePath; }
 	glm::mat4 inline GetModel() { return m_Model; }
 	void Update();
 	void Draw();
-	void SetTextureData(uint16_t textureIndex);
+	void SetTextureData(std::string fileName);
 	void Rotate(float angle);
 	void RotateOnY(float angle);
 };

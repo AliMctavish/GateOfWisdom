@@ -30,7 +30,6 @@ void Renderer::Initialize()
 	modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
 
 	testSprite.SetTexture("Assests/aim.png");
-	_MainMenuTitle.SetTexture("");
 
 	vertexArray.Bind();
 	vertexBuffer.Bind();
@@ -42,9 +41,7 @@ void Renderer::Initialize()
 
 	_gui.Init();
 	_machine.SetShader(lightShader);
-	//_machine.SetModel(modelLoader);
 	_gate.SetShader(lightShader);
-	//_gate.SetModel(modelLoader);
 	font.SetView(_player.Projection);
 	_player.SetShader(shader);
 
@@ -53,15 +50,12 @@ void Renderer::Initialize()
 	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
 }
 
-void Renderer::Update(std::string& deltaTime)
+void Renderer::Update()
 {
 
 	_player.Update();
 	testSprite.Update();
 	_gate.Update();
-
-	//not doing anything
-	//std::cout << deltaTime << std::endl;
 
 	if (glm::distance(_player.Position, _gate.Position) <= 20)
 	{
@@ -96,7 +90,6 @@ void Renderer::Update(std::string& deltaTime)
 			{
 				_machine.AddLight(lights[_player.GetPickedLightIndex()]);
 				lights[_player.GetPickedLightIndex()].ResetValues();
-				//lights.erase(lights.begin() + _player.GetPickedLightIndex());
 				_player.hasLight = false;
 			}
 		}
@@ -151,20 +144,6 @@ void Renderer::Update(std::string& deltaTime)
 			else
 				enemies[i].InRangeWithPlayerPosition = false;
 		}
-
-		//maybe without killing the enemy will be more fun ? 
-		// 
-		//for (int j = 0; j < lights.size(); j++)
-		//{
-		//	if (enemies.size() > 0 && lights.size() > 0 && lights[j].isPushing)
-		//		if (_physics.IsCollidedTest(enemies[i].Position, lights[j].Position, glm::vec3(5, 5, 5)))
-		//		{
-		//			//enemies.erase(enemies.begin() + i);
-		//			//lights[i].ResetValues();
-		//			break;
-		//			//lights.erase(lights.begin() + j);
-		//		}
-		//}
 	}
 
 	if (_gameState.Started)
@@ -273,7 +252,8 @@ void Renderer::Update(std::string& deltaTime)
 					light.isPickedUp = false;
 				}
 	}
-	processInput(_window, _player);
+	if (!_gameState.TextMode)
+		processInput(_window, _player);
 }
 
 void Renderer::Draw()
@@ -408,7 +388,8 @@ void Renderer::Draw()
 					this->NextLevel();
 					_gameState.Started = true;
 					_gameState.EditMode = false;
-				}else
+				}
+				else
 					_gameState.Started = true;
 			}
 

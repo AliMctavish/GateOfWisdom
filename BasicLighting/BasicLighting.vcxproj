@@ -184,36 +184,16 @@
     <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FontFragmentShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="FontVertexShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="FragmentShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="SpriteFragmentShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="LightFragmentShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="LightVertexShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="ModelFragmentShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="ModelVertexShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="SpriteVertexShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
-    <None Include="VertexShader.shader">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </None>
+    <None Include="Shaders\FontFragmentShader.shader" />
+    <None Include="Shaders\FontVertexShader.shader" />
+    <None Include="Shaders\FragmentShader.shader" />
+    <None Include="Shaders\LightFragmentShader.shader" />
+    <None Include="Shaders\LightVertexShader.shader" />
+    <None Include="Shaders\ModelFragmentShader.shader" />
+    <None Include="Shaders\ModelVertexShader.shader" />
+    <None Include="Shaders\SpriteFragmentShader.shader" />
+    <None Include="Shaders\SpriteVertexShader.shader" />
+    <None Include="Shaders\VertexShader.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />

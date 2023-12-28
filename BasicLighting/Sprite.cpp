@@ -5,7 +5,7 @@ Sprite::Sprite()
 	Position = glm::vec3(0, 0, 0);
 	m_Model = glm::mat4(1.0f);
 	m_Color = White_Sprite_Color;
-	m_Shader.SetShaders("SpriteVertexShader.shader", "SpriteFragmentShader.shader");
+	m_Shader.SetShaders("Shaders/SpriteVertexShader.shader", "Shaders/SpriteFragmentShader.shader");
 
 	m_Shader.Bind();
 	m_Shader.SetMat4("projection", m_Projeciton);

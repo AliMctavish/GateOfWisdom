@@ -95,7 +95,7 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	std::vector<Enemy>& enemies, std::vector<Key>& keys, Shader& shader,
-	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine, Gate& gate, GameState& gameState, std::string& currectLevel)
+	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine, Gate& gate, GameState& gameState, std::string& currectLevel, Player &player)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -325,12 +325,12 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			cubes.clear();
 			keys.clear();
 			enemies.clear();
-			FileManager::LoadFile(lights, cubes, keys, enemies, machine, gate, lightShader, shader, modelShader, modelLoader, currectLevel);
+			FileManager::LoadFile(lights, cubes, keys, enemies, machine, gate, lightShader, shader, modelShader, modelLoader, currectLevel,player);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))
 		{
-			FileManager::SaveFile(lights, cubes, keys, enemies, machine, gate, currectLevel);
+			FileManager::SaveFile(lights, cubes, keys, enemies, machine, gate, currectLevel,player);
 			m_MapSelector = false;
 		}
 		End();

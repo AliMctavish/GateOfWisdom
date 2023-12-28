@@ -22,11 +22,11 @@ public :
 	~FileManager();
 	static void SaveFile(std::vector<Light> &lights ,
 		std::vector<Cube> &cubes ,std::vector<Key> &keys,
-		std::vector<Enemy> &enemies,Machine &machine ,Gate &gate,std::string& fileName);
+		std::vector<Enemy> &enemies,Machine &machine ,Gate &gate,std::string& fileName , Player &player);
 
 	static void LoadFile(std::vector<Light> &lights,
 		std::vector<Cube> &cubes , std::vector<Key>& keys
 		, std::vector<Enemy>& enemies, Machine& machine, Gate& gate,
 		Shader& lightShader, Shader& cubeShader , Shader& modelShader,
-		ModelLoader &modelLoader,std::string fileName);
+		ModelLoader &modelLoader,std::string fileName , Player &player);
 };

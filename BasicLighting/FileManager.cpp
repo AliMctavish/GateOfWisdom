@@ -12,7 +12,7 @@ FileManager::~FileManager()
 
 void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes
 	, std::vector<Key>& keys, std::vector<Enemy>& enemies,
-	Machine& machine, Gate& gate, std::string& fileName)
+	Machine& machine, Gate& gate, std::string& fileName , Player &player)
 {
 	std::ofstream newStream("Maps/" + fileName + ".txt");
 	newStream << "#Light_Coordinates" << std::endl;
@@ -93,10 +93,21 @@ void FileManager::SaveFile(std::vector<Light>& lights, std::vector<Cube>& cubes
 		gate.rotateY << " " <<
 		std::endl;
 
+
+	newStream << "#Player_Position" << std::endl;
+
+	newStream << player.Position.x << " "
+		<< player.Position.y << " "
+		<< player.Position.z << " "
+		<< player.CameraFront.x << " "
+		<< player.CameraFront.y << " "
+		<< player.CameraFront.z << " " << std::endl;
+
+
 	newStream.close();
 }
 
-void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, Machine& machine, Gate& gate, Shader& lightShader, Shader& cubeShader, Shader& modelShader, ModelLoader& modelLoader, std::string fileName)
+void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes, std::vector<Key>& keys, std::vector<Enemy>& enemies, Machine& machine, Gate& gate, Shader& lightShader, Shader& cubeShader, Shader& modelShader, ModelLoader& modelLoader, std::string fileName , Player &player )
 {
 	std::ifstream newStream("Maps/" + fileName + ".txt");
 	std::string line;
@@ -107,6 +118,7 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	bool isEnemy = false;
 	bool isMachine = false;
 	bool isGate = false;
+	bool isPlayer = false;
 
 	while (std::getline(newStream, line))
 	{
@@ -154,6 +166,17 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			isMachine = false;
 			isLight = false;
 			isGate = true;
+			continue;
+		}	
+		if (line.find("#Player_Position") != std::string::npos)
+		{
+			isCube = false;
+			isKey = false;
+			isEnemy = false;
+			isMachine = false;
+			isLight = false;
+			isGate = false;
+			isPlayer = true;
 			continue;
 		}
 
@@ -249,6 +272,11 @@ void FileManager::LoadFile(std::vector<Light>& lights, std::vector<Cube>& cubes,
 					offset+=10;
 				}
 				gate = _gate;
+			}
+			else if (isPlayer)
+			{
+				player.SetPosition(glm::vec3(std::stoi(stringList[0]), std::stoi(stringList[1]), std::stoi(stringList[2])));
+				player.CameraFront = glm::vec3(std::stoi(stringList[3]), std::stoi(stringList[4]), std::stoi(stringList[5]));
 			}
 
 		}

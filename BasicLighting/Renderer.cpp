@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Controllers.h"
 
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -25,9 +26,9 @@ Renderer::Renderer(GLFWwindow* window)
 
 void Renderer::Initialize()
 {
-	shader.SetShaders("VertexShader.shader", "FragmentShader.shader");
-	lightShader.SetShaders("LightVertexShader.shader", "LightFragmentShader.shader");
-	modelShader.SetShaders("ModelVertexShader.shader", "ModelFragmentShader.shader");
+	shader.SetShaders("Shaders/VertexShader.shader", "Shaders/FragmentShader.shader");
+	lightShader.SetShaders("Shaders/LightVertexShader.shader", "Shaders/LightFragmentShader.shader");
+	modelShader.SetShaders("Shaders/ModelVertexShader.shader", "Shaders/ModelFragmentShader.shader");
 
 	testSprite.SetTexture("Assests/aim.png");
 
@@ -47,12 +48,11 @@ void Renderer::Initialize()
 
 	glfwSwapInterval(0);
 
-	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
+	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level,_player);
 }
 
 void Renderer::Update()
 {
-
 	_player.Update();
 	testSprite.Update();
 	_gate.Update();
@@ -166,7 +166,7 @@ void Renderer::Update()
 			this->Clear();
 			if (glfwGetKey(_window, GLFW_KEY_R) == GLFW_PRESS)
 			{
-				FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
+				FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level ,_player);
 				_gameState.Lose = false;
 			}
 		}
@@ -419,7 +419,7 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		if (_gameState.EditMode)
-			_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine, _gate, _gameState , level);
+			_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine, _gate, _gameState , level,_player);
 
 		_gui.SetupImGuiStyle(true, 1);
 	}
@@ -448,7 +448,7 @@ void Renderer::Clear()
 void Renderer::NextLevel()
 {
 	level.back()++;
-	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level);
+	FileManager::LoadFile(lights, cubes, keys, enemies, _machine, _gate, lightShader, shader, modelShader, modelLoader, level,_player);
 	_gameState.Win = false;
 	_gameState.Started = true;
 }

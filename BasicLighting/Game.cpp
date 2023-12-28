@@ -5,6 +5,8 @@ Game::Game(GLFWwindow* window)
 	_window = window;
 }
 
+
+
 void Game::Start()
 {
 	Renderer renderer(_window);
@@ -20,6 +22,7 @@ void Game::Start()
 
     while (!glfwWindowShouldClose(_window))
     {
+
         currentTime = glfwGetTime();
         deltaTime = currentTime - lastTime;
         nbFrames++;

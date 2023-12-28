@@ -122,34 +122,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="VertexShader.shader">
+    <None Include="Shaders\FontFragmentShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="FragmentShader.shader">
+    <None Include="Shaders\FontVertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="LightFragmentShader.shader">
+    <None Include="Shaders\FragmentShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="LightVertexShader.shader">
+    <None Include="Shaders\LightFragmentShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="ModelFragmentShader.shader">
+    <None Include="Shaders\LightVertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="ModelVertexShader.shader">
+    <None Include="Shaders\ModelFragmentShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="SpriteVertexShader.shader">
+    <None Include="Shaders\ModelVertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="SpriteFragmentShader.shader">
+    <None Include="Shaders\SpriteFragmentShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="FontFragmentShader.shader">
+    <None Include="Shaders\SpriteVertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="FontVertexShader.shader">
+    <None Include="Shaders\VertexShader.shader">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

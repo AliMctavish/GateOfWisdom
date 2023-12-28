@@ -19,7 +19,7 @@ void Font::SetView(glm::mat4 projectionMatrix)
 
 void Font::ShaderInit()
 {
-	m_Shader.SetShaders("FontVertexShader.shader", "FontFragmentShader.shader");
+	m_Shader.SetShaders("Shaders/FontVertexShader.shader", "Shaders/FontFragmentShader.shader");
 }
 
 

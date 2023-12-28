@@ -102,10 +102,7 @@ void Renderer::Update()
 
 
 		if (glfwGetKey(_window, GLFW_KEY_R) == GLFW_PRESS && !_player.hasKey)
-		{
-			this->Clear();
 			_machine.ResetLights();
-		}
 	}
 	else
 		_player.inRangeOfMachineObject = false;

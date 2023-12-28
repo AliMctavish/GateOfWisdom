@@ -325,6 +325,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			cubes.clear();
 			keys.clear();
 			enemies.clear();
+			gameState.ClearOnEditor();
 			FileManager::LoadFile(lights, cubes, keys, enemies, machine, gate, lightShader, shader, modelShader, modelLoader, currectLevel,player);
 			m_MapSelector = false;
 		}

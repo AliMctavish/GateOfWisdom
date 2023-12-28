@@ -7,4 +7,14 @@ struct GameState {
 	bool EditMode = false;
 	bool About = false;
 	bool TextMode = false;
+
+	void ClearOnEditor()
+	{
+		Lose = false;
+		Win = false;
+		Started = false;
+		EditMode = true;
+		About = false;
+		TextMode = false;
+	}
 };

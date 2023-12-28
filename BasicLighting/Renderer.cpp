@@ -419,7 +419,7 @@ void Renderer::Draw()
 		glfwSetCursorPosCallback(_window, NULL);
 		glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		if (_gameState.EditMode)
-			_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine, _gate, _gameState);
+			_gui.Debugger(lights, cubes, enemies, keys, shader, lightShader, modelShader, modelLoader, _machine, _gate, _gameState , level);
 
 		_gui.SetupImGuiStyle(true, 1);
 	}

@@ -21,7 +21,6 @@ private :
 
 	FileManager fileManager;
 	char selectedTexture[128] = "filename.jpg";
-	std::string selectedMap = " ";
 	bool m_MapSelector = false;
 	bool m_TextureSelector = false;
 public :
@@ -36,6 +35,6 @@ public :
 	void End();
 	void Debugger(std::vector<Light> &lights , std::vector<Cube> &cubes,std::vector<Enemy> &enemies,std::vector<Key> &keys,
 		Shader &shader , Shader &lightShader , Shader& modelShader
-		, ModelLoader& modelLoader,Machine &machine,Gate &gate,GameState& gameState);
+		, ModelLoader& modelLoader,Machine &machine,Gate &gate,GameState& gameState,std::string& currectLevel);
 	void Display();
 };

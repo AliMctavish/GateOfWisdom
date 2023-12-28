@@ -95,7 +95,7 @@ void GuiDebugger::SetupImGuiStyle(bool bStyleDark_, float alpha_)
 
 void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	std::vector<Enemy>& enemies, std::vector<Key>& keys, Shader& shader,
-	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine, Gate& gate, GameState& gameState)
+	Shader& lightShader, Shader& modelShader, ModelLoader& modelLoader, Machine& machine, Gate& gate, GameState& gameState, std::string& currectLevel)
 {
 	glClearColor(bgColor[0], bgColor[1], bgColor[2], 5);
 
@@ -270,20 +270,23 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 
 	if (ImGui::Button("Start Game", Button_Size))
 	{
-		gate.m_Colors.clear();
+		if (gate.RequiredColors.size() == 0)
+		{
+			gate.m_Colors.clear();
 
-		for (Light& light : lights)
-			gate.ProcessColor(light.Color[0], light.Color[1], light.Color[2]);
+			for (Light& light : lights)
+				gate.ProcessColor(light.Color[0], light.Color[1], light.Color[2]);
 
-		float offset = 0;
-		for (int i = 0; i < gate.m_Colors.size(); i++) {
-			RequiredColor requiredColor;
-			requiredColor.SetShader(lightShader);
-			if (i < gate.m_Colors.size())
-				requiredColor.SetObjectColor(gate.m_Colors[i][0], gate.m_Colors[i][1], gate.m_Colors[i][2]);
-			requiredColor.SetPosition(gate.Position + 10.f + offset + glm::vec3(0, 30, 0));
-			gate.RequiredColors.push_back(requiredColor);
-			offset += 10;
+			float offset = 0;
+			for (int i = 0; i < gate.m_Colors.size(); i++) {
+				RequiredColor requiredColor;
+				requiredColor.SetShader(lightShader);
+				if (i < gate.m_Colors.size())
+					requiredColor.SetObjectColor(gate.m_Colors[i][0], gate.m_Colors[i][1], gate.m_Colors[i][2]);
+				requiredColor.SetPosition(gate.Position + 10.f + offset + glm::vec3(0, 30, 0));
+				gate.RequiredColors.push_back(requiredColor);
+				offset += 10;
+			}
 		}
 		gameState.Started = true;
 	}
@@ -296,25 +299,25 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	{
 		Begin("Select Map");
 		if (ImGui::Selectable("Level0", false, 0, Selector_Size))
-			selectedMap = "Level0";
+			currectLevel = "Level0";
 		if (ImGui::Selectable("Level1", false, 0, Selector_Size))
-			selectedMap = "Level1";
+			currectLevel = "Level1";
 		else if (ImGui::Selectable("Level2", false, 0, Selector_Size))
-			selectedMap = "Level2";
+			currectLevel = "Level2";
 		else if (ImGui::Selectable("Level3", false, 0, Selector_Size))
-			selectedMap = "Level3";
+			currectLevel = "Level3";
 		else if (ImGui::Selectable("Level4", false, 0, Selector_Size))
-			selectedMap = "Level4";
+			currectLevel = "Level4";
 		else if (ImGui::Selectable("Level5", false, 0, Selector_Size))
-			selectedMap = "Level5";
+			currectLevel = "Level5";
 		else if (ImGui::Selectable("Level6", false, 0, Selector_Size))
-			selectedMap = "Level6";
+			currectLevel = "Level6";
 		else if (ImGui::Selectable("Level7", false, 0, Selector_Size))
-			selectedMap = "Level7";
+			currectLevel = "Level7";
 		else if (ImGui::Selectable("Level8", false, 0, Selector_Size))
-			selectedMap = "Level8";
+			currectLevel = "Level8";
 		else if (ImGui::Selectable("Level9", false, 0, Selector_Size))
-			selectedMap = "Level9";
+			currectLevel = "Level9";
 
 		if (ImGui::Button("Select", Button_Size))
 		{
@@ -322,12 +325,12 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 			cubes.clear();
 			keys.clear();
 			enemies.clear();
-			FileManager::LoadFile(lights, cubes, keys, enemies, machine, gate, lightShader, shader, modelShader, modelLoader, selectedMap);
+			FileManager::LoadFile(lights, cubes, keys, enemies, machine, gate, lightShader, shader, modelShader, modelLoader, currectLevel);
 			m_MapSelector = false;
 		}
 		if (ImGui::Button("Save Map", Button_Size))
 		{
-			FileManager::SaveFile(lights, cubes, keys, enemies, machine, gate, selectedMap);
+			FileManager::SaveFile(lights, cubes, keys, enemies, machine, gate, currectLevel);
 			m_MapSelector = false;
 		}
 		End();
@@ -352,6 +355,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 		}
 		gameState.EditMode = false;
 		gameState.Started = false;
+		currectLevel = "Level0";
 	}
 
 

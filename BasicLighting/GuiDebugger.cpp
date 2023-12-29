@@ -136,7 +136,7 @@ void GuiDebugger::Debugger(std::vector<Light>& lights, std::vector<Cube>& cubes,
 	ImGui::SliderFloat("Move2 On X", &gate.Position.x, -250, 250, "%.3f", 0);
 	ImGui::SliderFloat("Move2 On Y", &gate.Position.y, -250, 250, "%.3f", 0);
 	ImGui::SliderFloat("Move2 On Z", &gate.Position.z, -250, 250, "%.3f", 0);
-	ImGui::SliderFloat("Rotate2 On Y", &gate.rotateY, -150, 150, "%.3f", 0);
+	ImGui::SliderFloat("Rotate2 On Y", &gate.rotateY, -250, 250, "%.3f", 0);
 	ImGui::PopID();
 	End();
 

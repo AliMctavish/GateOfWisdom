@@ -1,0 +1,10 @@
+#Light_Coordinates
+#Cube_Coordinates
+#Key_Coordinates
+#Enemy_Coordinates
+#Machine_Coordinates
+153 -11 -11 1.562 
+#Gate_Coordinates
+250 -15 65 90 
+#Player_Position
+77 -10 -49 0.058916 -0.114938 0.991624 

@@ -1,0 +1,29 @@
+#Light_Coordinates
+235 -5 20 1 1 1
+202 -4 53 1 0 0
+145 60 5 0.529412 1 0
+#Cube_Coordinates
+165 -14 -22 0.5 0.5 0.5 100 2 100 Assests/ground2.jpg
+209 0 118 0.5 0.5 0.5 28.358 2 31.841 Assests/background.jpg
+199 28 159 0.5 0.5 0.5 24.876 2 27.861 Assests/background.jpg
+217 0 -75 0.5 0.5 0.5 21.393 2 21.891 Assests/background.jpg
+170 14 -75 0.5 0.5 0.5 21.891 2 21.393 Assests/background.jpg
+151 37 -49 0.5 0.5 0.5 17.91 2 18.905 Assests/background.jpg
+132 54 -4 0.5 0.5 0.5 22.886 2 22.388 Assests/ground2.jpg
+82 70 34 0.5 0.5 0.5 17.91 2 66.667 Assests/ground2.jpg
+35 73 60 0.5 0.5 0.5 16.915 2 21.393 Assests/background.jpg
+-23.632 67.164 54.826 0.5 0.5 0.5 26.866 2 28.856 Assests/ground2.jpg
+#Key_Coordinates
+211 35 173 0 1 1 1 1 1 
+41 79 71 1 0.676471 0 1 1 1 
+186 0 0 1 1 1 1 1 1 
+#Enemy_Coordinates
+204 7 23 0.5 0.5 0.5 2 2 2 
+190 33 -53 0.5 0.5 0.5 2 2 2 
+80 98 79 0.5 0.5 0.5 2 2 2 
+#Machine_Coordinates
+90 78 98 1.562 
+#Gate_Coordinates
+250 -15 65 136 
+#Player_Position
+-13.1301 77.9 69.5986 0.993863 -0.109736 0.0139287 

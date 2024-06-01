@@ -220,6 +220,7 @@ void Renderer::Update()
 
 		lights[i].Update(_player, _window);
 
+
 		if (lights[i].isPushing)
 		{
 			lights[i].Push();

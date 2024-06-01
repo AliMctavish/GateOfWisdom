@@ -51,7 +51,8 @@ void Enemy::MoveTowardsPlayer(Player& player)
 		Position = Position;
 
 	float angle = glm::atan(direction.x, direction.z);
-	m_Model = glm::rotate(m_Model, angle, glm::vec3(0, 1, 0));
+
+	m_Model = glm::rotate(m_Model, angle , glm::vec3(0, 1, 0));
 	Rotate360OnX();
 }
 
